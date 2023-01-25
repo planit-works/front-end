@@ -17,7 +17,7 @@ export default function TodoSideBar(props: TodoSideBarProps) {
         <li>할일</li>
       </ul>
       <button
-        className="absolute text-xl left-0 top-1/2 text-gray-400"
+        className="absolute text-xl left-2 top-1/2 text-gray-400"
         onClick={() => {
           containerRef.current?.classList.add('animate-slipToRight');
           setTimeout(() => setIsOpen(false), 500);
