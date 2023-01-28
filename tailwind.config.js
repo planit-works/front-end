@@ -16,6 +16,7 @@ module.exports = {
       },
       animation: {
         intro: 'intro 2s ease-in-out',
+        introAfter:  'intro 2s ease-in-out 1s forwards',
       },
     },
   },
