@@ -15,8 +15,8 @@ module.exports = {
         },
       },
       animation: {
-        intro: 'intro 2s ease-in-out',
-        introAfter:  'intro 2s ease-in-out 1s forwards',
+        intro: 'intro 1.2s ease-in',
+        introAfter:  'intro 1.2s ease-in 0.8s forwards',
       },
     },
   },
