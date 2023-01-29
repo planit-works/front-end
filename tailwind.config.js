@@ -9,14 +9,41 @@ module.exports = {
   theme: {
     extend: {
       keyframes: {
+        slipToLeft: {
+          '0%': {
+            transform: 'translateX(100%)',
+          },
+          '100%': {
+            transform: 'translateX(0%)',
+          },
+        },
+        slipToRight: {
+          '0%': {
+            transform: 'translateX(0%)',
+          },
+          '100%': {
+            transform: 'translateX(100%)',
+          },
+        },
+        bounceLeft: {
+          '40%, 60%': {
+            transform: 'translateX(0%)',
+          },
+          '50%, 70%': {
+            transform: 'translateX(-10%)',
+          },
+        },
         intro: {
           from: { opacity: '0' },
           to: { opacity: '1' },
         },
       },
       animation: {
+        slipToLeft: 'slipToLeft 500ms ease-in-out both',
+        slipToRight: 'slipToRight 500ms, ease-in-out both',
+        bounceLeft: 'bounceLeft 1.2s infinite',
         intro: 'intro 1.2s ease-in',
-        introAfter:  'intro 1.2s ease-in 0.8s forwards',
+        introAfter: 'intro 1.2s ease-in 0.8s forwards',
       },
     },
   },

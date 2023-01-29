@@ -9,7 +9,7 @@ export default function JoinForm() {
         <AuthInputPsw placeHolder="Password를 입력해 주세요" />
         <AuthInputPsw placeHolder="Password를 다시 한 번 입력해 주세요" />
       <button type="submit">회원가입</button>
-      <button type="submit"></button>
+      <button type="button">비회원</button>
       </form>
     </div>
   );
