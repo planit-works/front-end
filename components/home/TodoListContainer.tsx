@@ -1,27 +1,23 @@
 import TodoItem from './TodoItem';
-import { Todo } from 'types/Todo';
 import TodoItemPlus from './TodoItemPlus';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { getLocalStorage } from '../../utils/localStorage';
 import useTodoListStore from 'store/todoStore';
+import { todoKey } from '../../constants/keyValue';
 export default function TodoListContainer() {
-  const sample: Todo = { id: '1', title: '독서하기', done: false };
-  const todoListState = useTodoListStore();
+  const { todoList, setTodoList } = useTodoListStore();
   useEffect(() => {
-    const todos = getLocalStorage('todo-list');
+    const todos = getLocalStorage(todoKey);
     if (!todos) return;
-    todoListState.setTodoList(JSON.parse(todos));
-  }, []);
+    setTodoList(JSON.parse(todos));
+  }, [setTodoList]);
 
   return (
     <div>
       <p className="text-4xl font-bold">Todo</p>
       <ul className="mx-3 my-2">
-        <li>
-          <TodoItem todo={sample} />
-        </li>
-        {todoListState.todoList &&
-          todoListState.todoList.map((todo) => {
+        {todoList &&
+          todoList.map((todo) => {
             return (
               <li key={todo.id}>
                 <TodoItem todo={todo} />

@@ -7,5 +7,6 @@ export default function useWelcomeText() {
   useEffect(() => {
     setWelcomeText(getRandomArr(welcomeTextArr));
   }, []);
+
   return welcomeText;
 }
