@@ -1,5 +1,5 @@
-import { welcomeTextArr } from '@/constants/welcomeTextArr';
-import getRandomArr from '@/utils/getRandomArr';
+import { welcomeTextArr } from 'constants/welcomeTextArr';
+import getRandomArr from 'utils/getRandomArr';
 import { useEffect, useState } from 'react';
 
 export default function useWelcomeText() {
@@ -7,5 +7,6 @@ export default function useWelcomeText() {
   useEffect(() => {
     setWelcomeText(getRandomArr(welcomeTextArr));
   }, []);
+
   return welcomeText;
 }
