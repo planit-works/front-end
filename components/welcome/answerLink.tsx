@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
+
 import Link from 'next/link';
 
 export default function AnswerLink({
@@ -9,7 +11,9 @@ export default function AnswerLink({
 }) {
   return (
     <Link href={link} legacyBehavior>
-      <a className="animate-introAfter no-underline text-white text-4xl opacity-0">{text}</a>
+      <a className="animate-introAfter no-underline text-white text-4xl opacity-0">
+        {text}
+      </a>
     </Link>
   );
 }
