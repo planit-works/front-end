@@ -8,7 +8,8 @@ module.exports = {
   ],
   theme: {
     extend: {
-      keyframes: {
+      keyframes:{
+
         slipToLeft: {
           '0%': {
             transform: 'translateX(100%)',
