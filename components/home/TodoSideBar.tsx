@@ -1,5 +1,6 @@
 import { Dispatch, SetStateAction, useRef } from 'react';
 import { BsChevronRight } from 'react-icons/bs';
+import TodoListContainer from './TodoListContainer';
 
 interface TodoSideBarProps {
   isOpen: boolean;
@@ -12,10 +13,7 @@ export default function TodoSideBar(props: TodoSideBarProps) {
 
   return (
     <div ref={containerRef} className="todo-side-bar animate-slipToLeft">
-      <p className="text-4xl font-bold">Todo</p>
-      <ul className="mx-3 my-2">
-        <li>할일</li>
-      </ul>
+      <TodoListContainer />
       <button
         className="absolute text-xl left-2 top-1/2 text-gray-400"
         onClick={() => {
