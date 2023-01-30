@@ -1,12 +1,8 @@
-import AnswerLink from '@/components/welcome/answerLink';
-import WelcomeAnswer from '@/components/welcome/welcomeAnswer';
-import WelcomeQuestion from '@/components/welcome/welcomeQuestion';
-import { welcomeTextArr } from '@/constants/welcomeTextArr';
-import { useEffect, useState } from 'react';
-import getRandomArr from './../utils/getRandomArr';
-import useWelcomeText from './../hooks/useWelcomeText';
+import WelcomeAnswer from 'components/welcome/welcomeAnswer';
+import WelcomeQuestion from 'components/welcome/welcomeQuestion';
+import useWelcomeText from 'hooks/useWelcomeText';
 
-export default function welcome() {
+export default function Welcome() {
   const welcomeText = useWelcomeText();
 
   return (
