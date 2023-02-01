@@ -1,6 +1,6 @@
-import { Dispatch, SetStateAction, useRef } from 'react';
-import { BsChevronRight } from 'react-icons/bs';
+import { Dispatch, SetStateAction, useRef, useCallback } from 'react';
 import TodoListContainer from './TodoListContainer';
+import { ChevronRightButton } from '../ChevronButton';
 
 interface TodoSideBarProps {
   isOpen: boolean;
@@ -8,21 +8,17 @@ interface TodoSideBarProps {
 }
 
 export default function TodoSideBar(props: TodoSideBarProps) {
-  const { isOpen, setIsOpen } = props;
+  const { setIsOpen } = props;
   const containerRef = useRef<HTMLDivElement>(null);
+  const handleClickChevronRight = useCallback(() => {
+    containerRef.current?.classList.add('animate-slipToRight');
+    setTimeout(() => setIsOpen(false), 500);
+  }, [setIsOpen]);
 
   return (
     <div ref={containerRef} className="todo-side-bar animate-slipToLeft">
       <TodoListContainer />
-      <button
-        className="absolute text-xl left-2 top-1/2 text-gray-400"
-        onClick={() => {
-          containerRef.current?.classList.add('animate-slipToRight');
-          setTimeout(() => setIsOpen(false), 500);
-        }}
-      >
-        <BsChevronRight />
-      </button>
+      <ChevronRightButton handleButtonClick={handleClickChevronRight} />
     </div>
   );
 }
