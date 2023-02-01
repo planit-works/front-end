@@ -12,6 +12,7 @@ export function AuthInputPsw({ placeHolder }: { placeHolder: string }) {
   return (
     <input
       type="password"
+      onInput={() => console.log(1)}
       className="animate-intro block bg-transparent w-[30rem] h-12 my-14 border-solid border-b-[1px] border-b-white focus:outline-none focus:border-sky-500 text-white text-2xl"
       placeholder={placeHolder}
     />

@@ -1,15 +1,118 @@
-import { AuthInputText, AuthInputPsw } from '../authInput';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { createUser } from 'api/Api';
+import { useForm } from 'react-hook-form';
+import { AuthInfo } from 'types/auth';
+import {
+  JoinEmailErrMsg,
+  JoinPwdCheckErrMsg,
+  JoinPwdErrMsg,
+} from './joinErrMsg';
+import { JoinFormField } from '../../types/auth';
+import axios from 'axios';
+import AushSubmitBtn from 'components/authSubmitBtn';
 
 export default function JoinForm() {
+  const {
+    register,
+    getFieldState,
+    handleSubmit,
+    setError,
+    watch,
+    getValues,
+    formState: { isDirty, dirtyFields, errors },
+  } = useForm<JoinFormField>({
+    mode: 'onChange',
+    defaultValues: {
+      email: '',
+      password: '',
+      pwdCheck: '',
+    },
+  });
+
+  type CheckPwd = {
+    password: string;
+    pwdCheck: string;
+  };
+
+  const handlePwd = (pwdValues: CheckPwd) => {
+    if (pwdValues.password !== pwdValues.pwdCheck) {
+      setError('pwdCheck', { type: 'pwdCheck' }, { shouldFocus: true });
+      throw new Error('Password가 일치하지 않습니다');
+    }
+  };
+
+  const onValid = async (fieldValues: JoinFormField) => {
+    try {
+      handlePwd({
+        password: fieldValues.password,
+        pwdCheck: fieldValues.pwdCheck,
+      });
+      const authInfo: AuthInfo = {
+        email: fieldValues.email,
+        password: fieldValues.password,
+      };
+
+      await createUser(authInfo);
+      alert('회원가입이 완료되었습니다');
+    } catch (err) {
+      alert(err);
+    }
+  };
+
   return (
-    <div className=" flex flex-col items-center justify-center w-1/2 relative bottom-[4rem] ">
-      JOIN
-      <form action="">
-        <AuthInputText placeHolder="Email을 입력해 주세요" />
-        <AuthInputPsw placeHolder="Password를 입력해 주세요" />
-        <AuthInputPsw placeHolder="Password를 다시 한 번 입력해 주세요" />
-        <button type="submit">회원가입</button>
-        <button type="button">비회원</button>
+    <div className=" flex flex-col items-center justify-center w-3/4 relative bottom-[4rem] ">
+      <form onSubmit={handleSubmit(onValid)}>
+        <input
+          type="text"
+          className="animate-intro block bg-transparent w-[30rem] h-12 mt-8 border-solid border-b-[1px] border-b-white focus:outline-none focus:border-sky-500 text-white text-2xl"
+          placeholder="Email을 입력해 주세요"
+          {...register('email', {
+            required: 'Email을 입력해 주세요',
+            validate: {
+              matchPattern: (value) =>
+                /^[a-zA-Z0-9+-_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/.test(value),
+              checkLength: (value) => value.length >= 10 && value.length <= 40,
+            },
+          })}
+        />
+
+        <JoinEmailErrMsg
+          error={errors}
+          checkDirty={getFieldState('email').isDirty}
+        />
+
+        <input
+          type="password"
+          className="animate-intro block bg-transparent w-[30rem] h-12 mt-8 border-solid border-b-[1px] border-b-white focus:outline-none focus:border-sky-500 text-white text-2xl"
+          placeholder="Password를 입력해 주세요"
+          {...register('password', {
+            required: 'Password를 입력해 주세요',
+            validate: {
+              matchPattern: (value) =>
+                /^(?=.*?[a-z])(?=.*?[0-9])(?=.*?[$@$!%*?&]).{3,}$/.test(value),
+              checkLength: (value) => value.length >= 8 && value.length <= 16,
+            },
+          })}
+        />
+        <JoinPwdErrMsg
+          error={errors}
+          checkDirty={getFieldState('password').isDirty}
+        />
+
+        <input
+          type="password"
+          className="animate-intro block bg-transparent w-[30rem] h-12 mt-8 border-solid border-b-[1px] border-b-white focus:outline-none focus:border-sky-500 text-white text-2xl"
+          placeholder="Password를 다시 한 번 입력해 주세요"
+          {...register('pwdCheck', {
+            required: 'Password를 다시 한 번 입력해 주세요',
+          })}
+        />
+        <JoinPwdCheckErrMsg
+          error={errors}
+          checkDirty={getFieldState('pwdCheck').isDirty}
+        />
+
+        <AushSubmitBtn btnName="Join" />
       </form>
     </div>
   );
