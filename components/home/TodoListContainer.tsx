@@ -7,6 +7,7 @@ import { todoKey } from '../../constants/keyValue';
 export default function TodoListContainer() {
   const { todoList, setTodoList } = useTodoListStore();
   useEffect(() => {
+    //로컬 스토리지에서 todo
     const todos = getLocalStorage(todoKey);
     if (!todos) return;
     setTodoList(JSON.parse(todos));

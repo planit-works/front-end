@@ -1,7 +1,7 @@
 import { Todo } from 'types/Todo';
 import { BsFillTrashFill, BsPencilSquare } from 'react-icons/bs';
 import { useTodo } from '../../hooks/useTodo';
-import React, { useState, useCallback, useRef } from 'react';
+import React, { useState, useCallback } from 'react';
 
 interface TodoItemProps {
   todo: Todo;
@@ -15,8 +15,7 @@ export default function TodoItem({ todo }: TodoItemProps) {
   }, []);
   const handleTitleUpdate = useCallback(
     (event: React.FocusEvent<HTMLInputElement>) => {
-      console.log(event.currentTarget.value);
-      handleUpdate(todo.id, { ...todo, title: event.currentTarget.value });
+      handleUpdate(todo.id, { ...todo, title: event.currentTarget.value })();
       setIsUpdating(false);
     },
     [handleUpdate, todo],
@@ -35,6 +34,9 @@ export default function TodoItem({ todo }: TodoItemProps) {
           <input
             defaultValue={todo.title}
             onBlur={handleTitleUpdate}
+            onKeyDown={(e) => {
+              e.key === 'Enter' && handleTitleUpdate(e);
+            }}
             autoFocus
           />
         ) : (
