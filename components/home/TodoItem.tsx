@@ -35,7 +35,7 @@ export default function TodoItem({ todo }: TodoItemProps) {
             defaultValue={todo.title}
             onBlur={handleTitleUpdate}
             onKeyDown={(e) => {
-              e.key === 'Enter' && handleTitleUpdate(e);
+              e.key === 'Enter' && e.currentTarget.blur();
             }}
             autoFocus
           />
