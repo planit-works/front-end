@@ -1,6 +1,11 @@
 {
-  "plugins": ["prettier", "@typescript-eslint"],
-  "extends": ["airbnb-typescript", "react-app", "prettier"],
+  "plugins": ["prettier", "@typescript-eslint", "react-hook-form"],
+  "extends": [
+    "airbnb-typescript",
+    "react-app",
+    "prettier",
+    "plugin:react-hook-form/recommended"
+  ],
   "rules": {
     "prettier/prettier": "error",
     "react-hooks/rules-of-hooks": "error",
@@ -26,6 +31,8 @@
         "args": "none"
       }
     ],
+    "no-shadow": "off",
+    "@typescript-eslint/no-shadow": "off",
     "react/jsx-key": "error"
   },
   "parserOptions": {
