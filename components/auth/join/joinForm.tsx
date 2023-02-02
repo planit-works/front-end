@@ -7,9 +7,8 @@ import {
   JoinPwdCheckErrMsg,
   JoinPwdErrMsg,
 } from './joinErrMsg';
-import { JoinFormField } from '../../types/auth';
-import axios from 'axios';
-import AushSubmitBtn from 'components/authSubmitBtn';
+import { JoinFormField } from '../../../types/auth';
+import AuthSubmitBtn from 'components/auth/authSubmitBtn';
 
 export default function JoinForm() {
   const {
@@ -17,8 +16,6 @@ export default function JoinForm() {
     getFieldState,
     handleSubmit,
     setError,
-    watch,
-    getValues,
     formState: { isDirty, dirtyFields, errors },
   } = useForm<JoinFormField>({
     mode: 'onChange',
@@ -36,8 +33,15 @@ export default function JoinForm() {
 
   const handlePwd = (pwdValues: CheckPwd) => {
     if (pwdValues.password !== pwdValues.pwdCheck) {
-      setError('pwdCheck', { type: 'pwdCheck' }, { shouldFocus: true });
-      throw new Error('Password가 일치하지 않습니다');
+      throw new Error('pwdCheck');
+    }
+  };
+
+  const handleError = (errorType: string) => {
+    if (errorType === 'pwdCheck') {
+      setError(`${errorType}`, { type: `${errorType}` }, { shouldFocus: true });
+    } else {
+      alert(errorType);
     }
   };
 
@@ -54,8 +58,10 @@ export default function JoinForm() {
 
       await createUser(authInfo);
       alert('회원가입이 완료되었습니다');
-    } catch (err) {
-      alert(err);
+    } catch (error) {
+      if (error instanceof Error) {
+        handleError(error.message);
+      }
     }
   };
 
@@ -112,7 +118,7 @@ export default function JoinForm() {
           checkDirty={getFieldState('pwdCheck').isDirty}
         />
 
-        <AushSubmitBtn btnName="Join" />
+        <AuthSubmitBtn btnName="Join" disable={false} />
       </form>
     </div>
   );

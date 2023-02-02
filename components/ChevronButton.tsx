@@ -11,7 +11,7 @@ export function ChevronRightButton({
 }: ChevronButtonProps) {
   return (
     <button
-      className={`absolute text-xl left-2 top-1/2 text-gray-400 ${classList}`}
+      className={`absolute text-xl top-1/2 text-gray-400 ${classList}`}
       onClick={handleButtonClick}
     >
       <BsChevronRight />
@@ -25,7 +25,7 @@ export function ChevronLeftButton({
 }: ChevronButtonProps) {
   return (
     <button
-      className={`absolute text-xl left-2 top-1/2 text-gray-400 ${classList}`}
+      className={`absolute text-xl top-1/2 text-gray-400 ${classList}`}
       onClick={handleButtonClick}
     >
       <BsChevronLeft />

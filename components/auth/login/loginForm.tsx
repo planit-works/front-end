@@ -3,9 +3,11 @@ import { useForm } from 'react-hook-form';
 import { LoginFormField } from 'types/auth';
 import { AuthInfo } from 'types/auth';
 import { useRouter } from 'next/router';
-import AushSubmitBtn from 'components/authSubmitBtn';
+import AuthSubmitBtn from 'components/auth/authSubmitBtn';
+import { useState } from 'react';
 
 export default function LoginForm() {
+  const [disableBtn, setDisable] = useState(false);
   const { register, handleSubmit } = useForm<LoginFormField>({
     mode: 'onChange',
     defaultValues: {
@@ -15,22 +17,33 @@ export default function LoginForm() {
   });
   const router = useRouter();
 
+  const handleLogin = async (authInfo: AuthInfo) => {
+    setDisable(true);
+    await loginUser(authInfo);
+    router.push('/');
+  };
+
+  const handleError = (error: Error) => {
+    setDisable(false);
+    alert(error.message);
+  };
+
   const onValid = async (fieldValues: LoginFormField) => {
     try {
       const authInfo: AuthInfo = {
         email: fieldValues.email,
         password: fieldValues.password,
       };
-
-      await loginUser(authInfo);
-      router.push('/');
-    } catch (err) {
-      alert('아이디 혹은 비밀번호를 다시 확인해 주세요');
+      await handleLogin(authInfo);
+    } catch (error) {
+      if (error instanceof Error) {
+        handleError(error);
+      }
     }
   };
 
   return (
-    <div className=" flex flex-col items-center justify-center w-1/2 relative bottom-[4rem] ">
+    <div>
       <form onSubmit={handleSubmit(onValid)}>
         <input
           type="text"
@@ -48,7 +61,8 @@ export default function LoginForm() {
             required: 'Password를 입력해 주세요',
           })}
         />
-        <AushSubmitBtn btnName="Login" />
+
+        <AuthSubmitBtn btnName="Login" disable={disableBtn} />
       </form>
     </div>
   );

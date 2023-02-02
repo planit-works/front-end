@@ -12,7 +12,7 @@ export const createUser = async (AuthInfo: AuthInfo) => {
     return response.data;
   } catch (error) {
     if (error instanceof Error) {
-      throw new Error(error.message);
+      throw new Error('Email 혹은 Password를 다시 확인해 주세요');
     }
   }
 };
@@ -25,7 +25,7 @@ export const loginUser = async (AuthInfo: AuthInfo) => {
     return response.data;
   } catch (error) {
     if (error instanceof Error) {
-      throw new Error(error.message);
+      throw Error('Email 혹은 Password를 다시 확인해 주세요');
     }
   }
 };
