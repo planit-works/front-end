@@ -1,5 +1,5 @@
 import { useRef, useCallback } from 'react';
-import useStopwatchStore from 'store/stopWatchStore';
+import useStopwatchStore from 'store/stopwatchStore';
 
 export function useStopwatch() {
   const { start, stop, reset } = useStopwatchStore();

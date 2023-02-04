@@ -1,4 +1,4 @@
-import useStopwatchStore from 'store/stopWatchStore';
+import useStopwatchStore from 'store/stopwatchStore';
 import { useStopwatch } from '../../hooks/useStopwatch';
 
 export default function Stopwatch() {
