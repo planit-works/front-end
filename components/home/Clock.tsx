@@ -1,12 +1,13 @@
 import { useCallback, useEffect, useState } from 'react';
 import { getLocalStorage, setLocalStorage } from '../../utils/localStorage';
 import { getTimeByFormat } from '../../utils/time';
+import { BsStopwatch } from 'react-icons/bs';
 
 type TimeDisplay = {
   time: string;
   format: 12 | 24;
 };
-export default function CurrentTimer() {
+export default function Clock() {
   const [timer, setTimer] = useState<TimeDisplay>({
     time: '00:00',
     format: 24,
@@ -33,10 +34,12 @@ export default function CurrentTimer() {
 
   return (
     <div className="group flex items-center justify-center">
-      <button className="w-10 invisible">1</button>
+      <button className="invisible group-hover:visible group-hover:animate-appearToLeft w-8 text-white text-lg">
+        <BsStopwatch />
+      </button>
       <span className="text-white font-medium text-9xl">{timer.time}</span>
       <button
-        className="w-10 ml-1 invisible group-hover:visible text-white text-lg"
+        className="w-8 invisible group-hover:visible group-hover:animate-appearToRight text-white text-lg"
         onClick={() => {
           setLocalStorage('time-format', timer.format === 12 ? '24' : '12');
           setTimer((pre) => ({ ...pre, format: pre.format === 12 ? 24 : 12 }));
