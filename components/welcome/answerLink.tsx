@@ -11,7 +11,7 @@ export default function AnswerLink({
 }) {
   return (
     <Link href={link} legacyBehavior>
-      <a className="animate-introAfter no-underline text-white text-4xl opacity-0">
+      <a className="relative animate-introAfter no-underline text-white text-4xl opacity-0">
         {text}
       </a>
     </Link>
