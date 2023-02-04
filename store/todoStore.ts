@@ -1,5 +1,5 @@
-import create from 'zustand';
-import { Todo } from 'types/Todo';
+import { create } from 'zustand';
+import { Todo } from 'types/todo';
 
 interface TodoListState {
   todoList: Todo[];

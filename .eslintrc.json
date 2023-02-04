@@ -31,8 +31,6 @@
         "args": "none"
       }
     ],
-    "no-shadow": "off",
-    "@typescript-eslint/no-shadow": "off",
     "react/jsx-key": "error"
   },
   "parserOptions": {
