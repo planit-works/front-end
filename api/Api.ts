@@ -29,3 +29,9 @@ export const loginUser = async (AuthInfo: AuthInfo) => {
     }
   }
 };
+
+export const getFirstProfile = async (data: string) => {
+  try {
+    
+  } catch (error) {}
+};

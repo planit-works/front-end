@@ -1,7 +1,7 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { createUser } from 'api/Api';
 import { useForm } from 'react-hook-form';
-import { AuthInfo } from 'types/auth';
+import { AuthInfo, UserData } from 'types/auth';
 import {
   JoinEmailErrMsg,
   JoinPwdCheckErrMsg,
@@ -9,6 +9,7 @@ import {
 } from './joinErrMsg';
 import { JoinFormField } from '../../../types/auth';
 import AuthSubmitBtn from 'components/auth/authSubmitBtn';
+import Router from 'next/router';
 
 export default function JoinForm() {
   const {
@@ -37,6 +38,18 @@ export default function JoinForm() {
     }
   };
 
+  const handleJoin = async (authInfo: AuthInfo) => {
+    const userData: UserData = await createUser(authInfo);
+    alert('회원가입이 완료되었습니다');
+    Router.push(
+      {
+        pathname: 'join/profile',
+        query: { avatarUrl: userData.avatarUrl },
+      },
+      'join/profile',
+    );
+  };
+
   const handleError = (errorType: string) => {
     if (errorType === 'pwdCheck') {
       setError(`${errorType}`, { type: `${errorType}` }, { shouldFocus: true });
@@ -56,8 +69,7 @@ export default function JoinForm() {
         password: fieldValues.password,
       };
 
-      await createUser(authInfo);
-      alert('회원가입이 완료되었습니다');
+      await handleJoin(authInfo);
     } catch (error) {
       if (error instanceof Error) {
         handleError(error.message);
