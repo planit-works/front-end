@@ -16,3 +16,8 @@ export interface LoginFormField {
 export interface JoinFormField extends LoginFormField {
   pwdCheck: string;
 }
+
+export interface ProfileFormField {
+  imageFile: Array<File>;
+  nickName: string;
+}

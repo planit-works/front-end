@@ -33,17 +33,23 @@ module.exports = {
             transform: 'translateX(-10%)',
           },
         },
-        intro: {
+        opacityUp: {
           from: { opacity: '0' },
           to: { opacity: '1' },
+        },
+        opacityDown: {
+          from: { opacity: '1' },
+          to: { opacity: '0' },
         },
       },
       animation: {
         slipToLeft: 'slipToLeft 500ms ease-in-out both',
         slipToRight: 'slipToRight 500ms, ease-in-out both',
         bounceLeft: 'bounceLeft 1.2s infinite',
-        intro: 'intro 1.2s ease-in',
-        introAfter: 'intro 1.2s ease-in 0.8s forwards',
+        intro: 'opacityUp 1.2s ease-in',
+        introAfter: 'opacityUp 1.2s ease-in 0.8s forwards',
+        profile: 'opacityDown 7s ease-in-out forwards',
+        profileAtter: 'opacityUp 4s 5s ease-in-out forwards',
       },
     },
   },

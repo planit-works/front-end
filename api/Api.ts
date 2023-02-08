@@ -1,8 +1,10 @@
 import axios from 'axios';
 import { AuthInfo } from 'types/auth';
 
-const BaseURL: string = process.env.NEXT_PUBLIC_API_URL as string;
+const BaseURL: string = 'http://localhost:8000';
+
 const endpoint = '/auth';
+axios.defaults.withCredentials = true;
 
 export const createUser = async (AuthInfo: AuthInfo) => {
   try {
@@ -30,8 +32,50 @@ export const loginUser = async (AuthInfo: AuthInfo) => {
   }
 };
 
-export const getFirstProfile = async (data: string) => {
+export const getPresignedUrl = async () => {
+  const S3FolderName = 'avatars';
   try {
-    
-  } catch (error) {}
+    const { data } = await axios.post(`/getPresignedUrl`, {
+      folder: `${S3FolderName}`,
+    });
+    const endpoint = data.substring(
+      data.indexOf(`${S3FolderName}`) + (`${S3FolderName}`.length + 1),
+    );
+
+    return endpoint;
+  } catch (error) {
+    if (error instanceof Error) {
+      throw Error('이미지 업로드에 실패하였습니다');
+    }
+  }
+};
+
+export const uploadProfileImg = async (EndPoint: string, File: File) => {
+  try {
+    const response = await axios.put(`/upload-s3/${EndPoint}`, File);
+
+    return response.data;
+  } catch (error) {
+    if (error instanceof Error) {
+      throw Error('이미지 업로드에 실패하였습니다');
+    }
+  }
+};
+
+export const updateUserProfile = async (
+  AvatarUrl: string,
+  NickName: string,
+) => {
+  try {
+    const response = await axios.patch(`${BaseURL}/users/profile`, {
+      nickname: NickName,
+      avatarUrl: `avatars/${AvatarUrl}`,
+    });
+    console.log(response);
+    return response.data;
+  } catch (error) {
+    if (error instanceof Error) {
+      throw Error('프로필 변경에 실패하였습니다');
+    }
+  }
 };
