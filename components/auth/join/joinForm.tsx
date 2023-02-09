@@ -1,5 +1,5 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { createUser } from 'api/Api';
+import { createUser } from 'api/auth/Api';
 import { useForm } from 'react-hook-form';
 import { AuthInfo, UserData } from 'types/auth';
 import {
@@ -40,11 +40,15 @@ export default function JoinForm() {
 
   const handleJoin = async (authInfo: AuthInfo) => {
     const userData: UserData = await createUser(authInfo);
+    console.log(userData);
     alert('회원가입이 완료되었습니다');
     Router.push(
       {
         pathname: 'join/profile',
-        query: { avatarUrl: userData.avatarUrl },
+        query: {
+          nickname: userData.profile.nickname,
+          avatarUrl: userData.profile.avatarUrl,
+        },
       },
       'join/profile',
     );

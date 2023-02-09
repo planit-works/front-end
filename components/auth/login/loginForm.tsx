@@ -1,4 +1,4 @@
-import { loginUser } from 'api/Api';
+import { loginUser } from 'api/auth/Api';
 import { useForm } from 'react-hook-form';
 import { LoginFormField } from 'types/auth';
 import { AuthInfo } from 'types/auth';

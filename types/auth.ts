@@ -4,6 +4,16 @@ export type AuthInfo = {
 };
 
 export type UserData = {
+  profile: any;
+  nickname:
+    | string
+    | number
+    | boolean
+    | readonly string[]
+    | readonly number[]
+    | readonly boolean[]
+    | null
+    | undefined;
   userId: number;
   avatarUrl: string;
 };
@@ -20,4 +30,14 @@ export interface JoinFormField extends LoginFormField {
 export interface ProfileFormField {
   imageFile: Array<File>;
   nickName: string;
+}
+
+export interface UserInfo {
+  userId: number;
+  profile: Profile;
+}
+
+export interface Profile {
+  nickname: string;
+  avatarUrl: string;
 }
