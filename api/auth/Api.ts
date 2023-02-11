@@ -1,5 +1,5 @@
-import axios from 'axios';
-import { AuthInfo, UserInfo } from 'types/auth';
+import axios, { AxiosResponse } from 'axios';
+import { AuthInfo, Profile, UserInfo } from 'types/auth';
 
 const BaseURL: string = 'http://localhost:8000';
 
@@ -83,14 +83,8 @@ export const updateUserProfile = async (
   }
 };
 
-export const verifyLogin = async () => {
-  try {
-    const { data } = await axios.get(`${BaseURL}/auth/verify`);
+export const verifyLogin = async (): Promise<Profile> => {
+  const { data } = await axios.get<UserInfo>(`${BaseURL}/auth/verify`);
 
-    return data;
-  } catch (error) {
-    if (error instanceof Error) {
-      throw Error('비정상적인 접근입니다');
-    }
-  }
+  return data.profile;
 };

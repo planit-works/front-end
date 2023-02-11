@@ -1,27 +1,49 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import { create } from 'zustand';
 import produce from 'immer';
+import { Profile } from 'types/auth';
+import { verifyLogin } from 'api/auth/Api';
+import { devtools, persist } from 'zustand/middleware';
 
 interface UserState {
-  profile: { nickname: string; avatarurl: string };
+  userProfile: { nickname: string; avatarUrl: string };
   setNickame: (value: string) => void;
-  setProfileImg: (value: string) => void;
+  setImg: (value: string) => void;
+  setProfile: (value: Profile) => void;
+  setProfileVerify: () => void;
 }
 
 const userStore = create<UserState>((set) => ({
-  profile: { nickname: '', avatarurl: '' },
-  setProfileImg: (value: string) =>
+  userProfile: { nickname: '', avatarUrl: '' },
+  setImg: (value: string) =>
     set(
       produce((state) => {
-        state.profile.avatarurl = value;
+        state.userProfile.avatarurl = value;
       }),
     ),
   setNickame: (value: string) =>
     set(
       produce((state) => {
-        state.profile.nickname = value;
+        state.userProfile.nickname = value;
       }),
     ),
+  setProfile: (value: Profile) => {
+    set(
+      produce((state) => {
+        state.userProfile = value;
+      }),
+    );
+  },
+  setProfileVerify: async () => {
+    //비동기로 로그인 내역 검증하고 데이터 업데이트
+    const userProfile = await verifyLogin();
+
+    set(
+      produce((state) => {
+        state.userProfile = { ...userProfile };
+      }),
+    );
+  },
 }));
 
 export default userStore;

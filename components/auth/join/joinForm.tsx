@@ -10,6 +10,7 @@ import {
 import { JoinFormField } from '../../../types/auth';
 import AuthSubmitBtn from 'components/auth/authSubmitBtn';
 import Router from 'next/router';
+import userStore from 'store/userStore';
 
 export default function JoinForm() {
   const {
@@ -26,6 +27,7 @@ export default function JoinForm() {
       pwdCheck: '',
     },
   });
+  const { setProfile } = userStore();
 
   type CheckPwd = {
     password: string;
@@ -40,8 +42,8 @@ export default function JoinForm() {
 
   const handleJoin = async (authInfo: AuthInfo) => {
     const userData: UserData = await createUser(authInfo);
-    console.log(userData);
     alert('회원가입이 완료되었습니다');
+    setProfile(userData.profile);
     Router.push(
       {
         pathname: 'join/profile',

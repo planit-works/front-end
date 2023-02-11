@@ -7,13 +7,16 @@ import { useForm } from 'react-hook-form';
 import { ProfileFormField } from 'types/auth';
 import { useRouter } from 'next/router';
 import AuthSubmitBtn from 'components/auth/authSubmitBtn';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { JoinNickNameErrMsg, JoinProfileImgErrMsg } from '../joinErrMsg';
 import useProfileImg from 'hooks/useProfileImg';
+import userStore from 'store/userStore';
+import useVerifyLogin from 'hooks/useVerifyLogin';
 
 export default function ProfileForm() {
   const [disableBtn, setDisable] = useState(false);
   const router = useRouter();
+  const { userProfile } = useVerifyLogin(); //새로고침하면 유저 로그인 검증 후 전역state에 넣음
   const {
     register,
     handleSubmit,
@@ -25,15 +28,13 @@ export default function ProfileForm() {
     mode: 'onChange',
     defaultValues: {
       imageFile: undefined,
-      nickName: router.query.nickname as string,
+      nickName: userProfile.nickname,
     },
   });
+
   const imageFile: Array<File> = watch('imageFile');
-  const { profileImg } = useProfileImg(imageFile);
-  const handleError = (error: Error) => {
-    setDisable(false);
-    alert(error.message);
-  };
+
+  const { profileImg } = useProfileImg(imageFile, userProfile.avatarUrl);
 
   const updateNickNameOnly = async ({
     imageFile,
@@ -57,6 +58,11 @@ export default function ProfileForm() {
     await uploadProfileImg(EndPoint, imageFile[0]); //s3에 업로드
 
     return EndPoint.substring(0, EndPoint.indexOf('?')); //EndPoint에서 ? 앞 숫자들만 추출
+  };
+
+  const handleError = (error: Error) => {
+    setDisable(false);
+    alert(error.message);
   };
 
   const onValid = async (fieldValues: ProfileFormField) => {
