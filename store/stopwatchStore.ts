@@ -3,6 +3,7 @@ import { create } from 'zustand';
 interface StopwatchState {
   running: boolean;
   elapsedTime: number;
+  pausedTime: number;
   start: () => NodeJS.Timer;
   stop: () => void;
   reset: () => void;
@@ -11,16 +12,16 @@ interface StopwatchState {
 const useStopwatchStore = create<StopwatchState>((set) => ({
   running: false,
   elapsedTime: 0,
+  pausedTime: 0,
   start: () => {
     let startTime = Date.now();
     let newIntervalId = setInterval(() => {
       set((state) => ({
         running: true,
-        elapsedTime: Date.now() - startTime + state.elapsedTime,
+        elapsedTime: Date.now() - startTime + state.pausedTime,
       }));
     }, 10);
     set((state) => ({
-      intervalId: newIntervalId,
       running: true,
       elapsedTime: state.elapsedTime,
     }));
@@ -32,6 +33,7 @@ const useStopwatchStore = create<StopwatchState>((set) => ({
       intervalId: null,
       running: false,
       elapsedTime: state.elapsedTime,
+      pausedTime: state.elapsedTime,
     }));
   },
   reset: () => {
