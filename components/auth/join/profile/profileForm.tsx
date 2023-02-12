@@ -16,25 +16,31 @@ import useVerifyLogin from 'hooks/useVerifyLogin';
 export default function ProfileForm() {
   const [disableBtn, setDisable] = useState(false);
   const router = useRouter();
-  const { userProfile } = useVerifyLogin(); //새로고침하면 유저 로그인 검증 후 전역state에 넣음
+
   const {
     register,
     handleSubmit,
     getFieldState,
     watch,
     setError,
+    reset,
     formState: { isDirty, dirtyFields, errors },
   } = useForm<ProfileFormField>({
     mode: 'onChange',
     defaultValues: {
       imageFile: undefined,
-      nickName: userProfile.nickname,
+      nickName: 'Loading..',
     },
   });
-
   const imageFile: Array<File> = watch('imageFile');
-
+  useVerifyLogin(); //새로고침하면 유저 로그인 검증 후 전역state에 넣음
+  const { userProfile } = userStore();
   const { profileImg } = useProfileImg(imageFile, userProfile.avatarUrl);
+
+  useEffect(() => {
+    //전역state인 userProfile이 존재하면 input의 defaultValue를 reset
+    reset({ nickName: userProfile.nickname });
+  }, [reset, userProfile]);
 
   const updateNickNameOnly = async ({
     imageFile,

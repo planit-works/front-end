@@ -11,7 +11,7 @@ export default function Profile() {
       <WelcomeProfile />
       <ProfileForm />
       <ChevronRightButton
-        classList="right-2"
+        classList="right-2 animate-profileAtter opacity-0"
         handleButtonClick={() => {
           router.push('/');
         }}

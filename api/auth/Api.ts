@@ -6,7 +6,9 @@ const BaseURL: string = 'http://localhost:8000';
 const endpoint = '/auth';
 axios.defaults.withCredentials = true;
 
-export const createUser = async (AuthInfo: AuthInfo) => {
+export const createUser = async (
+  AuthInfo: AuthInfo,
+): Promise<UserInfo | void> => {
   try {
     const { data } = await axios.post(`${BaseURL}${endpoint}`, AuthInfo);
 
@@ -83,8 +85,14 @@ export const updateUserProfile = async (
   }
 };
 
-export const verifyLogin = async (): Promise<Profile> => {
-  const { data } = await axios.get<UserInfo>(`${BaseURL}/auth/verify`);
+export const verifyLogin = async (): Promise<Profile | void> => {
+  try {
+    const { data } = await axios.get<UserInfo>(`${BaseURL}/auth/verify`);
 
-  return data.profile;
+    return data.profile;
+  } catch (error) {
+    if (error instanceof Error) {
+      throw Error('세션이 만료되었습니다');
+    }
+  }
 };

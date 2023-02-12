@@ -1,15 +1,12 @@
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
-import { verifyLogin } from 'api/auth/Api';
 import userStore from 'store/userStore';
 
 export default function useProfileImg(
   imageFile: Array<File>,
-  routerAvatarUrl: string,
+  avatarUrl: string,
 ) {
-  const router = useRouter();
-  const { setProfile, userProfile } = userStore();
-  const [profileImg, setProfileImg] = useState<string>(routerAvatarUrl);
+  const { userProfile } = userStore();
+  const [profileImg, setProfileImg] = useState<string>(avatarUrl);
 
   useEffect(() => {
     if (imageFile?.length) {
@@ -20,9 +17,10 @@ export default function useProfileImg(
         setProfileImg(URL.createObjectURL(imageFile[0]));
       }
     } else {
+      //파일 선택을 취소하면 default이미지
       setProfileImg(userProfile.avatarUrl);
     }
-  }, [imageFile]);
+  }, [imageFile, userProfile.avatarUrl]);
 
   return { profileImg };
 }

@@ -41,15 +41,15 @@ export default function JoinForm() {
   };
 
   const handleJoin = async (authInfo: AuthInfo) => {
-    const userData: UserData = await createUser(authInfo);
+    const { profile } = (await createUser(authInfo)) as UserData;
     alert('회원가입이 완료되었습니다');
-    setProfile(userData.profile);
+    setProfile(profile);
     Router.push(
       {
         pathname: 'join/profile',
         query: {
-          nickname: userData.profile.nickname,
-          avatarUrl: userData.profile.avatarUrl,
+          nickname: profile.nickname,
+          avatarUrl: profile.avatarUrl,
         },
       },
       'join/profile',

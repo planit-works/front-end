@@ -3,7 +3,7 @@ import { create } from 'zustand';
 import produce from 'immer';
 import { Profile } from 'types/auth';
 import { verifyLogin } from 'api/auth/Api';
-import { devtools, persist } from 'zustand/middleware';
+// import { devtools, persist } from 'zustand/middleware';
 
 interface UserState {
   userProfile: { nickname: string; avatarUrl: string };
