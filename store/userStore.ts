@@ -3,6 +3,7 @@ import { create } from 'zustand';
 import produce from 'immer';
 import { Profile } from 'types/auth';
 import { verifyLogin } from 'api/auth/Api';
+import Router from 'next/router';
 // import { devtools, persist } from 'zustand/middleware';
 
 interface UserState {
@@ -36,13 +37,20 @@ const userStore = create<UserState>((set) => ({
   },
   setProfileVerify: async () => {
     //비동기로 로그인 내역 검증하고 데이터 업데이트
-    const userProfile = await verifyLogin();
+    try {
+      const userProfile = await verifyLogin();
 
-    set(
-      produce((state) => {
-        state.userProfile = { ...userProfile };
-      }),
-    );
+      set(
+        produce((state) => {
+          state.userProfile = { ...userProfile };
+        }),
+      );
+    } catch (error) {
+      if (error instanceof Error) {
+        alert(error.message);
+        Router.replace('/welcome');
+      }
+    }
   },
 }));
 
