@@ -1,8 +1,4 @@
 import AuthBtnTemplate from 'components/auth/authBtnTemplate';
-import {
-  ChevronLeftButton,
-  ChevronRightButton,
-} from 'components/ChevronButton';
 import JoinForm from 'components/auth/join/joinForm';
 
 export default function Join() {
