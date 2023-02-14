@@ -22,7 +22,7 @@ export default function Clock() {
     return () => {
       clearInterval(intervalId);
     };
-  }, []);
+  }, [currentTime.format]);
 
   return (
     <div className="group flex items-center justify-center">
