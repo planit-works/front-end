@@ -4,6 +4,7 @@ interface StopwatchState {
   running: boolean;
   elapsedTime: number;
   pausedTime: number;
+  intervalId: NodeJS.Timer | undefined;
   start: () => NodeJS.Timer;
   stop: () => void;
   reset: () => void;
@@ -13,6 +14,7 @@ const useStopwatchStore = create<StopwatchState>((set) => ({
   running: false,
   elapsedTime: 0,
   pausedTime: 0,
+  intervalId: undefined,
   start: () => {
     let startTime = Date.now();
     let newIntervalId = setInterval(() => {
@@ -22,6 +24,7 @@ const useStopwatchStore = create<StopwatchState>((set) => ({
       }));
     }, 10);
     set((state) => ({
+      intervalId: newIntervalId,
       running: true,
       elapsedTime: state.elapsedTime,
     }));
@@ -30,7 +33,6 @@ const useStopwatchStore = create<StopwatchState>((set) => ({
   },
   stop: () => {
     set((state) => ({
-      intervalId: null,
       running: false,
       elapsedTime: state.elapsedTime,
       pausedTime: state.elapsedTime,
@@ -38,9 +40,9 @@ const useStopwatchStore = create<StopwatchState>((set) => ({
   },
   reset: () => {
     set((state) => ({
-      intervalId: null,
       running: false,
       elapsedTime: 0,
+      pausedTime: 0,
     }));
   },
 }));

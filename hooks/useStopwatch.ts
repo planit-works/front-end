@@ -1,29 +1,30 @@
-import { useRef, useCallback } from 'react';
+import { useCallback } from 'react';
 import useStopwatchStore from 'store/stopwatchStore';
 
 export function useStopwatch() {
-  const { start, stop, reset } = useStopwatchStore();
-  const intercalIdRef = useRef<NodeJS.Timer>();
+  const { start, stop, reset, intervalId } = useStopwatchStore();
   const handleStart = () => {
-    intercalIdRef.current = start();
+    start();
+    console.log(intervalId);
   };
   const handleStop = useCallback(() => {
-    if (intercalIdRef.current) {
-      clearInterval(intercalIdRef.current);
+    console.log('stop', intervalId);
+    if (intervalId) {
+      clearInterval(intervalId);
     }
     stop();
-  }, [stop]);
+  }, [intervalId, stop]);
 
   const handleReset = () => {
-    if (intercalIdRef.current) {
-      clearInterval(intercalIdRef.current);
+    if (intervalId) {
+      clearInterval(intervalId);
     }
     reset();
   };
   //ms를 "HH:MM:SS"형식으로 변경
   const formatStopwatch = (ms: number) => {
     const totalSeconds = Math.floor(ms / 1000);
-    const minutes = Math.floor(totalSeconds / 60);
+    const minutes = Math.floor((totalSeconds / 60) % 60);
     const seconds = totalSeconds % 60;
     const hours = Math.floor(totalSeconds / 3600);
     const milliseconds = Math.floor((ms % 1000) / 10);
