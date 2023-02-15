@@ -3,14 +3,13 @@ import { AuthInfo, Profile, UserInfo } from 'types/auth';
 
 const BaseURL: string = 'http://localhost:8000';
 
-const endpoint = '/auth';
 axios.defaults.withCredentials = true;
 
 export const createUser = async (
   AuthInfo: AuthInfo,
 ): Promise<UserInfo | void> => {
   try {
-    const { data } = await axios.post(`${BaseURL}${endpoint}`, AuthInfo);
+    const { data } = await axios.post(`${BaseURL}/auth`, AuthInfo);
 
     return data;
   } catch (error) {
@@ -22,7 +21,7 @@ export const createUser = async (
 
 export const loginUser = async (AuthInfo: AuthInfo) => {
   try {
-    const { data } = await axios.post(`${BaseURL}${endpoint}/login`, AuthInfo);
+    const { data } = await axios.post(`${BaseURL}/auth/login`, AuthInfo);
 
     return data;
   } catch (error) {
@@ -93,6 +92,18 @@ export const verifyLogin = async (): Promise<Profile | void> => {
   } catch (error) {
     if (error instanceof Error) {
       throw Error('세션이 만료되었습니다');
+    }
+  }
+};
+
+export const logoutUser = async () => {
+  try {
+    const { data } = await axios.post(`${BaseURL}/auth/logout`);
+
+    return data;
+  } catch (error) {
+    if (error instanceof Error) {
+      throw Error('로그아웃에 실패했습니다. 다시 시도해 주세요');
     }
   }
 };
