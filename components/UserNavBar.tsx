@@ -1,43 +1,26 @@
 import { logoutUser, verifyLogin } from 'api/auth/Api';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import { useGetLoginedUser } from 'api/auth/useGetLoginedUser';
+import { useGetLoginedUser } from 'react-query/useGetLoginedUser';
+import useErrorStore from 'store/useErrorStore';
+import { useQueryClient } from '@tanstack/react-query';
+import QueryKey from './../react-query/key/index';
+import { Profile } from 'types/auth';
 
 export default function UserNavBar() {
-  const [isLogin, setIsLogin] = useState<boolean>(true);
-
+  const { isError, setError } = useErrorStore();
   const Router = useRouter();
 
-  // const checkLogin = async () => {
-  //   try {
-  //     await verifyLogin();
-  //   } catch (error) {
-  //     if (error instanceof Error) {
-  //       setIsLogin(false);
-  //     }
-  //   }
-  // };
+  const { profile, refetch } = useGetLoginedUser();
 
-  // useEffect(() => {
-  //   checkLogin();
-  // }, []);
-
-  const { profile, isError } = useGetLoginedUser();
-  console.log(isError);
-  if (isError) {
-    return (
-      <div className="absolute [&>button]:mx-4 top-[2%] right-[4%] text-gray-200">
-        <button onClick={() => Router.push('/login')}>LOGIN</button>
-      </div>
-    );
-  }
-
-  console.log('asd', profile);
+  const queryClient = useQueryClient();
 
   const onLogOut = async () => {
     try {
       await logoutUser();
+      queryClient.removeQueries([QueryKey.getLoginedUser]);
       Router.replace('/welcome');
+      setError(true);
     } catch (error) {
       if (error instanceof Error) {
         alert(error.message);
@@ -47,9 +30,22 @@ export default function UserNavBar() {
 
   return (
     <div className="absolute [&>button]:mx-4 top-[2%] right-[4%] text-gray-200">
-      <button onClick={onLogOut}>LOGOUT</button>
-
-      <button onClick={() => Router.push('/my-page')}>MYPAGE</button>
+      {isError ? (
+        <div>
+          <button onClick={() => Router.push('/login')}>LOGIN</button>
+        </div>
+      ) : (
+        <div className="flex [&>button]:mx-2">
+          <button onClick={() => Router.push('/my-page')}>
+            <img
+              alt=""
+              src={profile?.avatarUrl}
+              className="w-8 h-8 rounded-[20%]"
+            />
+          </button>
+          <button onClick={onLogOut}>LOGOUT</button>
+        </div>
+      )}
     </div>
   );
 }

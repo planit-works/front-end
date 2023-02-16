@@ -5,6 +5,7 @@ import { AuthInfo } from 'types/auth';
 import { useRouter } from 'next/router';
 import AuthSubmitBtn from 'components/auth/authSubmitBtn';
 import { useState } from 'react';
+import { useGetLoginedUser } from 'react-query/useGetLoginedUser';
 
 export default function LoginForm() {
   const [disableBtn, setDisable] = useState(false);
@@ -16,10 +17,12 @@ export default function LoginForm() {
     },
   });
   const router = useRouter();
+  const { refetch } = useGetLoginedUser(false);
 
   const handleLogin = async (authInfo: AuthInfo) => {
     setDisable(true);
     await loginUser(authInfo);
+    refetch();
     router.push('/');
   };
 

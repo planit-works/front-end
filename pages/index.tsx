@@ -4,7 +4,7 @@ import TodoSideBar from '../components/home/TodoSideBar';
 import { BsChevronLeft } from 'react-icons/bs';
 import CurrentTimer from '../components/home/CurrentTimer';
 import UserNavBar from 'components/UserNavBar';
-import { useGetLoginedUser } from './../api/auth/useGetLoginedUser';
+import { useGetLoginedUser } from '../react-query/useGetLoginedUser';
 export default function Home() {
   const [isOpenTodo, setIsOpenTodo] = useState<boolean>(false);
 
