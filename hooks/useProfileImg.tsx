@@ -7,7 +7,6 @@ export default function useProfileImg(
 ) {
   const { userProfile } = userStore();
   const [profileImg, setProfileImg] = useState<string>(avatarUrl);
-
   useEffect(() => {
     if (imageFile?.length) {
       // 파일 타입이 image/* 가 아닌 경우 error

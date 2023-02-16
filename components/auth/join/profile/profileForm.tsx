@@ -12,6 +12,7 @@ import { JoinNickNameErrMsg, JoinProfileImgErrMsg } from '../joinErrMsg';
 import useProfileImg from 'hooks/useProfileImg';
 import userStore from 'store/userStore';
 import useVerifyLogin from 'hooks/useVerifyLogin';
+import { InputImgFile, InputNickName } from 'components/inputText';
 
 export default function ProfileForm() {
   const [disableBtn, setDisable] = useState(false);
@@ -24,6 +25,7 @@ export default function ProfileForm() {
     watch,
     setError,
     reset,
+    control,
     formState: { isDirty, dirtyFields, errors },
   } = useForm<ProfileFormField>({
     mode: 'onChange',
@@ -33,14 +35,10 @@ export default function ProfileForm() {
     },
   });
   const imageFile: Array<File> = watch('imageFile');
+
   useVerifyLogin(); //새로고침하면 유저 로그인 검증 후 전역state에 넣음
   const { userProfile } = userStore();
   const { profileImg } = useProfileImg(imageFile, userProfile.avatarUrl);
-
-  useEffect(() => {
-    //전역state인 userProfile이 존재하면 input의 defaultValue를 reset
-    reset({ nickName: userProfile.nickname });
-  }, [reset, userProfile]);
 
   const updateNickNameOnly = async ({
     imageFile,
@@ -94,27 +92,13 @@ export default function ProfileForm() {
             alt="기본 프로필"
             className="w-[30rem] h-[25rem] my-2 rounded-[8%]"
           />
-          <input
-            type="file"
-            accept="image/gif, image/jpeg, image/png"
-            className="w-[30rem]"
-            {...register('imageFile')}
-          />
+          <InputImgFile control={control} />
         </div>
         <JoinProfileImgErrMsg
           error={errors}
           checkDirty={getFieldState('imageFile').isDirty}
         />
-        <input
-          type="text"
-          className=" block bg-transparent w-[30rem] h-12 mt-8 border-solid border-b-[1px] border-b-white focus:outline-none focus:border-sky-500 text-white text-2xl"
-          placeholder="Nickname을 입력해 주세요"
-          {...register('nickName', {
-            validate: {
-              checkLength: (value) => value.length >= 2 && value.length <= 10,
-            },
-          })}
-        />
+        <InputNickName control={control} defaultValue={userProfile.nickname} />
         <JoinNickNameErrMsg
           error={errors}
           checkDirty={getFieldState('nickName').isDirty}
