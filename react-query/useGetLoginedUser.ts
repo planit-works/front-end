@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import useErrorStore from 'store/useErrorStore';
+import { Profile } from 'types/auth';
 import { verifyLogin } from '../api/auth/Api';
 import QueryKey from './key';
 
@@ -13,16 +14,14 @@ export const useGetLoginedUser = (enable: boolean = true) => {
     enabled: enable,
     onError: () => {
       setError(true);
-      console.log('err');
     },
     onSuccess: (data) => {
       setError(false);
-      console.log(data);
     },
   });
 
   return {
-    profile: data,
+    profile: data as Profile,
     verifyErr: isError,
     isLoading,
     refetch,

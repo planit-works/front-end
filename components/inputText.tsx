@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { useController, Control } from 'react-hook-form';
 import { JoinFormField, LoginFormField, ProfileFormField } from 'types/auth';
 

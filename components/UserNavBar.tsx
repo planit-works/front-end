@@ -14,7 +14,6 @@ export default function UserNavBar() {
   const { profile, refetch } = useGetLoginedUser();
 
   const queryClient = useQueryClient();
-
   const onLogOut = async () => {
     try {
       await logoutUser();
@@ -40,9 +39,11 @@ export default function UserNavBar() {
             <img
               alt=""
               src={profile?.avatarUrl}
-              className="w-8 h-8 rounded-[20%]"
+              className="w-10 h-10 rounded-[20%]"
             />
+            <span>{profile?.nickname}</span>
           </button>
+
           <button onClick={onLogOut}>LOGOUT</button>
         </div>
       )}

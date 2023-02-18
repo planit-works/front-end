@@ -5,9 +5,7 @@ const BaseURL: string = 'http://localhost:8000';
 
 axios.defaults.withCredentials = true;
 
-export const createUser = async (
-  AuthInfo: AuthInfo,
-): Promise<UserInfo | void> => {
+export const createUser = async (AuthInfo: AuthInfo) => {
   try {
     const { data } = await axios.post(`${BaseURL}/auth`, AuthInfo);
 

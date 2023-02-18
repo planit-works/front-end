@@ -4,49 +4,58 @@ import {
   uploadProfileImg,
 } from 'api/auth/Api';
 import { useForm } from 'react-hook-form';
-import { ProfileFormField } from 'types/auth';
+import { Profile, ProfileFormField } from 'types/auth';
 import { useRouter } from 'next/router';
 import AuthSubmitBtn from 'components/auth/authSubmitBtn';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { JoinNickNameErrMsg, JoinProfileImgErrMsg } from '../joinErrMsg';
 import useProfileImg from 'hooks/useProfileImg';
-import userStore from 'store/userStore';
 import useVerifyLogin from 'hooks/useVerifyLogin';
 import { InputImgFile, InputNickName } from 'components/inputText';
+import { useUpdateProfile } from './../../../../react-query/useUpdateProfile';
+import { useQueryClient } from '@tanstack/react-query';
+import QueryKey from 'react-query/key';
 
 export default function ProfileForm() {
   const [disableBtn, setDisable] = useState(false);
-  const router = useRouter();
 
   const {
-    register,
     handleSubmit,
     getFieldState,
     watch,
     setError,
-    reset,
     control,
     formState: { isDirty, dirtyFields, errors },
   } = useForm<ProfileFormField>({
     mode: 'onChange',
     defaultValues: {
       imageFile: undefined,
-      nickName: 'Loading..',
+      nickName: '',
     },
   });
   const imageFile: Array<File> = watch('imageFile');
+  const mutate = useUpdateProfile();
 
-  useVerifyLogin(); //새로고침하면 유저 로그인 검증 후 전역state에 넣음
-  const { userProfile } = userStore();
-  const { profileImg } = useProfileImg(imageFile, userProfile.avatarUrl);
+  const queryClient = useQueryClient();
+  const queryClientAvatarUrl = queryClient.getQueryData<Profile>([
+    QueryKey.getLoginedUser,
+  ])?.avatarUrl as string;
+  const queryClientNickName = queryClient.getQueryData<Profile>([
+    QueryKey.getLoginedUser,
+  ])?.nickname as string;
+
+  const { profileImg } = useProfileImg(imageFile, queryClientAvatarUrl);
 
   const updateNickNameOnly = async ({
     imageFile,
     nickName,
   }: ProfileFormField) => {
-    if (!imageFile[0]) {
+    if (!imageFile) {
       //아무 파일도 없는 경우
-      await updateUserProfile(nickName); //닉네임만 업데이트
+      // await updateUserProfile(nickName); //닉네임만 업데이트
+      mutate({
+        nickName,
+      });
       throw new Error('등록된 파일이 없습니다. 기본 이미지로 등록됩니다');
     } else if (imageFile[0].type.search('image') < 0) {
       //파일 형식이 이미지가 아닌 경우
@@ -71,11 +80,11 @@ export default function ProfileForm() {
 
   const onValid = async (fieldValues: ProfileFormField) => {
     try {
-      setDisable(true);
       await updateNickNameOnly(fieldValues);
+      // checkFileType(fieldValues);
       const AvatarUrl = await uploadS3(fieldValues);
-      await updateUserProfile(fieldValues.nickName, AvatarUrl);
-      router.push('/');
+      mutate({ nickName: fieldValues.nickName, AvatarUrl });
+      // await updateUserProfile(fieldValues.nickName, AvatarUrl);
     } catch (error) {
       if (error instanceof Error) {
         handleError(error);
@@ -98,7 +107,7 @@ export default function ProfileForm() {
           error={errors}
           checkDirty={getFieldState('imageFile').isDirty}
         />
-        <InputNickName control={control} defaultValue={userProfile.nickname} />
+        <InputNickName control={control} defaultValue={queryClientNickName} />
         <JoinNickNameErrMsg
           error={errors}
           checkDirty={getFieldState('nickName').isDirty}
