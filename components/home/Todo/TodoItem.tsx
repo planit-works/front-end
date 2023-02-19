@@ -1,6 +1,6 @@
 import { Todo } from 'types/todo';
 import { BsFillTrashFill, BsPencilSquare } from 'react-icons/bs';
-import { useTodo } from '../../hooks/useTodo';
+import { useTodo } from '../../../hooks/useTodo';
 import React, { useState, useCallback } from 'react';
 
 interface TodoItemProps {

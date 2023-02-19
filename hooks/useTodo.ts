@@ -14,6 +14,7 @@ export function useTodo() {
       //새로운 Todo 객체 생성
       const newTodo: Todo = {
         id: getRandomString(),
+        date: '',
         title: inputRef.current.value,
         done: false,
       };

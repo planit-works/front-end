@@ -1,6 +1,6 @@
 /* eslint-disable semi */
 import { useState } from 'react';
-import TodoSideBar from '../components/home/TodoSideBar';
+import TodoSideBar from '../components/home/Todo/TodoSideBar';
 import { BsChevronLeft } from 'react-icons/bs';
 import Clock from '../components/home/Clock';
 export default function Home() {

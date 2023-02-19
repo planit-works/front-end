@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-import { useTodo } from '../../hooks/useTodo';
+import { useTodo } from 'hooks/useTodo';
 
 export default function TodoItemPlus() {
   const inputRef = useRef<HTMLInputElement>(null);
