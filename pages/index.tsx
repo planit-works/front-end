@@ -3,6 +3,7 @@ import { useState } from 'react';
 import TodoSideBar from '../components/home/Todo/TodoSideBar';
 import { BsChevronLeft } from 'react-icons/bs';
 import Clock from '../components/home/Clock';
+import UserNavBar from 'components/UserNavBar';
 export default function Home() {
   const [isOpenTodo, setIsOpenTodo] = useState<boolean>(false);
 
@@ -17,6 +18,7 @@ export default function Home() {
       >
         <BsChevronLeft /> <span>todo</span>
       </button>
+      <UserNavBar />
       {isOpenTodo && (
         <TodoSideBar isOpen={isOpenTodo} setIsOpen={setIsOpenTodo} />
       )}

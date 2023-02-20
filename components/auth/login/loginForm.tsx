@@ -5,10 +5,11 @@ import { AuthInfo } from 'types/auth';
 import { useRouter } from 'next/router';
 import AuthSubmitBtn from 'components/auth/authSubmitBtn';
 import { useState } from 'react';
+import { InputEmail, InputPwd } from './InputLogin';
 
 export default function LoginForm() {
   const [disableBtn, setDisable] = useState(false);
-  const { register, handleSubmit } = useForm<LoginFormField>({
+  const { handleSubmit, control } = useForm<LoginFormField>({
     mode: 'onChange',
     defaultValues: {
       email: '',
@@ -45,22 +46,8 @@ export default function LoginForm() {
   return (
     <div>
       <form onSubmit={handleSubmit(onValid)}>
-        <input
-          type="text"
-          className="animate-intro block bg-transparent w-[30rem] h-12 mt-8 border-solid border-b-[1px] border-b-white focus:outline-none focus:border-sky-500 text-white text-2xl"
-          placeholder="Email을 입력해 주세요"
-          {...register('email', {
-            required: 'Email을 입력해 주세요',
-          })}
-        />
-        <input
-          type="password"
-          className="animate-intro block bg-transparent w-[30rem] h-12 mt-8 border-solid border-b-[1px] border-b-white focus:outline-none focus:border-sky-500 text-white text-2xl"
-          placeholder="Password를 입력해 주세요"
-          {...register('password', {
-            required: 'Password를 입력해 주세요',
-          })}
-        />
+        <InputEmail control={control} />
+        <InputPwd control={control} />
 
         <AuthSubmitBtn btnName="Login" disable={disableBtn} />
       </form>
