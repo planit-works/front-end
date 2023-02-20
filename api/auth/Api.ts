@@ -1,7 +1,7 @@
 import axios, { AxiosResponse } from 'axios';
-import { AuthInfo, Profile, UserInfo } from 'types/auth';
+import { AuthInfo, Profile, UserInfo } from 'types/Auth';
 
-const BaseURL: string = 'http://localhost:8000';
+const BaseURL: string = 'https://www.planit.p-e.kr/api';
 
 axios.defaults.withCredentials = true;
 
@@ -63,35 +63,16 @@ export const uploadProfileImg = async (EndPoint: string, File: File) => {
   }
 };
 
-export const updateUserProfile = async (
-  // eslint-disable-next-line @typescript-eslint/default-param-last
-  NickName: string,
-  AvatarUrl = 'default',
-) => {
-  try {
-    const { data } = await axios.patch(`${BaseURL}/users/profile`, {
-      nickname: NickName,
-      avatarUrl: `avatars/${AvatarUrl}`,
-    });
+export const verifyLogin = async (): Promise<UserInfo> => {
+  // try {
+  const { data } = await axios.get<UserInfo>(`${BaseURL}/auth/verify`);
 
-    return data;
-  } catch (error) {
-    if (error instanceof Error) {
-      throw Error('프로필 변경에 실패하였습니다');
-    }
-  }
-};
-
-export const verifyLogin = async (): Promise<Profile | void> => {
-  try {
-    const { data } = await axios.get<UserInfo>(`${BaseURL}/auth/verify`);
-
-    return data.profile;
-  } catch (error) {
-    if (error instanceof Error) {
-      throw Error('세션이 만료되었습니다');
-    }
-  }
+  return data;
+  // } catch (error) {
+  //   if (error instanceof Error) {
+  //     throw Error('세션이 만료되었습니다');
+  //   }
+  // }
 };
 
 export const logoutUser = async () => {

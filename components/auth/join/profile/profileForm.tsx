@@ -1,20 +1,18 @@
-import {
-  getPresignedUrl,
-  updateUserProfile,
-  uploadProfileImg,
-} from 'api/auth/Api';
+import { getPresignedUrl, uploadProfileImg } from 'api/auth/Api';
 import { useForm } from 'react-hook-form';
-import { Profile, ProfileFormField } from 'types/auth';
-import { useRouter } from 'next/router';
+import { Profile, ProfileFormField, UserInfo } from 'types/Auth';
 import AuthSubmitBtn from 'components/auth/authSubmitBtn';
 import { useState } from 'react';
 import { JoinNickNameErrMsg, JoinProfileImgErrMsg } from '../joinErrMsg';
 import useProfileImg from 'hooks/useProfileImg';
-import useVerifyLogin from 'hooks/useVerifyLogin';
-import { InputImgFile, InputNickName } from 'components/inputText';
+import {
+  InputImgFile,
+  InputNickName,
+} from 'components/auth/join/profile/InputProfile';
 import { useUpdateProfile } from './../../../../react-query/useUpdateProfile';
 import { useQueryClient } from '@tanstack/react-query';
 import QueryKey from 'react-query/key';
+import SliderUpdateChecker from 'components/sliderUpdateChecker';
 
 export default function ProfileForm() {
   const [disableBtn, setDisable] = useState(false);
@@ -30,34 +28,31 @@ export default function ProfileForm() {
     mode: 'onChange',
     defaultValues: {
       imageFile: undefined,
-      nickName: '',
+      nickname: '',
     },
   });
   const imageFile: Array<File> = watch('imageFile');
   const mutate = useUpdateProfile();
 
   const queryClient = useQueryClient();
-  const queryClientAvatarUrl = queryClient.getQueryData<Profile>([
+  const queryClientAvatarUrl = queryClient.getQueryData<UserInfo>([
     QueryKey.getLoginedUser,
-  ])?.avatarUrl as string;
-  const queryClientNickName = queryClient.getQueryData<Profile>([
-    QueryKey.getLoginedUser,
-  ])?.nickname as string;
+  ])?.profile.avatarUrl as string;
 
   const { profileImg } = useProfileImg(imageFile, queryClientAvatarUrl);
 
   const updateNickNameOnly = async ({
     imageFile,
-    nickName,
+    nickname,
   }: ProfileFormField) => {
     if (!imageFile) {
       //아무 파일도 없는 경우
-      // await updateUserProfile(nickName); //닉네임만 업데이트
+      // await updateUserProfile(nickname); //닉네임만 업데이트
       mutate({
-        nickName,
+        nickname,
       });
       throw new Error('등록된 파일이 없습니다. 기본 이미지로 등록됩니다');
-    } else if (imageFile[0].type.search('image') < 0) {
+    } else if (imageFile[0].type && imageFile[0].type.search('image') < 0) {
       //파일 형식이 이미지가 아닌 경우
       setError(`imageFile`, {
         type: `imageFile`,
@@ -83,8 +78,8 @@ export default function ProfileForm() {
       await updateNickNameOnly(fieldValues);
       // checkFileType(fieldValues);
       const AvatarUrl = await uploadS3(fieldValues);
-      mutate({ nickName: fieldValues.nickName, AvatarUrl });
-      // await updateUserProfile(fieldValues.nickName, AvatarUrl);
+      mutate({ nickname: fieldValues.nickname, AvatarUrl });
+      // await updateUserProfile(fieldValues.nickname, AvatarUrl);
     } catch (error) {
       if (error instanceof Error) {
         handleError(error);
@@ -93,7 +88,7 @@ export default function ProfileForm() {
   };
 
   return (
-    <div className="animate-profileAtter opacity-0 ">
+    <div className="relative flex flex-col jusify-center items-center animate-profileAtter opacity-0 ">
       <form onSubmit={handleSubmit(onValid)}>
         <div className="flex flex-row flex-wrap w-[30rem] justify-center items-center overflow-hidden">
           <img
@@ -107,13 +102,14 @@ export default function ProfileForm() {
           error={errors}
           checkDirty={getFieldState('imageFile').isDirty}
         />
-        <InputNickName control={control} defaultValue={queryClientNickName} />
+        <InputNickName control={control} />
         <JoinNickNameErrMsg
           error={errors}
-          checkDirty={getFieldState('nickName').isDirty}
+          checkDirty={getFieldState('nickname').isDirty}
         />
         <AuthSubmitBtn btnName="Submit" disable={disableBtn} />
       </form>
+      <SliderUpdateChecker />
     </div>
   );
 }

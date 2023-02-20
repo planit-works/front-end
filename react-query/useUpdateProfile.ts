@@ -3,14 +3,14 @@ import {
   useMutation,
   useQueryClient,
 } from '@tanstack/react-query';
-import { createUser, updateUserProfile } from 'api/auth/Api';
+import { updateUserProfile } from 'api/profile/Api';
 import useErrorStore from 'store/useErrorStore';
-import { AuthInfo } from 'types/auth';
 import QueryKey from './key';
 
 type PatchUserInfo = {
-  nickName: string;
+  nickname: string;
   AvatarUrl?: string;
+  Bio?: string;
 };
 
 export const useUpdateProfile = (): UseMutateFunction<
@@ -20,12 +20,16 @@ export const useUpdateProfile = (): UseMutateFunction<
   unknown
 > => {
   const queryClient = useQueryClient();
+  const { isErrorUpdateChecker, setErrorUpdateChecker } = useErrorStore();
   const { mutate } = useMutation({
-    mutationFn: ({ nickName, AvatarUrl }: PatchUserInfo) =>
-      updateUserProfile(nickName, AvatarUrl),
+    mutationFn: ({ nickname, AvatarUrl, Bio }: PatchUserInfo) =>
+      updateUserProfile(nickname, AvatarUrl, Bio),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [QueryKey.getLoginedUser] });
-      alert('Update Success!');
+      setErrorUpdateChecker(true);
+      setTimeout(() => {
+        setErrorUpdateChecker(false);
+      }, 2000);
     },
   });
 

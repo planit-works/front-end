@@ -1,6 +1,6 @@
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import useErrorStore from 'store/useErrorStore';
-import { Profile } from 'types/auth';
+import { Profile, UserInfo } from 'types/Auth';
 import { verifyLogin } from '../api/auth/Api';
 import QueryKey from './key';
 
@@ -9,7 +9,8 @@ export const useGetLoginedUser = (enable: boolean = true) => {
   const { data, refetch, isError, isLoading } = useQuery({
     queryKey: [QueryKey.getLoginedUser],
     queryFn: verifyLogin,
-    staleTime: 500 * 20,
+    staleTime: 1000 * 60,
+    cacheTime: 1000 * 60 * 5,
     retry: false,
     enabled: enable,
     onError: () => {
@@ -21,7 +22,8 @@ export const useGetLoginedUser = (enable: boolean = true) => {
   });
 
   return {
-    profile: data as Profile,
+    userInfo: data,
+    userId: data?.userId as number,
     verifyErr: isError,
     isLoading,
     refetch,

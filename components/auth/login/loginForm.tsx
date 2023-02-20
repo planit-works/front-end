@@ -1,16 +1,16 @@
 import { loginUser } from 'api/auth/Api';
 import { useForm } from 'react-hook-form';
-import { LoginFormField } from 'types/auth';
-import { AuthInfo } from 'types/auth';
+import { LoginFormField } from 'types/Auth';
+import { AuthInfo } from 'types/Auth';
 import { useRouter } from 'next/router';
 import AuthSubmitBtn from 'components/auth/authSubmitBtn';
 import { useState } from 'react';
 import { useGetLoginedUser } from 'react-query/useGetLoginedUser';
-import { InputEmail, InputPwd } from 'components/inputText';
+import { InputEmail, InputPwd } from './InputLogin';
 
 export default function LoginForm() {
   const [disableBtn, setDisable] = useState(false);
-  const { register, handleSubmit, control } = useForm<LoginFormField>({
+  const { handleSubmit, control } = useForm<LoginFormField>({
     mode: 'onChange',
     defaultValues: {
       email: '',
@@ -18,12 +18,10 @@ export default function LoginForm() {
     },
   });
   const router = useRouter();
-  const { refetch } = useGetLoginedUser(false);
 
   const handleLogin = async (authInfo: AuthInfo) => {
     setDisable(true);
     await loginUser(authInfo);
-    refetch();
     router.push('/');
   };
 

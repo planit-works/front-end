@@ -1,18 +1,16 @@
 import { logoutUser, verifyLogin } from 'api/auth/Api';
-import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { useGetLoginedUser } from 'react-query/useGetLoginedUser';
 import useErrorStore from 'store/useErrorStore';
 import { useQueryClient } from '@tanstack/react-query';
 import QueryKey from './../react-query/key/index';
-import { Profile } from 'types/auth';
+import { useEffect } from 'react';
 
 export default function UserNavBar() {
   const { isError, setError } = useErrorStore();
   const Router = useRouter();
 
-  const { profile, refetch } = useGetLoginedUser();
-
+  const { userInfo, userId } = useGetLoginedUser();
   const queryClient = useQueryClient();
   const onLogOut = async () => {
     try {
@@ -35,13 +33,28 @@ export default function UserNavBar() {
         </div>
       ) : (
         <div className="flex [&>button]:mx-2">
-          <button onClick={() => Router.push('/my-page')}>
+          <button
+            className="flex flex-col justify-center items-center"
+            onClick={() =>
+              Router.push(
+                // {
+                //   pathname: '/my-page/[id]',
+                //   query: { id: userId },
+                // },//다이나믹 라우팅 대비
+                '/my-page',
+              )
+            }
+          >
             <img
               alt=""
-              src={profile?.avatarUrl}
+              src={
+                (process.env.NEXT_PUBLIC_IMG_THUMBNAIL as string) +
+                userInfo?.profile.avatarUrl +
+                '-resized'
+              }
               className="w-10 h-10 rounded-[20%]"
             />
-            <span>{profile?.nickname}</span>
+            <span className="text-xs">{userInfo?.profile.nickname}</span>
           </button>
 
           <button onClick={onLogOut}>LOGOUT</button>

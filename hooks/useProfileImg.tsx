@@ -4,7 +4,9 @@ export default function useProfileImg(
   imageFile: Array<File>,
   avatarUrl: string,
 ) {
-  const [profileImg, setProfileImg] = useState<string>(avatarUrl);
+  const [profileImg, setProfileImg] = useState<string>(
+    process.env.NEXT_PUBLIC_IMG_ORIGIN + avatarUrl,
+  );
   useEffect(() => {
     if (imageFile?.length) {
       // 파일 타입이 image/* 가 아닌 경우 error
@@ -15,7 +17,7 @@ export default function useProfileImg(
       }
     } else {
       //파일 선택을 취소하면 default이미지
-      setProfileImg(avatarUrl);
+      setProfileImg(process.env.NEXT_PUBLIC_IMG_ORIGIN + avatarUrl);
     }
   }, [imageFile, avatarUrl]);
 

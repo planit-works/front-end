@@ -3,9 +3,9 @@ import {
   useMutation,
   useQueryClient,
 } from '@tanstack/react-query';
-import { createUser, updateUserProfile } from 'api/auth/Api';
+import { createUser } from 'api/auth/Api';
 import useErrorStore from 'store/useErrorStore';
-import { AuthInfo } from 'types/auth';
+import { AuthInfo } from 'types/Auth';
 import QueryKey from './key';
 
 export const useJoinUser = (): UseMutateFunction<

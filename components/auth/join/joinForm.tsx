@@ -1,28 +1,22 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { createUser, loginUser } from 'api/auth/Api';
+import { createUser } from 'api/auth/Api';
 import { useForm } from 'react-hook-form';
-import { AuthInfo, UserData } from 'types/auth';
+import { AuthInfo, UserData } from 'types/Auth';
 import {
   JoinEmailErrMsg,
   JoinPwdCheckErrMsg,
   JoinPwdErrMsg,
 } from './joinErrMsg';
-import { JoinFormField } from '../../../types/auth';
+import { JoinFormField } from '../../../types/Auth';
 import AuthSubmitBtn from 'components/auth/authSubmitBtn';
 import Router from 'next/router';
-import {
-  InputEmailJoin,
-  InputPwdCheckJoin,
-  InputPwdJoin,
-} from 'components/inputText';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useQueryClient } from '@tanstack/react-query';
 import QueryKey from 'react-query/key';
 import useErrorStore from 'store/useErrorStore';
-import { useJoinUser } from 'react-query/useJoinUser';
+import { InputEmailJoin, InputPwdCheckJoin, InputPwdJoin } from './InputJoin';
 
 export default function JoinForm() {
   const {
-    register,
     control,
     getFieldState,
     handleSubmit,
@@ -52,7 +46,7 @@ export default function JoinForm() {
   };
 
   const handleJoin = async (authInfo: AuthInfo) => {
-    const { profile } = (await createUser(authInfo)) as UserData;
+    const profile = (await createUser(authInfo)) as UserData;
     alert('회원가입이 완료되었습니다');
     Router.push('join/profile');
     queryClient.setQueryData([QueryKey.getLoginedUser], profile);
