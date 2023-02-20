@@ -20,7 +20,7 @@ export const useUpdateProfile = (): UseMutateFunction<
   unknown
 > => {
   const queryClient = useQueryClient();
-  const { isErrorUpdateChecker, setErrorUpdateChecker } = useErrorStore();
+  const { setErrorUpdateChecker } = useErrorStore();
   const { mutate } = useMutation({
     mutationFn: ({ nickname, AvatarUrl, Bio }: PatchUserInfo) =>
       updateUserProfile(nickname, AvatarUrl, Bio),

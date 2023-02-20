@@ -5,6 +5,7 @@ const BaseURL: string = 'https://www.planit.p-e.kr/api';
 
 axios.defaults.withCredentials = true;
 
+// eslint-disable-next-line @typescript-eslint/no-shadow
 export const createUser = async (AuthInfo: AuthInfo) => {
   try {
     const { data } = await axios.post(`${BaseURL}/auth`, AuthInfo);

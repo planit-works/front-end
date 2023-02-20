@@ -1,6 +1,5 @@
-import { ChangeEvent, useEffect } from 'react';
+import { ChangeEvent } from 'react';
 import { useController, Control } from 'react-hook-form';
-import useErrorStore from 'store/useErrorStore';
 import { MyPageFormField } from 'types/MyInfo';
 
 export const InputMyImgFile = ({
@@ -58,7 +57,6 @@ export const InputMyNickName = ({
       },
     },
   });
-  const { isErrorSlider, setErrorSlider } = useErrorStore();
 
   return (
     <input

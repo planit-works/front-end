@@ -1,8 +1,6 @@
 import {
   UseMutateAsyncFunction,
-  UseMutateFunction,
   useMutation,
-  useQuery,
   useQueryClient,
 } from '@tanstack/react-query';
 import useErrorStore from 'store/useErrorStore';
@@ -18,7 +16,7 @@ export const useGetMyProfile = (): UseMutateAsyncFunction<
 > => {
   const queryClient = useQueryClient();
   const { setError } = useErrorStore();
-  const { mutateAsync, data } = useMutation({
+  const { mutateAsync } = useMutation({
     mutationFn: (id: number) => getMyProfile(id),
     onError: () => {
       setError(true);

@@ -31,7 +31,6 @@ export default function JoinForm() {
       pwdCheck: '',
     },
   });
-  const { setProfile } = userStore();
 
   const queryClient = useQueryClient();
   const { setError: SetError } = useErrorStore();

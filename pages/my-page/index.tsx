@@ -1,7 +1,4 @@
-import SliderChecker from 'components/sliderFormChecker';
 import MyProfileForm from 'components/my-page/MyPageForm';
-import { verifyLogin } from 'api/auth/Api';
-import { InferGetServerSidePropsType } from 'next/types';
 
 export default function MyPage() {
   return (

@@ -5,7 +5,6 @@ import { AuthInfo } from 'types/auth';
 import { useRouter } from 'next/router';
 import AuthSubmitBtn from 'components/auth/authSubmitBtn';
 import { useState } from 'react';
-import { useGetLoginedUser } from 'react-query/useGetLoginedUser';
 import { InputEmail, InputPwd } from './InputLogin';
 
 export default function LoginForm() {

@@ -1,6 +1,6 @@
 import { getPresignedUrl, uploadProfileImg } from 'api/auth/Api';
 import { useForm } from 'react-hook-form';
-import { Profile, ProfileFormField, UserInfo } from 'types/auth';
+import { ProfileFormField, UserInfo } from 'types/auth';
 import AuthSubmitBtn from 'components/auth/authSubmitBtn';
 import { useState } from 'react';
 import { JoinNickNameErrMsg, JoinProfileImgErrMsg } from '../joinErrMsg';
