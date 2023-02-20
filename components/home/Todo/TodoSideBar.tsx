@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction, useRef, useCallback } from 'react';
 import TodoListContainer from './TodoListContainer';
-import { ChevronRightButton } from '../ChevronButton';
+import { ChevronRightButton } from '../../ChevronButton';
 
 interface TodoSideBarProps {
   isOpen: boolean;

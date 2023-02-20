@@ -8,6 +8,9 @@ module.exports = {
   ],
   theme: {
     extend: {
+      colors: {
+        'col-calendar': 'rgb(14 165 233)'
+      },
       keyframes: {
         slipToLeft: {
           '0%': {
