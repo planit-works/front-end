@@ -79,6 +79,7 @@ export default function MyProfileForm() {
   }, [queryClientNickName, watch('nickname'), profileImg]);
 
   const updateNickNameOnly = async ({
+    // eslint-disable-next-line @typescript-eslint/no-shadow
     imageFile,
     nickname,
   }: MyPageFormField) => {
@@ -103,6 +104,7 @@ export default function MyProfileForm() {
     }
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-shadow
   const uploadS3 = async ({ imageFile }: MyPageFormField) => {
     const EndPoint: string = await getPresignedUrl(); //presignedUrl 추출
     await uploadProfileImg(EndPoint, imageFile[0]); //s3에 업로드

@@ -1,5 +1,5 @@
 import { useController, Control } from 'react-hook-form';
-import { JoinFormField } from 'types/Auth';
+import { JoinFormField } from 'types/auth';
 
 export const InputEmailJoin = ({
   control,

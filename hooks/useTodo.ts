@@ -1,10 +1,29 @@
 import { todoKey } from 'constants/keyValue';
+import { RefObject } from 'react';
 import useTodoListStore from 'store/todoStore';
 import { Todo } from 'types/Todo';
+import { getRandomString } from 'utils/getRandomString';
 import { setLocalStorage } from 'utils/localStorage';
 
 export function useTodo() {
   const { todoList, setTodoList } = useTodoListStore();
+  const handleCreate =
+    (inputRef: RefObject<HTMLInputElement>) => (e: React.FormEvent) => {
+      e.preventDefault();
+      if (!inputRef.current) return;
+      //새로운 Todo 객체 생성
+      const newTodo: Todo = {
+        id: getRandomString(),
+        date: '',
+        title: inputRef.current.value,
+        done: false,
+      };
+      //로컬스토리지 저장
+      setLocalStorage('todo-list', JSON.stringify([...todoList, newTodo]));
+      setTodoList([...todoList, newTodo]);
+      //input 요소 초기화
+      inputRef.current.value = '';
+    };
 
   const handleDelete = (id: string) => () => {
     const updatedList = todoList.filter((todo) => todo.id !== id);
@@ -23,5 +42,5 @@ export function useTodo() {
     setTodoList(updatedList);
   };
 
-  return { handleDelete, handleUpdate };
+  return { handleCreate, handleDelete, handleUpdate };
 }

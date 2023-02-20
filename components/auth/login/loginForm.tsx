@@ -1,7 +1,7 @@
 import { loginUser } from 'api/auth/Api';
 import { useForm } from 'react-hook-form';
-import { LoginFormField } from 'types/Auth';
-import { AuthInfo } from 'types/Auth';
+import { LoginFormField } from 'types/auth';
+import { AuthInfo } from 'types/auth';
 import { useRouter } from 'next/router';
 import AuthSubmitBtn from 'components/auth/authSubmitBtn';
 import { useState } from 'react';

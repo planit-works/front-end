@@ -1,19 +1,20 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { createUser } from 'api/auth/Api';
 import { useForm } from 'react-hook-form';
-import { AuthInfo, UserData } from 'types/Auth';
+import { AuthInfo, UserData } from 'types/auth';
 import {
   JoinEmailErrMsg,
   JoinPwdCheckErrMsg,
   JoinPwdErrMsg,
 } from './joinErrMsg';
-import { JoinFormField } from '../../../types/Auth';
+import { JoinFormField } from 'types/auth';
 import AuthSubmitBtn from 'components/auth/authSubmitBtn';
 import Router from 'next/router';
 import { useQueryClient } from '@tanstack/react-query';
 import QueryKey from 'react-query/key';
 import useErrorStore from 'store/useErrorStore';
 import { InputEmailJoin, InputPwdCheckJoin, InputPwdJoin } from './InputJoin';
+import userStore from 'store/userStore';
 
 export default function JoinForm() {
   const {
@@ -30,6 +31,7 @@ export default function JoinForm() {
       pwdCheck: '',
     },
   });
+  const { setProfile } = userStore();
 
   const queryClient = useQueryClient();
   const { setError: SetError } = useErrorStore();

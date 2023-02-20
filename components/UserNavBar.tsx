@@ -1,16 +1,15 @@
-import { logoutUser, verifyLogin } from 'api/auth/Api';
+import { logoutUser } from 'api/auth/Api';
 import { useRouter } from 'next/router';
 import { useGetLoginedUser } from 'react-query/useGetLoginedUser';
 import useErrorStore from 'store/useErrorStore';
 import { useQueryClient } from '@tanstack/react-query';
 import QueryKey from './../react-query/key/index';
-import { useEffect } from 'react';
 
 export default function UserNavBar() {
   const { isError, setError } = useErrorStore();
   const Router = useRouter();
 
-  const { userInfo, userId } = useGetLoginedUser();
+  const { userInfo } = useGetLoginedUser();
   const queryClient = useQueryClient();
   const onLogOut = async () => {
     try {
@@ -49,8 +48,7 @@ export default function UserNavBar() {
               alt=""
               src={
                 (process.env.NEXT_PUBLIC_IMG_THUMBNAIL as string) +
-                userInfo?.profile.avatarUrl +
-                '-resized'
+                userInfo?.profile.avatarUrl
               }
               className="w-10 h-10 rounded-[20%]"
             />

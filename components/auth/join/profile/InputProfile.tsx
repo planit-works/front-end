@@ -1,5 +1,5 @@
 import { useController, Control } from 'react-hook-form';
-import { ProfileFormField } from 'types/Auth';
+import { ProfileFormField } from 'types/auth';
 
 export const InputImgFile = ({
   control,

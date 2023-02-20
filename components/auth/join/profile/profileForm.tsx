@@ -1,6 +1,6 @@
 import { getPresignedUrl, uploadProfileImg } from 'api/auth/Api';
 import { useForm } from 'react-hook-form';
-import { Profile, ProfileFormField, UserInfo } from 'types/Auth';
+import { Profile, ProfileFormField, UserInfo } from 'types/auth';
 import AuthSubmitBtn from 'components/auth/authSubmitBtn';
 import { useState } from 'react';
 import { JoinNickNameErrMsg, JoinProfileImgErrMsg } from '../joinErrMsg';
@@ -42,6 +42,7 @@ export default function ProfileForm() {
   const { profileImg } = useProfileImg(imageFile, queryClientAvatarUrl);
 
   const updateNickNameOnly = async ({
+    // eslint-disable-next-line @typescript-eslint/no-shadow
     imageFile,
     nickname,
   }: ProfileFormField) => {
@@ -61,6 +62,7 @@ export default function ProfileForm() {
     }
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-shadow
   const uploadS3 = async ({ imageFile }: ProfileFormField) => {
     const EndPoint: string = await getPresignedUrl(); //presignedUrl 추출
     await uploadProfileImg(EndPoint, imageFile[0]); //s3에 업로드

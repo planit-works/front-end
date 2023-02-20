@@ -1,5 +1,5 @@
 import { useController, Control } from 'react-hook-form';
-import { LoginFormField } from 'types/Auth';
+import { LoginFormField } from 'types/auth';
 
 export const InputEmail = ({
   control,

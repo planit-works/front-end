@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from 'axios';
-import { AuthInfo, Profile, UserInfo } from 'types/Auth';
+import { AuthInfo, Profile, UserInfo } from 'types/auth';
 
 const BaseURL: string = 'https://www.planit.p-e.kr/api';
 
@@ -17,6 +17,7 @@ export const createUser = async (AuthInfo: AuthInfo) => {
   }
 };
 
+// eslint-disable-next-line @typescript-eslint/no-shadow
 export const loginUser = async (AuthInfo: AuthInfo) => {
   try {
     const { data } = await axios.post(`${BaseURL}/auth/login`, AuthInfo);
