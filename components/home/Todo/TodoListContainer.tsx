@@ -1,21 +1,19 @@
 import TodoItem from './TodoItem';
 import TodoItemPlus from './TodoItemPlus';
-import { useEffect, useState } from 'react';
-import { getLocalStorage } from 'utils/localStorage';
-import useTodoListStore from 'store/todoStore';
-import { todoKey } from 'constants/keyValue';
 import { BsChevronLeft, BsChevronRight } from 'react-icons/bs';
 import { getFormattedDate, getNextDate, getPreviousDate } from 'utils/date';
 import Calendar from './Calendar';
+import useTodoListContainer from '../../../hooks/useTodoListContainer';
 export default function TodoListContainer() {
-  const { todoList, setTodoList } = useTodoListStore();
-  const [date, setDate] = useState<Date>(new Date());
-  useEffect(() => {
-    //로컬 스토리지에서 todo
-    const todos = getLocalStorage(todoKey);
-    if (!todos) return;
-    setTodoList(JSON.parse(todos));
-  }, [setTodoList]);
+  const {
+    calendarDivRef,
+    todoList,
+    date,
+    calendarVisible,
+    setCalendarVisible,
+    setDate,
+    handleOpenCalendar,
+  } = useTodoListContainer();
 
   /*날짜 부분 누르면 달력 나오게 설정 */
   return (
@@ -29,10 +27,20 @@ export default function TodoListContainer() {
         >
           <BsChevronLeft />
         </button>
-        <p className="text-xl font-bold mx-3 w-60 text-center cursor-pointer">
+        <p
+          className="text-xl font-bold mx-3 w-60 text-center cursor-pointer"
+          onClick={handleOpenCalendar}
+        >
           {getFormattedDate(date)}
         </p>
-        <Calendar selectedDate={date} />
+        {calendarVisible && (
+          <Calendar
+            selectedDate={date}
+            setSelectedDate={setDate}
+            calendarRef={calendarDivRef}
+            setVisible={setCalendarVisible}
+          />
+        )}
         <button
           className="text-lg text-slate-400"
           onClick={() => {

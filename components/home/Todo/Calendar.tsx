@@ -1,13 +1,22 @@
-import React, { useRef } from 'react';
+import React, { RefObject, useRef } from 'react';
 import { BsChevronLeft, BsChevronRight } from 'react-icons/bs';
 import { getMonthName, getBasicDate } from 'utils/date';
 import useCalendar from '../../../hooks/useCalendar';
 import { BasicDate } from 'types/date';
+import useTodoListContainer from '../../../hooks/useTodoListContainer';
 interface CalenderProps {
   selectedDate: Date;
+  setSelectedDate: React.Dispatch<React.SetStateAction<Date>>;
+  calendarRef: RefObject<HTMLDivElement>;
+  setVisible: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export default function Calendar({ selectedDate }: CalenderProps) {
+export default function Calendar({
+  selectedDate,
+  setSelectedDate,
+  calendarRef,
+  setVisible,
+}: CalenderProps) {
   const todayDate = useRef<BasicDate>(getBasicDate(new Date()));
   const {
     basicDate,
@@ -17,7 +26,10 @@ export default function Calendar({ selectedDate }: CalenderProps) {
   } = useCalendar(selectedDate);
 
   return (
-    <div className="absolute -left-10 top-10 w-[300px] bg-sky-500 rounded">
+    <div
+      className="absolute left-0 w-[300px] bg-col-calendar rounded"
+      ref={calendarRef}
+    >
       <div className="month-container text-white w-full py-2 flex justify-between relative">
         <button className="ml-1" onClick={handleClickPreMonth}>
           <BsChevronLeft />
@@ -30,7 +42,7 @@ export default function Calendar({ selectedDate }: CalenderProps) {
         </button>
       </div>
       <div className="days-container text-white pb-1">
-        <ul className="flex justify-around">
+        <ul className="grid grid-cols-7 text-center">
           {['SUN', 'MON', 'TUS', 'WED', 'THU', 'FRI', 'SAT'].map((day) => (
             <li key={day}>{day}</li>
           ))}
@@ -42,14 +54,33 @@ export default function Calendar({ selectedDate }: CalenderProps) {
             return (
               <li
                 key={index}
-                className={`text-center py-1 ${
+                onClick={() => {
+                  if (!dateInCalendar) return;
+                  const tempDate = new Date(basicDate.year, basicDate.month, 1);
+                  tempDate.setDate(dateInCalendar);
+                  setSelectedDate(tempDate);
+                  setVisible(false);
+                }}
+                className={`text-center py-1 w-full relative ${
+                  dateInCalendar && 'cursor-pointer hover:font-bold'
+                } ${
+                  // 오늘 날짜 표시
                   basicDate.year === todayDate.current.year &&
                   basicDate.month === todayDate.current.month &&
                   dateInCalendar === todayDate.current.date &&
                   'font-extrabold text-amber-400'
-                }`}
+                } `}
               >
-                {dateInCalendar}
+                <span
+                  className={`${
+                    basicDate.year === selectedDate.getFullYear() &&
+                    basicDate.month === selectedDate.getMonth() &&
+                    dateInCalendar === selectedDate.getDate() &&
+                    'font-extrabold text-orange-400'
+                  }`}
+                >
+                  {dateInCalendar}
+                </span>
               </li>
             );
           })}
