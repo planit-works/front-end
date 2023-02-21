@@ -8,12 +8,12 @@ export default function MyPage() {
   );
 }
 
-// export async function getServerSideProps() {
-//   const { userId } = await verifyLogin();
+// export const getServerSideProps: GetServerSideProps = async (context) => {
+//   const { params } = context;
 
 //   return {
 //     props: {
-//       id: userId,
+//       id: params,
 //     },
 //   };
-// }
+// };

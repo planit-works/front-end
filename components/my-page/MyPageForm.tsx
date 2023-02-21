@@ -71,8 +71,12 @@ export default function MyProfileForm() {
   ])?.followingCount as number;
   const { profileImg } = useProfileImg(imageFile, queryClientAvatarUrl);
   useEffect(() => {
-    if (watch('nickname') !== '' && watch('nickname') !== queryClientNickName) {
+    if (
+      (watch('nickname') !== '' && watch('nickname') !== queryClientNickName) ||
+      (profileImg && !profileImg.includes(queryClientAvatarUrl))
+    ) {
       setErrorSlider(true);
+      console.log(profileImg);
     } else {
       setErrorSlider(false);
     }

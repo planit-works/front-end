@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react';
+import useErrorStore from 'store/useErrorStore';
 
 export default function useProfileImg(
   imageFile: Array<File>,
   avatarUrl: string,
 ) {
+  const { setErrorSlider, isErrorSlider } = useErrorStore();
   const [profileImg, setProfileImg] = useState<string>(
     process.env.NEXT_PUBLIC_IMG_ORIGIN + avatarUrl,
   );
@@ -18,6 +20,7 @@ export default function useProfileImg(
     } else {
       //파일 선택을 취소하면 default이미지
       setProfileImg(process.env.NEXT_PUBLIC_IMG_ORIGIN + avatarUrl);
+      // setErrorSlider(false);
     }
   }, [imageFile, avatarUrl]);
 

@@ -9,7 +9,7 @@ export default function UserNavBar() {
   const { isError, setError } = useErrorStore();
   const Router = useRouter();
 
-  const { userInfo } = useGetLoginedUser();
+  const { userInfo, userId } = useGetLoginedUser();
   const queryClient = useQueryClient();
   const onLogOut = async () => {
     try {
@@ -39,7 +39,7 @@ export default function UserNavBar() {
                 // {
                 //   pathname: '/my-page/[id]',
                 //   query: { id: userId },
-                // },//다이나믹 라우팅 대비
+                // }, //다이나믹 라우팅 대비
                 '/my-page',
               )
             }
