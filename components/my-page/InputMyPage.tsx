@@ -1,6 +1,9 @@
-import { ChangeEvent } from 'react';
+import { ChangeEvent, useRef } from 'react';
 import { useController, Control } from 'react-hook-form';
 import { MyPageFormField } from 'types/MyInfo';
+import { BsPencilSquare } from 'react-icons/bs';
+import useDisabledBtn from 'hooks/useDisabledBtn';
+import useDisabledStore from 'store/useDisabledStore';
 
 export const InputMyImgFile = ({
   control,
@@ -15,7 +18,7 @@ export const InputMyImgFile = ({
   return (
     <input
       type="file"
-      accept="image/gif, image/jpeg, image/png"
+      accept="image/*"
       className="w-[25rem] my-4"
       onChange={(event) => field.onChange(event.target.files)}
       //일부러 onChange 속성을 이용해 field value를 바꿔준다.
@@ -30,11 +33,6 @@ export const InputMyEmail = ({ defaultValue }: { defaultValue: string }) => {
       disabled
       type="text"
       defaultValue={defaultValue}
-      onChange={(event: ChangeEvent<HTMLInputElement>) =>
-        event.currentTarget.value !== defaultValue
-          ? console.log('false')
-          : console.log(true)
-      }
       className="block bg-transparent w-[25rem] h-8 mt-6 border-solid border-b-[1px] border-b-white focus:outline-none focus:border-sky-500 text-white text-2xl"
       placeholder="Email을 입력해 주세요"
     />
@@ -58,19 +56,33 @@ export const InputMyNickName = ({
     },
   });
 
+  const { disableBtn, setDisabledBtn } = useDisabledBtn();
+  const { disabledNickName, setDisabledNickName } = useDisabledStore();
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const onFocusInput = () => {
+    setDisabledNickName(false);
+    inputRef.current?.focus();
+  };
+
   return (
-    <input
-      type="text"
-      onChange={field.onChange}
-      // onChange={(event: ChangeEvent<HTMLInputElement>) => {
-      //   event.currentTarget.value === defaultValue
-      //     ? setErrorSlider(false)
-      //     : setErrorSlider(true);
-      // }}
-      defaultValue={defaultValue}
-      className="block bg-transparent w-[25rem] h-8 mt-6 border-solid border-b-[1px] border-b-white focus:outline-none focus:border-sky-500 text-white text-2xl"
-      placeholder="Nickname을 입력해 주세요"
-    />
+    <div className="group relative">
+      <input
+        ref={inputRef}
+        disabled={disabledNickName}
+        type="text"
+        onChange={field.onChange}
+        defaultValue={defaultValue}
+        className="inline bg-transparent w-[25rem] h-8 mt-6 border-solid border-b-[1px] border-b-white focus:outline-none focus:border-sky-500 text-white text-2xl"
+        placeholder="Nickname을 입력해 주세요"
+      />
+      <button type="button" onClick={onFocusInput}>
+        <BsPencilSquare
+          id="hover-opacity"
+          className="group-hover:visible invisible inline text-white absolute right-2 bottom-2"
+        />
+      </button>
+    </div>
   );
 };
 

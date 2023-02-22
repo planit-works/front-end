@@ -4,7 +4,6 @@ import { ProfileFormField, UserInfo } from 'types/auth';
 import AuthSubmitBtn from 'components/auth/authSubmitBtn';
 import { useState } from 'react';
 import { JoinNickNameErrMsg, JoinProfileImgErrMsg } from '../joinErrMsg';
-import useProfileImg from 'hooks/useProfileImg';
 import {
   InputImgFile,
   InputNickName,
@@ -13,6 +12,7 @@ import { useUpdateProfile } from './../../../../react-query/useUpdateProfile';
 import { useQueryClient } from '@tanstack/react-query';
 import QueryKey from 'react-query/key';
 import SliderUpdateChecker from 'components/sliderUpdateChecker';
+import useProfileImg from 'hooks/useProfileImg';
 
 export default function ProfileForm() {
   const [disableBtn, setDisable] = useState(false);
@@ -42,19 +42,21 @@ export default function ProfileForm() {
   const { profileImg } = useProfileImg(imageFile, queryClientAvatarUrl);
 
   const updateNickNameOnly = async ({
-    // eslint-disable-next-line @typescript-eslint/no-shadow
     imageFile,
     nickname,
   }: ProfileFormField) => {
     if (!imageFile) {
-      //아무 파일도 없는 경우
-      // await updateUserProfile(nickname); //닉네임만 업데이트
+      //아무 파일도 없는 경우 닉네임만 업데이트
       mutate({
         nickname,
       });
       throw new Error('등록된 파일이 없습니다. 기본 이미지로 등록됩니다');
-    } else if (imageFile[0].type && imageFile[0].type.search('image') < 0) {
-      //파일 형식이 이미지가 아닌 경우
+    }
+  };
+
+  const checkFile = ({ imageFile }: ProfileFormField) => {
+    //file은 존재하지만 image/* 형식이 아닌 경우
+    if (imageFile.length > 0 && imageFile[0].type.search('image') < 0) {
       setError(`imageFile`, {
         type: `imageFile`,
       });
@@ -62,7 +64,6 @@ export default function ProfileForm() {
     }
   };
 
-  // eslint-disable-next-line @typescript-eslint/no-shadow
   const uploadS3 = async ({ imageFile }: ProfileFormField) => {
     const EndPoint: string = await getPresignedUrl(); //presignedUrl 추출
     await uploadProfileImg(EndPoint, imageFile[0]); //s3에 업로드
@@ -78,10 +79,9 @@ export default function ProfileForm() {
   const onValid = async (fieldValues: ProfileFormField) => {
     try {
       await updateNickNameOnly(fieldValues);
-      // checkFileType(fieldValues);
+      checkFile(fieldValues);
       const AvatarUrl = await uploadS3(fieldValues);
       mutate({ nickname: fieldValues.nickname, AvatarUrl });
-      // await updateUserProfile(fieldValues.nickname, AvatarUrl);
     } catch (error) {
       if (error instanceof Error) {
         handleError(error);

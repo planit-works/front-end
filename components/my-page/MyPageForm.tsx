@@ -15,15 +15,13 @@ import { useGetMyProfile } from 'react-query/useGetMyProfile';
 import SliderChecker from 'components/sliderFormChecker';
 import useErrorStore from 'store/useErrorStore';
 import { useUpdateProfile } from 'react-query/useUpdateProfile';
-import useProfileImg from 'hooks/useProfileImg';
 import { getPresignedUrl, uploadProfileImg } from 'api/auth/Api';
 import SliderUpdateChecker from 'components/sliderUpdateChecker';
 import { JoinNickNameErrMsg } from 'components/auth/join/joinErrMsg';
+import useProfileImg from 'hooks/useProfileImg';
 
 export default function MyProfileForm() {
   const { isErrorSlider, setErrorSlider } = useErrorStore();
-  const [disableBtn, setDisable] = useState(false);
-  const Router = useRouter();
   const {
     handleSubmit,
     watch,
@@ -76,20 +74,23 @@ export default function MyProfileForm() {
       (profileImg && !profileImg.includes(queryClientAvatarUrl))
     ) {
       setErrorSlider(true);
-      console.log(profileImg);
     } else {
       setErrorSlider(false);
     }
-  }, [queryClientNickName, watch('nickname'), profileImg]);
+  }, [
+    queryClientNickName,
+    profileImg,
+    queryClientAvatarUrl,
+    watch('nickname'),
+    setErrorSlider,
+  ]);
 
   const updateNickNameOnly = async ({
-    // eslint-disable-next-line @typescript-eslint/no-shadow
     imageFile,
     nickname,
   }: MyPageFormField) => {
     if (!imageFile) {
-      //아무 파일도 없는 경우
-      // await updateUserProfile(nickName); //닉네임만 업데이트
+      //아무 파일도 없는 경우 닉네임만 업데이트
       mutate({
         nickname,
         AvatarUrl: queryClientAvatarUrl.substring(
@@ -97,18 +98,19 @@ export default function MyProfileForm() {
         ),
       });
       throw new Error('등록된 파일이 없습니다. 기본 이미지로 등록됩니다');
-    } else {
-      if (imageFile[0].type.search('image') < 0) {
-        //파일 형식이 이미지가 아닌 경우
-        setError(`imageFile`, {
-          type: `imageFile`,
-        });
-        throw new Error('이미지 형식의 파일을 등록해주세요');
-      }
     }
   };
 
-  // eslint-disable-next-line @typescript-eslint/no-shadow
+  const checkFile = ({ imageFile }: MyPageFormField) => {
+    //file은 존재하지만 image/* 형식이 아닌 경우
+    if (imageFile.length > 0 && imageFile[0].type.search('image') < 0) {
+      setError(`imageFile`, {
+        type: `imageFile`,
+      });
+      throw new Error('이미지 형식의 파일을 등록해주세요');
+    }
+  };
+
   const uploadS3 = async ({ imageFile }: MyPageFormField) => {
     const EndPoint: string = await getPresignedUrl(); //presignedUrl 추출
     await uploadProfileImg(EndPoint, imageFile[0]); //s3에 업로드
@@ -118,13 +120,13 @@ export default function MyProfileForm() {
 
   const handleError = (error: Error) => {
     console.log('error', error);
-    setDisable(false);
     alert(error.message);
   };
 
   const onValid = async (fieldValues: MyPageFormField) => {
     try {
       await updateNickNameOnly(fieldValues);
+      checkFile(fieldValues);
       const AvatarUrl = await uploadS3(fieldValues);
       mutate({ nickname: fieldValues.nickname, AvatarUrl });
     } catch (error) {
@@ -142,7 +144,6 @@ export default function MyProfileForm() {
           alt="기본 프로필"
           className="w-[25rem] h-[20rem] my-2 rounded-[8%]"
         />
-
         <InputMyImgFile control={control} />
         <div className="flex justify-center items-center [&>p]:mx-8">
           <p className="text-white text-2xl">팔로잉: {queryClientFollower}</p>

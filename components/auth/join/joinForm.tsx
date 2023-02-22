@@ -14,7 +14,6 @@ import { useQueryClient } from '@tanstack/react-query';
 import QueryKey from 'react-query/key';
 import useErrorStore from 'store/useErrorStore';
 import { InputEmailJoin, InputPwdCheckJoin, InputPwdJoin } from './InputJoin';
-import userStore from 'store/userStore';
 
 export default function JoinForm() {
   const {

@@ -19,7 +19,7 @@ export default function SliderChecker() {
       className={`${isErrorSlider ? 'animate-sliderUp' : 'animate-sliderDown'}
       ${hidden && 'hidden'}
       [&>button]:mx-1
-         absolute -bottom-[20%] -right-[50%]  p-3 border-2 rounded-lg opacity-0 border-orange-700 bg-orange-700`}
+         absolute -bottom-[17%] -right-[50%]  p-3 border-2 rounded-lg opacity-0 border-orange-700 bg-orange-700`}
     >
       <span>바뀐 내용이 있습니다. 수정하시겠습니까?</span>
 
