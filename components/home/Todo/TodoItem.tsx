@@ -1,4 +1,4 @@
-import { Todo } from 'types/todo';
+import { Todo } from 'types/Todo';
 import { BsFillTrashFill, BsPencilSquare } from 'react-icons/bs';
 import { useTodo } from '../../../hooks/useTodo';
 import React, { useState, useCallback } from 'react';

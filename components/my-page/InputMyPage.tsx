@@ -1,4 +1,4 @@
-import { ChangeEvent, useRef } from 'react';
+import { ChangeEvent, LegacyRef, useEffect, useRef } from 'react';
 import { useController, Control } from 'react-hook-form';
 import { MyPageFormField } from 'types/MyInfo';
 import { BsPencilSquare } from 'react-icons/bs';

@@ -19,6 +19,12 @@ import { getPresignedUrl, uploadProfileImg } from 'api/auth/Api';
 import SliderUpdateChecker from 'components/sliderUpdateChecker';
 import { JoinNickNameErrMsg } from 'components/auth/join/joinErrMsg';
 import useProfileImg from 'hooks/useProfileImg';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import ReactMarkdown from 'react-markdown';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { dark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
 export default function MyProfileForm() {
   const { isErrorSlider, setErrorSlider } = useErrorStore();
@@ -28,6 +34,7 @@ export default function MyProfileForm() {
     control,
     setError,
     getFieldState,
+    reset,
     formState: { errors },
   } = useForm<MyPageFormField>({
     mode: 'onChange',
@@ -38,17 +45,21 @@ export default function MyProfileForm() {
       bio: '',
     },
   });
-  const { userId } = useGetLoginedUser();
+  const { userInfo } = useGetLoginedUser();
   const queryClient = useQueryClient();
   const mutateAsync = useGetMyProfile();
-  const imageFile: Array<File> = watch('imageFile');
+  const imageFile = watch('imageFile');
   const mutate = useUpdateProfile();
 
   useEffect(() => {
-    if (userId) {
-      mutateAsync(userId);
+    //userInfo.id가 들어오면 함수 실행. 유저 정보가 바뀌면(업데이트 성공) 실행.
+    if (userInfo?.userId) {
+      mutateAsync(userInfo?.userId);
+      reset({
+        imageFile: undefined,
+      });
     }
-  }, [mutateAsync, userId]);
+  }, [mutateAsync, reset, userInfo?.userId]);
   const queryClientEmail = queryClient.getQueryData<MyInfo>([
     QueryKey.getMyProfile,
   ])?.email as string;
@@ -58,7 +69,7 @@ export default function MyProfileForm() {
   const queryClientBio = queryClient.getQueryData<MyInfo>([
     QueryKey.getMyProfile,
   ])?.profile.bio as string;
-  const queryClientAvatarUrl = queryClient.getQueryData<MyInfo>([
+  let queryClientAvatarUrl = queryClient.getQueryData<MyInfo>([
     QueryKey.getMyProfile,
   ])?.profile.avatarUrl as string;
   let queryClientFollower = queryClient.getQueryData<MyInfo>([
@@ -68,7 +79,19 @@ export default function MyProfileForm() {
     QueryKey.getMyProfile,
   ])?.followingCount as number;
   const { profileImg } = useProfileImg(imageFile, queryClientAvatarUrl);
+
   useEffect(() => {
+    //queryClient에 저장된 값들이 udefined 상태에서 바뀌었을 때 실행
+    reset({
+      imageFile: undefined,
+      nickname: queryClientNickName,
+      email: queryClientEmail,
+      bio: queryClientBio,
+    });
+  }, [queryClientBio, queryClientEmail, queryClientNickName, reset]);
+
+  useEffect(() => {
+    //input의 값들이 기존과 달라졌을 때 실행.
     if (
       (watch('nickname') !== '' && watch('nickname') !== queryClientNickName) ||
       (profileImg && !profileImg.includes(queryClientAvatarUrl))
@@ -119,7 +142,6 @@ export default function MyProfileForm() {
   };
 
   const handleError = (error: Error) => {
-    console.log('error', error);
     alert(error.message);
   };
 
@@ -156,6 +178,30 @@ export default function MyProfileForm() {
           checkDirty={getFieldState('nickname').isDirty}
         />
         <InputMyBio control={control} />
+        {/* <ReactMarkdown
+          components={{
+            code({ inline, className, children, ...props }) {
+              const match = /language-(\w+)/.exec(className || '');
+
+              return !inline && match ? (
+                <SyntaxHighlighter
+                  language={match[1]}
+                  PreTag="div"
+                  {...props}
+                  style={dark}
+                >
+                  {String(children).replace(/\n$/, '')}
+                </SyntaxHighlighter>
+              ) : (
+                <code className={className} {...props}>
+                  {children}
+                </code>
+              );
+            },
+          }}
+        >
+          ## abcd sdsd
+        </ReactMarkdown> */}
         <SliderChecker />
       </form>
       <SliderUpdateChecker />

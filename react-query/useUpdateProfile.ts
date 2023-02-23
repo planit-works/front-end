@@ -26,14 +26,19 @@ export const useUpdateProfile = (): UseMutateFunction<
   const { mutate } = useMutation({
     mutationFn: ({ nickname, AvatarUrl, Bio }: PatchUserInfo) =>
       updateUserProfile(nickname, AvatarUrl, Bio),
-    onSuccess: () => {
+    onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: [QueryKey.getLoginedUser] });
+      console.log(data);
       setErrorUpdateChecker(true);
-      setErrorSlider(false);
-      setDisabledAll();
+      setErrorSlider(false); //업데이트하고 업데이트 여부 묻는 슬라이더 꺼준다
+      setDisabledAll(); //업데이트하고 input disabled로 만든다
       setTimeout(() => {
+        //업데이트하고 슬라이더 애니메이션을 꺼준다
         setErrorUpdateChecker(false);
       }, 2000);
+    },
+    onError: (error) => {
+      console.log('error', error);
     },
   });
 

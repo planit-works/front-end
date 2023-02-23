@@ -7,12 +7,8 @@ export default function SliderChecker() {
   const [hidden, setHidden] = useState(true);
 
   useEffect(() => {
-    if (isErrorSlider === undefined) {
-      setHidden(true);
-    } else {
-      setHidden(false);
-    }
-  }, [isErrorSlider]);
+    setHidden(false);
+  }, []);
 
   return (
     <div
