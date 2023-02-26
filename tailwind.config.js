@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
-module.exports = {
 
+module.exports = {
   content: [
     './pages/**/*.{js,ts,jsx,tsx}',
     './components/**/*.{js,ts,jsx,tsx}',
@@ -10,7 +10,7 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        'col-calendar': 'rgb(14 165 233)'
+        'col-calendar': 'rgb(14 165 233)',
       },
       keyframes: {
         slipToLeft: {
@@ -77,7 +77,7 @@ module.exports = {
             transform: 'translateX(-10%)',
           },
         },
-      
+
         opacityUp: {
           from: { opacity: '0' },
           to: { opacity: '1' },
@@ -99,7 +99,6 @@ module.exports = {
           '50%': { transform: 'translateY(0)', opacity: '1' },
           '100%': { transform: 'translateY(100%)', opacity: '0' },
         },
-
       },
       animation: {
         slipToLeft: 'slipToLeft 500ms ease-in-out both',
@@ -120,5 +119,5 @@ module.exports = {
       },
     },
   },
-  plugins: [],
+  plugins: [require('@tailwindcss/typography')],
 };

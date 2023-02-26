@@ -5,19 +5,15 @@ const BaseURL: string = 'https://www.planit.p-e.kr/api';
 axios.defaults.withCredentials = true;
 
 export const updateUserProfile = async (
-  // eslint-disable-next-line @typescript-eslint/default-param-last
   nickname?: string,
-  AvatarUrl?: string,
-  Bio?: string,
+  avatarUrl?: string,
+  bio?: string,
 ) => {
   try {
-    if (!AvatarUrl) {
-      AvatarUrl = 'default';
-    }
     const { data } = await axios.patch(`${BaseURL}/profiles`, {
       nickname,
-      avatarUrl: `avatars/${AvatarUrl}`,
-      bio: Bio,
+      avatarUrl,
+      bio,
     });
 
     return data;

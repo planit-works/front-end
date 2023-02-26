@@ -1,28 +1,27 @@
 import { create } from 'zustand';
 
-interface DisabledState {
+interface MyPageFormState {
   disabledNickName: boolean;
-  disabledBio: boolean;
+  tabBio: boolean;
   setDisabledNickName: (value: boolean) => void;
-  setDisabledBio: (value: boolean) => void;
+  setTabBio: () => void;
   setDisabledAll: () => void;
 }
 
-const useDisabledStore = create<DisabledState>()((set) => ({
+const myPageFormStore = create<MyPageFormState>()((set) => ({
   disabledNickName: true,
-  disabledBio: true,
+  tabBio: true,
   setDisabledNickName: (value) =>
     set({
       disabledNickName: value,
     }),
-  setDisabledBio: (value) =>
-    set({
-      disabledBio: value,
-    }),
+  setTabBio: () =>
+    set((state) => ({
+      tabBio: !state.tabBio,
+    })),
   setDisabledAll: () =>
     set({
       disabledNickName: true,
-      disabledBio: true,
     }),
 }));
-export default useDisabledStore;
+export default myPageFormStore;

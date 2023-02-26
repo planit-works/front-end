@@ -6,12 +6,12 @@ import {
 import { updateUserProfile } from 'api/profile/Api';
 import useErrorStore from 'store/useErrorStore';
 import QueryKey from './key';
-import useDisabledStore from 'store/useDisabledStore';
+import useDisabledStore from 'store/myPageFormStore';
 
 type PatchUserInfo = {
   nickname: string;
-  AvatarUrl?: string;
-  Bio?: string;
+  avatarUrl?: string;
+  bio?: string;
 };
 
 export const useUpdateProfile = (): UseMutateFunction<
@@ -24,11 +24,10 @@ export const useUpdateProfile = (): UseMutateFunction<
   const { setErrorUpdateChecker, setErrorSlider } = useErrorStore();
   const { setDisabledAll } = useDisabledStore();
   const { mutate } = useMutation({
-    mutationFn: ({ nickname, AvatarUrl, Bio }: PatchUserInfo) =>
-      updateUserProfile(nickname, AvatarUrl, Bio),
-    onSuccess: (data) => {
+    mutationFn: ({ nickname, avatarUrl, bio }: PatchUserInfo) =>
+      updateUserProfile(nickname, 'avatars/' + avatarUrl, bio),
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [QueryKey.getLoginedUser] });
-      console.log(data);
       setErrorUpdateChecker(true);
       setErrorSlider(false); //업데이트하고 업데이트 여부 묻는 슬라이더 꺼준다
       setDisabledAll(); //업데이트하고 input disabled로 만든다

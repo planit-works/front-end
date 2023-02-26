@@ -23,7 +23,7 @@ export default function ProfileForm() {
     watch,
     setError,
     control,
-    formState: { isDirty, dirtyFields, errors },
+    formState: { errors },
   } = useForm<ProfileFormField>({
     mode: 'onChange',
     defaultValues: {
@@ -80,8 +80,8 @@ export default function ProfileForm() {
     try {
       await updateNickNameOnly(fieldValues);
       checkFile(fieldValues);
-      const AvatarUrl = await uploadS3(fieldValues);
-      mutate({ nickname: fieldValues.nickname, AvatarUrl });
+      const avatarUrl = await uploadS3(fieldValues);
+      mutate({ nickname: fieldValues.nickname, avatarUrl });
     } catch (error) {
       if (error instanceof Error) {
         handleError(error);

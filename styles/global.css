@@ -2,6 +2,27 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  h1 {
+    @apply text-2xl;
+  }
+  h2 {
+    @apply text-xl;
+  }
+  h3 {
+    @apply text-lg;
+  }
+  a {
+    @apply text-blue-600 underline;
+  }
+  ul {
+    @apply list-disc;
+  }
+  ol {
+    @apply list-decimal;
+  }
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -10,5 +31,5 @@
 }
 
 .todo-side-bar {
-  @apply w-[300px] absolute right-0 h-full py-6 px-4  bg-white
+  @apply w-[300px] absolute right-0 h-full py-6 px-4  bg-white;
 }

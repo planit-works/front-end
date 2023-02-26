@@ -1,5 +1,5 @@
-import axios, { AxiosResponse } from 'axios';
-import { AuthInfo, Profile, UserInfo } from 'types/auth';
+import axios from 'axios';
+import { AuthInfo, UserInfo } from 'types/auth';
 
 const BaseURL: string = 'https://www.planit.p-e.kr/api';
 

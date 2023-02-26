@@ -1,6 +1,5 @@
 import { useForm } from 'react-hook-form';
-import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useGetLoginedUser } from 'react-query/useGetLoginedUser';
 import { useQueryClient } from '@tanstack/react-query';
 import QueryKey from 'react-query/key';
@@ -17,17 +16,14 @@ import useErrorStore from 'store/useErrorStore';
 import { useUpdateProfile } from 'react-query/useUpdateProfile';
 import { getPresignedUrl, uploadProfileImg } from 'api/auth/Api';
 import SliderUpdateChecker from 'components/sliderUpdateChecker';
-import { JoinNickNameErrMsg } from 'components/auth/join/joinErrMsg';
+import {
+  JoinNickNameErrMsg,
+  JoinProfileImgErrMsg,
+} from 'components/auth/join/joinErrMsg';
 import useProfileImg from 'hooks/useProfileImg';
-// eslint-disable-next-line import/no-extraneous-dependencies
-import ReactMarkdown from 'react-markdown';
-// eslint-disable-next-line import/no-extraneous-dependencies
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-// eslint-disable-next-line import/no-extraneous-dependencies
-import { dark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
 export default function MyProfileForm() {
-  const { isErrorSlider, setErrorSlider } = useErrorStore();
+  const { setErrorSlider } = useErrorStore();
   const {
     handleSubmit,
     watch,
@@ -94,7 +90,8 @@ export default function MyProfileForm() {
     //input의 값들이 기존과 달라졌을 때 실행.
     if (
       (watch('nickname') !== '' && watch('nickname') !== queryClientNickName) ||
-      (profileImg && !profileImg.includes(queryClientAvatarUrl))
+      (profileImg && !profileImg.includes(queryClientAvatarUrl)) ||
+      (watch('bio') !== '' && watch('bio') !== queryClientBio)
     ) {
       setErrorSlider(true);
     } else {
@@ -104,21 +101,21 @@ export default function MyProfileForm() {
     queryClientNickName,
     profileImg,
     queryClientAvatarUrl,
+    queryClientBio,
     watch('nickname'),
-    setErrorSlider,
+    watch('bio'),
   ]);
 
-  const updateNickNameOnly = async ({
+  const updateNickNameBioOnly = async ({
     imageFile,
     nickname,
+    bio,
   }: MyPageFormField) => {
     if (!imageFile) {
       //아무 파일도 없는 경우 닉네임만 업데이트
       mutate({
         nickname,
-        AvatarUrl: queryClientAvatarUrl.substring(
-          queryClientAvatarUrl.indexOf('/') + 1, //avatars/... 에서 / 뒤의 숫자들만 추출
-        ),
+        bio,
       });
       throw new Error('등록된 파일이 없습니다. 기본 이미지로 등록됩니다');
     }
@@ -147,10 +144,14 @@ export default function MyProfileForm() {
 
   const onValid = async (fieldValues: MyPageFormField) => {
     try {
-      await updateNickNameOnly(fieldValues);
+      await updateNickNameBioOnly(fieldValues);
       checkFile(fieldValues);
-      const AvatarUrl = await uploadS3(fieldValues);
-      mutate({ nickname: fieldValues.nickname, AvatarUrl });
+      const avatarUrl = await uploadS3(fieldValues);
+      mutate({
+        nickname: fieldValues.nickname,
+        avatarUrl,
+        bio: fieldValues.bio,
+      });
     } catch (error) {
       if (error instanceof Error) {
         handleError(error);
@@ -167,6 +168,10 @@ export default function MyProfileForm() {
           className="w-[25rem] h-[20rem] my-2 rounded-[8%]"
         />
         <InputMyImgFile control={control} />
+        <JoinProfileImgErrMsg
+          error={errors}
+          checkDirty={getFieldState('imageFile').isDirty}
+        />
         <div className="flex justify-center items-center [&>p]:mx-8">
           <p className="text-white text-2xl">팔로잉: {queryClientFollower}</p>
           <p className="text-white text-2xl">팔로워: {queryClientFollowing}</p>
@@ -177,31 +182,8 @@ export default function MyProfileForm() {
           error={errors}
           checkDirty={getFieldState('nickname').isDirty}
         />
-        <InputMyBio control={control} />
-        {/* <ReactMarkdown
-          components={{
-            code({ inline, className, children, ...props }) {
-              const match = /language-(\w+)/.exec(className || '');
+        <InputMyBio control={control} defaultValue={queryClientBio} />
 
-              return !inline && match ? (
-                <SyntaxHighlighter
-                  language={match[1]}
-                  PreTag="div"
-                  {...props}
-                  style={dark}
-                >
-                  {String(children).replace(/\n$/, '')}
-                </SyntaxHighlighter>
-              ) : (
-                <code className={className} {...props}>
-                  {children}
-                </code>
-              );
-            },
-          }}
-        >
-          ## abcd sdsd
-        </ReactMarkdown> */}
         <SliderChecker />
       </form>
       <SliderUpdateChecker />

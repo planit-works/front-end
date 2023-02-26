@@ -21,7 +21,7 @@ export default function JoinForm() {
     getFieldState,
     handleSubmit,
     setError,
-    formState: { isDirty, dirtyFields, errors },
+    formState: { errors },
   } = useForm<JoinFormField>({
     mode: 'onChange',
     defaultValues: {

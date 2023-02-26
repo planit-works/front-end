@@ -1,11 +1,9 @@
 import { useEffect, useState } from 'react';
-import useErrorStore from 'store/useErrorStore';
 
 export default function useProfileImg(
   imageFile: Array<File>,
   avatarUrl: string,
 ) {
-  const { setErrorSlider, isErrorSlider } = useErrorStore();
   const [profileImg, setProfileImg] = useState<string>(
     process.env.NEXT_PUBLIC_IMG_ORIGIN + avatarUrl,
   );
