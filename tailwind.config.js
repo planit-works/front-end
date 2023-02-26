@@ -76,6 +76,7 @@ module.exports = {
             transform: 'translateX(-10%)',
           },
         },
+      
         opacityUp: {
           from: { opacity: '0' },
           to: { opacity: '1' },
@@ -109,6 +110,19 @@ module.exports = {
             transformOrigin: '50% 0',
             transform: 'scale(0.01, 0)',
           },
+        sliderUp: {
+          from: { transform: 'translateY(100%)', opacity: '0' },
+          to: { transform: 'translateY(0)', opacity: '1' },
+        },
+        sliderDown: {
+          from: { transform: 'translateY(0)', opacity: '1' },
+          to: { transform: 'translateY(100%)', opacity: '0' },
+        },
+        sliderMove: {
+          '0%': { transform: 'translateY(100%)', opacity: '0' },
+          '50%': { transform: 'translateY(0)', opacity: '1' },
+          '100%': { transform: 'translateY(100%)', opacity: '0' },
+
         },
 
       },
@@ -127,6 +141,9 @@ module.exports = {
         profileAtter: 'opacityUp 3s 3s ease-in-out forwards',
         calendarAppear:'calendarAppear 700ms ease-in-out both',
         calendarDisappear:'calendarDisappear 700ms ease-in-out both'
+        sliderUp: 'sliderUp 500ms ease-in-out forwards',
+        sliderDown: 'sliderDown 500ms ease-in-out forwards',
+        sliderMove: 'sliderMove 2s ease-in-out forwards',
       },
     },
   },

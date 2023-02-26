@@ -1,4 +1,5 @@
 import axios from 'axios';
+
 import { BasicDate } from 'types/date';
 export const getNextDate = (date: Date) => {
   const copyDate = new Date(date);
@@ -69,3 +70,4 @@ export const getAnniversaries = async (year: number, month?: number) => {
 
   return data;
 };
+
