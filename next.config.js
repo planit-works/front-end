@@ -1,7 +1,14 @@
 /** @type {import('next').NextConfig} */
+const SPCDE_KEY = process.env.NEXT_PUBLIC_SPCDE_KEY;
+
 const nextConfig = {
   async rewrites() {
     return [
+      {
+        source: '/spcdeInfoService', //api request path
+        destination:
+          `https://apis.data.go.kr/B090041/openapi/service/SpcdeInfoService?serviceKey=${SPCDE_KEY}`, //목적 path
+      },
       {
         source: '/getPresignedUrl', //api request path
         destination:
