@@ -2,7 +2,6 @@
 const SPCDE_KEY = process.env.NEXT_PUBLIC_SPCDE_KEY;
 
 const nextConfig = {
-  reactStrictMode: true,
   async rewrites() {
     return [
       {

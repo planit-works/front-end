@@ -29,7 +29,7 @@ export interface JoinFormField extends LoginFormField {
 
 export interface ProfileFormField {
   imageFile: Array<File>;
-  nickName: string;
+  nickname: string;
 }
 
 export interface UserInfo {

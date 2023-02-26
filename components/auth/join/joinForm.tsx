@@ -7,14 +7,18 @@ import {
   JoinPwdCheckErrMsg,
   JoinPwdErrMsg,
 } from './joinErrMsg';
-import { JoinFormField } from '../../../types/auth';
+import { JoinFormField } from 'types/auth';
 import AuthSubmitBtn from 'components/auth/authSubmitBtn';
 import Router from 'next/router';
+import { useQueryClient } from '@tanstack/react-query';
+import QueryKey from 'react-query/key';
+import useErrorStore from 'store/useErrorStore';
+import { InputEmailJoin, InputPwdCheckJoin, InputPwdJoin } from './InputJoin';
 import userStore from 'store/userStore';
 
 export default function JoinForm() {
   const {
-    register,
+    control,
     getFieldState,
     handleSubmit,
     setError,
@@ -27,7 +31,9 @@ export default function JoinForm() {
       pwdCheck: '',
     },
   });
-  const { setProfile } = userStore();
+
+  const queryClient = useQueryClient();
+  const { setError: SetError } = useErrorStore();
 
   type CheckPwd = {
     password: string;
@@ -41,19 +47,11 @@ export default function JoinForm() {
   };
 
   const handleJoin = async (authInfo: AuthInfo) => {
-    const { profile } = (await createUser(authInfo)) as UserData;
+    const profile = (await createUser(authInfo)) as UserData;
     alert('회원가입이 완료되었습니다');
-    setProfile(profile);
-    Router.push(
-      {
-        pathname: 'join/profile',
-        query: {
-          nickname: profile.nickname,
-          avatarUrl: profile.avatarUrl,
-        },
-      },
-      'join/profile',
-    );
+    Router.push('join/profile');
+    queryClient.setQueryData([QueryKey.getLoginedUser], profile);
+    SetError(false);
   };
 
   const handleError = (errorType: string) => {
@@ -86,51 +84,19 @@ export default function JoinForm() {
   return (
     <div className=" flex flex-col items-center justify-center w-3/4 relative bottom-[4rem] ">
       <form onSubmit={handleSubmit(onValid)}>
-        <input
-          type="text"
-          className="animate-intro block bg-transparent w-[30rem] h-12 mt-8 border-solid border-b-[1px] border-b-white focus:outline-none focus:border-sky-500 text-white text-2xl"
-          placeholder="Email을 입력해 주세요"
-          {...register('email', {
-            required: 'Email을 입력해 주세요',
-            validate: {
-              matchPattern: (value) =>
-                /^[a-zA-Z0-9+-_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/.test(value),
-              checkLength: (value) => value.length >= 10 && value.length <= 40,
-            },
-          })}
-        />
-
+        <InputEmailJoin control={control} />
         <JoinEmailErrMsg
           error={errors}
           checkDirty={getFieldState('email').isDirty}
         />
 
-        <input
-          type="password"
-          className="animate-intro block bg-transparent w-[30rem] h-12 mt-8 border-solid border-b-[1px] border-b-white focus:outline-none focus:border-sky-500 text-white text-2xl"
-          placeholder="Password를 입력해 주세요"
-          {...register('password', {
-            required: 'Password를 입력해 주세요',
-            validate: {
-              matchPattern: (value) =>
-                /^(?=.*?[a-z])(?=.*?[0-9])(?=.*?[$@$!%*?&]).{3,}$/.test(value),
-              checkLength: (value) => value.length >= 8 && value.length <= 16,
-            },
-          })}
-        />
+        <InputPwdJoin control={control} />
         <JoinPwdErrMsg
           error={errors}
           checkDirty={getFieldState('password').isDirty}
         />
 
-        <input
-          type="password"
-          className="animate-intro block bg-transparent w-[30rem] h-12 mt-8 border-solid border-b-[1px] border-b-white focus:outline-none focus:border-sky-500 text-white text-2xl"
-          placeholder="Password를 다시 한 번 입력해 주세요"
-          {...register('pwdCheck', {
-            required: 'Password를 다시 한 번 입력해 주세요',
-          })}
-        />
+        <InputPwdCheckJoin control={control} />
         <JoinPwdCheckErrMsg
           error={errors}
           checkDirty={getFieldState('pwdCheck').isDirty}

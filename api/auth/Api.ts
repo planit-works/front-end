@@ -1,16 +1,14 @@
 import axios, { AxiosResponse } from 'axios';
 import { AuthInfo, Profile, UserInfo } from 'types/auth';
 
-const BaseURL: string = 'http://localhost:8000';
+const BaseURL: string = 'https://www.planit.p-e.kr/api';
 
-const endpoint = '/auth';
 axios.defaults.withCredentials = true;
 
-export const createUser = async (
-  AuthInfo: AuthInfo,
-): Promise<UserInfo | void> => {
+// eslint-disable-next-line @typescript-eslint/no-shadow
+export const createUser = async (AuthInfo: AuthInfo) => {
   try {
-    const { data } = await axios.post(`${BaseURL}${endpoint}`, AuthInfo);
+    const { data } = await axios.post(`${BaseURL}/auth`, AuthInfo);
 
     return data;
   } catch (error) {
@@ -20,9 +18,10 @@ export const createUser = async (
   }
 };
 
+// eslint-disable-next-line @typescript-eslint/no-shadow
 export const loginUser = async (AuthInfo: AuthInfo) => {
   try {
-    const { data } = await axios.post(`${BaseURL}${endpoint}/login`, AuthInfo);
+    const { data } = await axios.post(`${BaseURL}/auth/login`, AuthInfo);
 
     return data;
   } catch (error) {
@@ -66,33 +65,26 @@ export const uploadProfileImg = async (EndPoint: string, File: File) => {
   }
 };
 
-export const updateUserProfile = async (
-  // eslint-disable-next-line @typescript-eslint/default-param-last
-  NickName: string,
-  AvatarUrl = 'default',
-) => {
+export const verifyLogin = async (): Promise<UserInfo> => {
+  // try {
+  const { data } = await axios.get<UserInfo>(`${BaseURL}/auth/verify`);
+
+  return data;
+  // } catch (error) {
+  //   if (error instanceof Error) {
+  //     throw Error('세션이 만료되었습니다');
+  //   }
+  // }
+};
+
+export const logoutUser = async () => {
   try {
-    const { data } = await axios.patch(`${BaseURL}/users/profile`, {
-      nickname: NickName,
-      avatarUrl: `avatars/${AvatarUrl}`,
-    });
+    const { data } = await axios.post(`${BaseURL}/auth/logout`);
 
     return data;
   } catch (error) {
     if (error instanceof Error) {
-      throw Error('프로필 변경에 실패하였습니다');
-    }
-  }
-};
-
-export const verifyLogin = async (): Promise<Profile | void> => {
-  try {
-    const { data } = await axios.get<UserInfo>(`${BaseURL}/auth/verify`);
-
-    return data.profile;
-  } catch (error) {
-    if (error instanceof Error) {
-      throw Error('세션이 만료되었습니다');
+      throw Error('로그아웃에 실패했습니다. 다시 시도해 주세요');
     }
   }
 };

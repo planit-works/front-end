@@ -1,7 +1,7 @@
 import { todoKey } from 'constants/keyValue';
 import { RefObject } from 'react';
 import useTodoListStore from 'store/todoStore';
-import { Todo } from 'types/todo';
+import { Todo } from 'types/Todo';
 import { getRandomString } from 'utils/getRandomString';
 import { setLocalStorage } from 'utils/localStorage';
 

@@ -5,7 +5,7 @@ type ErrCheck = {
     email: string;
     password: string;
     pwdCheck: string;
-    nickName: string;
+    nickname: string;
     imageFile: Array<File>;
   }>;
   checkDirty: boolean;
@@ -54,7 +54,7 @@ export function JoinPwdCheckErrMsg({ error, checkDirty }: ErrCheck) {
 export function JoinNickNameErrMsg({ error, checkDirty }: ErrCheck) {
   return (
     <div className={`${checkDirty || 'invisible'} mt-2 text-amber-500`}>
-      <p className={`${error.nickName?.type || ' invisible'} `}>
+      <p className={`${error.nickname?.type || ' invisible'} `}>
         2자 이상 10자 이하로 작성해주세요
       </p>
     </div>

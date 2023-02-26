@@ -1,5 +1,3 @@
-import { mkdir } from 'fs';
-
 export function AuthInputText({ placeHolder }: { placeHolder: string }) {
   return (
     <input
