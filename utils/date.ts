@@ -1,5 +1,3 @@
-import axios from 'axios';
-
 import { BasicDate } from 'types/date';
 export const getNextDate = (date: Date) => {
   const copyDate = new Date(date);
@@ -59,15 +57,3 @@ export const getBasicDate = (date: Date): BasicDate => ({
   month: date.getMonth(),
   date: date.getDate(),
 });
-
-export const getAnniversaries = async (year: number, month?: number) => {
-  const url = '/spcdeInfoService';
-  const params = `&solYear=${year}&pageNo=${1}&numOfRows=${30}`;
-  const data = await axios
-    .get(`${url}`)
-    .then((res) => res.data)
-    .catch((error) => console.error(error));
-
-  return data;
-};
-

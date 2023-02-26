@@ -1,8 +1,6 @@
-import { useMemo, useState, useCallback, useEffect } from 'react';
+import { useMemo, useState, useCallback } from 'react';
 import { BasicDate } from 'types/date';
 import { getBasicDate } from 'utils/date';
-import { getAnniversaries } from '../utils/date';
-
 
 export default function useCalendar(selectedDate: Date) {
   const [basicDate, setBasicDate] = useState<BasicDate>(
@@ -53,12 +51,6 @@ export default function useCalendar(selectedDate: Date) {
       });
     }
   }, [basicDate]);
-
-  useEffect(() => {
-    const anniversaries = getAnniversaries(basicDate.year, basicDate.month);
-    console.log(anniversaries);
-  }, [basicDate.month, basicDate.year]);
-
 
   return {
     basicDate,
