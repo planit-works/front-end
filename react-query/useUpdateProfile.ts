@@ -22,6 +22,7 @@ export const useUpdateProfile = (): UseMutateFunction<
 > => {
   const queryClient = useQueryClient();
   const { setErrorUpdateChecker, setErrorSlider } = useErrorStore();
+
   const { setDisabledAll } = useDisabledStore();
   const { mutate } = useMutation({
     mutationFn: ({ nickname, avatarUrl, bio }: PatchUserInfo) =>

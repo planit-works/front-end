@@ -115,6 +115,9 @@ export default function MyProfileForm() {
       //아무 파일도 없는 경우 닉네임만 업데이트
       mutate({
         nickname,
+        avatarUrl: queryClientAvatarUrl.substring(
+          queryClientAvatarUrl.indexOf('/') + 1, //avatars/... 에서 / 뒤의 숫자들만 추출
+        ),
         bio,
       });
       throw new Error('등록된 파일이 없습니다. 기본 이미지로 등록됩니다');

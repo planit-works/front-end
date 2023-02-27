@@ -97,11 +97,11 @@ export const InputMyBio = ({
   const { field } = useController({
     control,
     name: 'bio',
-    rules: {
-      validate: {
-        checkLength: (value) => value.length <= 300,
-      },
-    },
+    // rules: {
+    //   validate: {
+    //     checkLength: (value) => value.length <= 300,
+    //   },
+    // },
   });
   const { tabBio, setTabBio } = myPageFormStore();
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
@@ -109,7 +109,8 @@ export const InputMyBio = ({
 
   const onChangeTab = () => {
     if (textAreaRef.current?.value) {
-      setTextBio(textAreaRef.current!.value);
+      setTextBio(textAreaRef.current.value);
+      console.log(textBio);
     }
     setTabBio();
   };
@@ -117,11 +118,11 @@ export const InputMyBio = ({
   return (
     <div className="group relative">
       {tabBio ? (
-        <MarkDownPreview child={textBio} />
+        <MarkDownPreview child={!textBio ? defaultValue : textBio} />
       ) : (
         <textarea
           ref={textAreaRef}
-          defaultValue={textBio}
+          defaultValue={!textBio ? defaultValue : textBio}
           onChange={field.onChange}
           spellCheck="false"
           className="block bg-transparent resize-none min-w-[23rem] min-h-[5rem] border-solid border-b-[1px] border-b-white focus:outline-none focus:border-sky-500 text-white"
