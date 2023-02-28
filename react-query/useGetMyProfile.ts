@@ -21,7 +21,7 @@ export const useGetMyProfile = (): UseMutateAsyncFunction<
     onError: () => {
       setError(true);
     },
-    // eslint-disable-next-line @typescript-eslint/no-shadow
+
     onSuccess: (data) => {
       queryClient.setQueryData([QueryKey.getMyProfile], data);
     },

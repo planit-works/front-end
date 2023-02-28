@@ -4,29 +4,18 @@ import useDebounce from '../../hooks/useDebounce';
 import { getUserProfile } from 'api/profile/Api';
 import { UserProfile } from '../../types/UserProfie';
 import SearchedListBar from './SearchedList';
-import { useGetUserProfile } from 'react-query/useGetUserProfile';
+import { useGetUserProfileList } from 'react-query/useGetUserProfileList';
 
 export default function SearchInput() {
   const [searchVal, setSearchVal] = useState('');
   const debounceVal = useDebounce(searchVal);
-  const { refetch, userProfileDatas } = useGetUserProfile(debounceVal);
+  const { refetch, userProfileDatas } = useGetUserProfileList(debounceVal);
 
-  // const searchUser = async (id: string) => {
-  //   try {
-  //     const data = (await getUserProfile(id)) as UserProfile[];
-  //     setUSerProfiles(data);
-  //   } catch (error) {
-  //     if (error instanceof Error) {
-  //       setUSerProfiles([]);
-  //     }
-  //   }
-  // };
   useEffect(() => {
     if (searchVal === '') {
       return;
     } else {
       refetch();
-      console.log('userProfileData', userProfileDatas);
     }
   }, [debounceVal]);
 

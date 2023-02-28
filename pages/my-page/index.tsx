@@ -7,13 +7,3 @@ export default function MyPage() {
     </div>
   );
 }
-
-// export const getServerSideProps: GetServerSideProps = async (context) => {
-//   const { params } = context;
-
-//   return {
-//     props: {
-//       id: params,
-//     },
-//   };
-// };

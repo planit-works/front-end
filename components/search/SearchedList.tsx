@@ -1,4 +1,5 @@
 import { UserProfile } from 'types/UserProfie';
+import Link from 'next/link';
 
 export function SearchedList({
   UserProfile,
@@ -7,16 +8,23 @@ export function SearchedList({
   key: number;
 }) {
   return (
-    <li className="flex items-center list-none bg-gray-100 rounded-md hover:bg-gray-200 ">
-      <img
-        alt=""
-        src={
-          (process.env.NEXT_PUBLIC_IMG_THUMBNAIL as string) +
-          UserProfile.avatarUrl
-        }
-        className="w-8 h-8 rounded-[20%] pl-2"
-      />
-      <span className="pl-7">{UserProfile.nickname}</span>
+    <li>
+      <Link
+        href={`/user/${UserProfile.nickname}/${UserProfile.id}`}
+        legacyBehavior
+      >
+        <div className="flex items-center list-none bg-gray-100 rounded-md hover:bg-gray-200 cursor-pointer">
+          <img
+            alt=""
+            src={
+              (process.env.NEXT_PUBLIC_IMG_THUMBNAIL as string) +
+              UserProfile.avatarUrl
+            }
+            className="w-8 h-8 rounded-[20%] pl-2"
+          />
+          <span className="pl-7">{UserProfile.nickname}</span>
+        </div>
+      </Link>
     </li>
   );
 }

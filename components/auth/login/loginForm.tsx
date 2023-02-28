@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { LoginFormField } from 'types/auth';
 import { AuthInfo } from 'types/auth';
 import { useRouter } from 'next/router';
-import AuthSubmitBtn from 'components/auth/authSubmitBtn';
+import AuthSubmitBtn from 'components/auth/AuthSubmitBtn';
 import { useState } from 'react';
 import { InputEmail, InputPwd } from './InputLogin';
 

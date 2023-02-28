@@ -1,18 +1,18 @@
 import { getPresignedUrl, uploadProfileImg } from 'api/auth/Api';
 import { useForm } from 'react-hook-form';
 import { ProfileFormField, UserInfo } from 'types/auth';
-import AuthSubmitBtn from 'components/auth/authSubmitBtn';
 import { useState } from 'react';
-import { JoinNickNameErrMsg, JoinProfileImgErrMsg } from '../joinErrMsg';
+import { NickNameErrMsg, ProfileImgErrMsg } from '../../FormErrMsg';
 import {
   InputImgFile,
   InputNickName,
 } from 'components/auth/join/profile/InputProfile';
-import { useUpdateProfile } from './../../../../react-query/useUpdateProfile';
+import { useUpdateProfile } from '../../../../react-query/useUpdateProfile';
 import { useQueryClient } from '@tanstack/react-query';
 import QueryKey from 'react-query/key';
 import SliderUpdateChecker from 'components/sliderUpdateChecker';
 import useProfileImg from 'hooks/useProfileImg';
+import AuthSubmitBtn from 'components/auth/AuthSubmitBtn';
 
 export default function ProfileForm() {
   const [disableBtn, setDisable] = useState(false);
@@ -100,12 +100,12 @@ export default function ProfileForm() {
           />
           <InputImgFile control={control} />
         </div>
-        <JoinProfileImgErrMsg
+        <ProfileImgErrMsg
           error={errors}
           checkDirty={getFieldState('imageFile').isDirty}
         />
         <InputNickName control={control} />
-        <JoinNickNameErrMsg
+        <NickNameErrMsg
           error={errors}
           checkDirty={getFieldState('nickname').isDirty}
         />

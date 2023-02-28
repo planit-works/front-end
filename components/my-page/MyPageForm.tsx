@@ -16,11 +16,8 @@ import useErrorStore from 'store/useErrorStore';
 import { useUpdateProfile } from 'react-query/useUpdateProfile';
 import { getPresignedUrl, uploadProfileImg } from 'api/auth/Api';
 import SliderUpdateChecker from 'components/sliderUpdateChecker';
-import {
-  JoinNickNameErrMsg,
-  JoinProfileImgErrMsg,
-} from 'components/auth/join/joinErrMsg';
 import useProfileImg from 'hooks/useProfileImg';
+import { NickNameErrMsg, ProfileImgErrMsg } from 'components/auth/FormErrMsg';
 
 export default function MyProfileForm() {
   const { setErrorSlider } = useErrorStore();
@@ -171,17 +168,17 @@ export default function MyProfileForm() {
           className="w-[25rem] h-[20rem] my-2 rounded-[8%]"
         />
         <InputMyImgFile control={control} />
-        <JoinProfileImgErrMsg
+        <ProfileImgErrMsg
           error={errors}
           checkDirty={getFieldState('imageFile').isDirty}
         />
         <div className="flex justify-center items-center [&>p]:mx-8">
-          <p className="text-white text-2xl">팔로잉: {queryClientFollower}</p>
-          <p className="text-white text-2xl">팔로워: {queryClientFollowing}</p>
+          <p className="text-white text-2xl">팔로우: {queryClientFollowing}</p>
+          <p className="text-white text-2xl">팔로워: {queryClientFollower}</p>
         </div>
         <InputMyEmail defaultValue={queryClientEmail} />
         <InputMyNickName control={control} defaultValue={queryClientNickName} />
-        <JoinNickNameErrMsg
+        <NickNameErrMsg
           error={errors}
           checkDirty={getFieldState('nickname').isDirty}
         />
