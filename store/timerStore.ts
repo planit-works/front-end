@@ -7,6 +7,7 @@ interface TimerState {
   timeLeft: number;
   setTimeLeft: (value: number) => void;
   start: () => NodeJS.Timer;
+  stop: () => void;
   end: () => void;
   clearIntervalId: () => void;
 }
@@ -35,10 +36,21 @@ const useTimerStore = create<TimerState>((set) => ({
 
     return newIntervalId;
   },
+  stop: () => {
+    set(
+      produce((state: TimerState) => {
+        clearInterval(state.intervalId);
+        state.intervalId = undefined;
+        state.running = false;
+      }),
+    );
+  },
   end: () => {
     set(
       produce((state: TimerState) => {
         state.running = false;
+        clearInterval(state.intervalId);
+        state.intervalId = undefined;
       }),
     );
   },

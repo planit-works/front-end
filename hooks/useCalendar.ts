@@ -54,7 +54,6 @@ export default function useCalendar(selectedDate: Date) {
   }, [basicDate]);
   useEffect(() => {
     const anniversaries = getAnniversaries(basicDate.year, basicDate.month);
-    console.log(anniversaries);
   }, [basicDate.month, basicDate.year]);
 
   return {

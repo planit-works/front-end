@@ -1,17 +1,29 @@
-import { useState, useEffect } from 'react';
+import { BsFillPauseFill, BsFillPlayFill } from 'react-icons/bs';
 import { useTimer } from '../../hooks/useTimer';
+import TimerInput from './TimerInput';
 
 export default function Timer() {
-  const { running, formatTime, timeLeft, handleStart } = useTimer();
-  const [hour, setHour] = useState<number>(0);
-  const [minute, setMinute] = useState<number>(0);
-  const [seconde, setSecond] = useState<number>(0);
+  const { running, handleStart, handleStop, inputTypes, timerInputRefs } =
+    useTimer();
 
   return (
-    <div>
-      <p className="text-3xl">{formatTime(timeLeft)}</p>
-      <div>
-        <button onClick={handleStart}>{running ? '시작' : '중단'}</button>
+    <div className="absolute top-10 left-10">
+      <div className="text-7xl">
+        {inputTypes.map((type, index) => (
+          <TimerInput
+            key={type}
+            type={type}
+            ref={(el) => (timerInputRefs.current[index] = el)}
+          />
+        ))}
+      </div>
+      <div className="flex justify-center text-lg">
+        <button onClick={running ? handleStop : handleStart}>
+          {running ? <BsFillPauseFill /> : <BsFillPlayFill />}
+        </button>
+      </div>
+      <div className="flex justify-center text-lg">
+        <button>15분 추가</button>
       </div>
     </div>
   );
