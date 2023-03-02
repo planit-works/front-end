@@ -15,7 +15,7 @@ interface TimerState {
 const useTimerStore = create<TimerState>((set) => ({
   running: false,
   intervalId: undefined,
-  timeLeft: 3,
+  timeLeft: 0,
   setTimeLeft: (value) => {
     set((state) => ({ ...state, timeLeft: value }));
   },

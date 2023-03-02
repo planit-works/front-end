@@ -67,7 +67,5 @@ export const getAnniversaries = async (year: number, month?: number) => {
     .then((res) => res.data)
     .catch((error) => console.error(error));
 
-  console.log(data);
-
   return data;
 };

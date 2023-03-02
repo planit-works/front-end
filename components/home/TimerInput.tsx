@@ -29,14 +29,14 @@ const TimerInput = React.forwardRef<HTMLInputElement, TimerInputProps>(
             min="0"
             max="59"
             defaultValue={formatTime[type]}
-            className="bg-transparent w-24"
+            className="bg-transparent w-20 leading-3 after:appearance-none"
             onChange={handleChange}
             disabled={running}
           />
         )}
         {/** 타이머 작동 중이 아닐때는 span태그  */}
         {running && (
-          <span className='className="bg-transparent w-24"'>
+          <span className='className="bg-transparent leading-3'>
             {formatTime[type]}
           </span>
         )}
