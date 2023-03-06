@@ -110,7 +110,7 @@ export const InputMyBio = ({
   const onChangeTab = () => {
     if (textAreaRef.current?.value) {
       setTextBio(textAreaRef.current.value);
-      console.log(textBio);
+      console.log('txtbio', textBio.length);
     }
     setTabBio();
   };
@@ -118,11 +118,13 @@ export const InputMyBio = ({
   return (
     <div className="group relative">
       {tabBio ? (
-        <MarkDownPreview child={!textBio ? defaultValue : textBio} />
+        <div className="max-w-[23rem] break-all">
+          <MarkDownPreview child={!textBio ? defaultValue : textBio} />
+        </div>
       ) : (
         <textarea
           ref={textAreaRef}
-          defaultValue={!textBio ? defaultValue : textBio}
+          defaultValue={!textBio ? defaultValue : textBio} //최초 렌더링 시 textBio는 undefined이므로
           onChange={field.onChange}
           spellCheck="false"
           className="block bg-transparent resize-none min-w-[23rem] min-h-[5rem] border-solid border-b-[1px] border-b-white focus:outline-none focus:border-sky-500 text-white"
