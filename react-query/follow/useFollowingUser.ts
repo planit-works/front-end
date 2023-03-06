@@ -1,16 +1,16 @@
 import { useMutation } from '@tanstack/react-query';
 import followingStore from 'store/followingStore';
-import { unfollowUser } from '../api/profile/Api';
+import { followUser } from '../../api/profile/Api';
 
-export const useUnFollowUser = () => {
-  const { UnFollow } = followingStore();
+export const useFollowingUser = () => {
+  const { Following } = followingStore();
   const mutation = useMutation({
-    mutationFn: (id: number) => unfollowUser(id),
+    mutationFn: (id: number) => followUser(id),
 
     onError: () => {},
 
     onSuccess: () => {
-      UnFollow();
+      Following();
     },
   });
 

@@ -7,9 +7,9 @@ import {
   InputImgFile,
   InputNickName,
 } from 'components/auth/join/profile/InputProfile';
-import { useUpdateProfile } from '../../../../react-query/useUpdateProfile';
+import { useUpdateProfile } from '../../../../react-query/profile/useUpdateProfile';
 import { useQueryClient } from '@tanstack/react-query';
-import QueryKey from 'react-query/key';
+import QueryKey from 'react-query/react-key';
 import SliderUpdateChecker from 'components/sliderUpdateChecker';
 import useProfileImg from 'hooks/useProfileImg';
 import AuthSubmitBtn from 'components/auth/AuthSubmitBtn';

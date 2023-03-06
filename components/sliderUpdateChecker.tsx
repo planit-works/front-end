@@ -1,12 +1,12 @@
 import { AiOutlineCheck } from 'react-icons/ai';
-import useErrorStore from 'store/useErrorStore';
+import sliderStore from 'store/sliderStore';
 
 export default function SliderUpdateChecker() {
-  const { isErrorUpdateChecker } = useErrorStore();
+  const { isUpdateCheckerSlider } = sliderStore();
 
   return (
     <div
-      className={`${isErrorUpdateChecker ? 'animate-sliderMove' : 'hidden'}
+      className={`${isUpdateCheckerSlider ? 'animate-sliderMove' : 'hidden'}
       animate-sliderMove absolute -bottom-[17%] p-2 border-2 rounded-lg border-green-600 bg-green-600`}
     >
       <AiOutlineCheck className="inline mx-1" />

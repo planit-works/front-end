@@ -6,7 +6,7 @@ import {
 import { createUser } from 'api/auth/Api';
 import useErrorStore from 'store/useErrorStore';
 import { AuthInfo } from 'types/auth';
-import QueryKey from './key';
+import QueryKey from './react-key';
 
 export const useJoinUser = (): UseMutateFunction<
   void,

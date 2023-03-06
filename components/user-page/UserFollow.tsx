@@ -1,6 +1,6 @@
 import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai';
-import { useFollowingUser } from 'react-query/useFollowingUser';
-import { useUnFollowUser } from 'react-query/useUnFollowUser';
+import { useFollowingUser } from 'react-query/follow/useFollowingUser';
+import { useUnFollowUser } from 'react-query/follow/useUnFollowUser';
 import useDisabledBtn from './../../hooks/useDisabledBtn';
 
 type IsFollwoing = {

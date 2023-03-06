@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { getUserProfile } from 'api/profile/Api';
 import useErrorStore from 'store/useErrorStore';
-import QueryKey from './key';
+import QueryKey from '../react-key';
 
 export const useGetUserProfileList = (id: string) => {
   const { data, refetch, isError, isLoading } = useQuery({

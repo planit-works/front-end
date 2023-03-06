@@ -1,11 +1,11 @@
 import { useEffect } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
-import QueryKey from 'react-query/key';
+import QueryKey from 'react-query/react-key';
 import { MyInfo } from 'types/MyInfo';
 import SliderChecker from 'components/sliderFormChecker';
 import { UserBio, UserNickName } from './InputUserPage';
 import FollowList, { FollowingBtn } from './UserFollow';
-import { useGetUserProfile } from 'react-query/useGetUserProfile';
+import { useGetUserProfile } from 'react-query/profile/useGetUserProfile';
 import followingStore from 'store/followingStore';
 
 export default function UserProfileForm({ id }: { id: number }) {

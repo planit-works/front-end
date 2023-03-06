@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import { useGetLoginedUser } from 'react-query/useGetLoginedUser';
 import useErrorStore from 'store/useErrorStore';
 import { useQueryClient } from '@tanstack/react-query';
-import QueryKey from './../react-query/key/index';
+import QueryKey from '../react-query/react-key/index';
 
 export default function UserNavBar() {
   const { isError, setError } = useErrorStore();

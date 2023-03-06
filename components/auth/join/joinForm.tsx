@@ -7,7 +7,7 @@ import { JoinFormField } from 'types/auth';
 import AuthSubmitBtn from 'components/auth/AuthSubmitBtn';
 import Router from 'next/router';
 import { useQueryClient } from '@tanstack/react-query';
-import QueryKey from 'react-query/key';
+import QueryKey from 'react-query/react-key';
 import useErrorStore from 'store/useErrorStore';
 import { InputEmailJoin, InputPwdCheckJoin, InputPwdJoin } from './InputJoin';
 

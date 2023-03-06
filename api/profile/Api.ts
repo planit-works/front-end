@@ -25,7 +25,7 @@ export const updateUserProfile = async (
   }
 };
 
-export const getMyProfile = async (id: number): Promise<MyInfo> => {
+export const getProfile = async (id: number): Promise<MyInfo> => {
   const { data } = await axios.post(`${BaseURL}/profiles`, {
     userId: id,
   });

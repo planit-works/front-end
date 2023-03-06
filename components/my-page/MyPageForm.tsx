@@ -2,7 +2,7 @@ import { useForm } from 'react-hook-form';
 import { useEffect } from 'react';
 import { useGetLoginedUser } from 'react-query/useGetLoginedUser';
 import { useQueryClient } from '@tanstack/react-query';
-import QueryKey from 'react-query/key';
+import QueryKey from 'react-query/react-key';
 import {
   InputMyBio,
   InputMyEmail,
@@ -10,17 +10,17 @@ import {
   InputMyNickName,
 } from './InputMyPage';
 import { MyInfo, MyPageFormField } from 'types/MyInfo';
-import { useGetMyProfile } from 'react-query/useGetMyProfile';
+import { useGetMyProfile } from 'react-query/profile/useGetMyProfile';
 import SliderChecker from 'components/sliderFormChecker';
-import useErrorStore from 'store/useErrorStore';
-import { useUpdateProfile } from 'react-query/useUpdateProfile';
+import sliderStore from 'store/sliderStore';
+import { useUpdateProfile } from 'react-query/profile/useUpdateProfile';
 import { getPresignedUrl, uploadProfileImg } from 'api/auth/Api';
 import SliderUpdateChecker from 'components/sliderUpdateChecker';
 import useProfileImg from 'hooks/useProfileImg';
 import { NickNameErrMsg, ProfileImgErrMsg } from 'components/auth/FormErrMsg';
 
 export default function MyProfileForm() {
-  const { setErrorSlider } = useErrorStore();
+  const { setFormSlider } = sliderStore();
   const {
     handleSubmit,
     watch,
@@ -90,9 +90,9 @@ export default function MyProfileForm() {
       (profileImg && !profileImg.includes(queryClientAvatarUrl)) ||
       (watch('bio') !== '' && watch('bio') !== queryClientBio)
     ) {
-      setErrorSlider(true);
+      setFormSlider(true);
     } else {
-      setErrorSlider(false);
+      setFormSlider(false);
     }
   }, [
     queryClientNickName,

@@ -5,8 +5,8 @@ import {
 } from '@tanstack/react-query';
 import followingStore from 'store/followingStore';
 import { MyInfo } from 'types/MyInfo';
-import { getMyProfile } from '../api/profile/Api';
-import QueryKey from './key';
+import { getProfile } from '../../api/profile/Api';
+import QueryKey from '../react-key';
 
 export const useGetUserProfile = (): UseMutateAsyncFunction<
   MyInfo,
@@ -17,7 +17,7 @@ export const useGetUserProfile = (): UseMutateAsyncFunction<
   const queryClient = useQueryClient();
   const { setIsFollowing, setFollower } = followingStore();
   const { mutateAsync } = useMutation({
-    mutationFn: (id: number) => getMyProfile(id),
+    mutationFn: (id: number) => getProfile(id),
     onError: () => {},
 
     onSuccess: (data) => {

@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import useErrorStore from 'store/useErrorStore';
 import { verifyLogin } from '../api/auth/Api';
-import QueryKey from './key';
+import QueryKey from './react-key';
 
 export const useGetLoginedUser = (enable: boolean = true) => {
   const { setError } = useErrorStore();
