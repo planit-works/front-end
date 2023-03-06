@@ -12,7 +12,7 @@ export default function SearchInput() {
   const { refetch, userProfileDatas } = useGetUserProfileList(debounceVal);
 
   useEffect(() => {
-    if (searchVal === '') {
+    if (searchVal === '' || debounceVal === '') {
       return;
     } else {
       refetch();

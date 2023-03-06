@@ -1,8 +1,5 @@
-import { useRef, useState } from 'react';
 import { useController, Control } from 'react-hook-form';
 import { MyPageFormField } from 'types/MyInfo';
-import { BsPencilSquare } from 'react-icons/bs';
-import myPageFormStore from 'store/myPageFormStore';
 import MarkDownPreview from 'components/my-page/MarkDownPreview';
 
 export const InputMyImgFile = ({

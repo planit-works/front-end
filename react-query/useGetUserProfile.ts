@@ -3,7 +3,7 @@ import {
   useMutation,
   useQueryClient,
 } from '@tanstack/react-query';
-import useErrorStore from 'store/useErrorStore';
+import followingStore from 'store/followingStore';
 import { MyInfo } from 'types/MyInfo';
 import { getMyProfile } from '../api/profile/Api';
 import QueryKey from './key';
@@ -15,6 +15,7 @@ export const useGetUserProfile = (): UseMutateAsyncFunction<
   unknown
 > => {
   const queryClient = useQueryClient();
+  const { setIsFollowing, setFollower } = followingStore();
   const { mutateAsync } = useMutation({
     mutationFn: (id: number) => getMyProfile(id),
     onError: () => {},
@@ -22,6 +23,9 @@ export const useGetUserProfile = (): UseMutateAsyncFunction<
     onSuccess: (data) => {
       queryClient.removeQueries([QueryKey.getUserProfile]);
       queryClient.setQueryData([QueryKey.getUserProfile], data);
+
+      setIsFollowing(data.isFollowing);
+      setFollower(data.followerCount);
     },
   });
 

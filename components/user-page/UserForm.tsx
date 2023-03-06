@@ -3,16 +3,16 @@ import { useQueryClient } from '@tanstack/react-query';
 import QueryKey from 'react-query/key';
 import { MyInfo } from 'types/MyInfo';
 import SliderChecker from 'components/sliderFormChecker';
-import { useUpdateProfile } from 'react-query/useUpdateProfile';
-import SliderUpdateChecker from 'components/sliderUpdateChecker';
 import { UserBio, UserNickName } from './InputUserPage';
-import FollowList from './UserFollow';
+import FollowList, { FollowingBtn } from './UserFollow';
 import { useGetUserProfile } from 'react-query/useGetUserProfile';
+import followingStore from 'store/followingStore';
 
 export default function UserProfileForm({ id }: { id: number }) {
-  const mutate = useUpdateProfile();
   const queryClient = useQueryClient();
   const mutateAsync = useGetUserProfile();
+  const { isFollowing, follower } = followingStore();
+
   useEffect(() => {
     mutateAsync(id);
   }, [id, mutateAsync]);
@@ -26,9 +26,6 @@ export default function UserProfileForm({ id }: { id: number }) {
   let queryClientAvatarUrl = queryClient.getQueryData<MyInfo>([
     QueryKey.getUserProfile,
   ])?.profile.avatarUrl as string;
-  let queryClientFollower = queryClient.getQueryData<MyInfo>([
-    QueryKey.getUserProfile,
-  ])?.followerCount as number;
   let queryClientFollowing = queryClient.getQueryData<MyInfo>([
     QueryKey.getUserProfile,
   ])?.followingCount as number;
@@ -41,17 +38,13 @@ export default function UserProfileForm({ id }: { id: number }) {
           alt="기본 프로필"
           className="w-[25rem] h-[20rem] my-2 rounded-[8%]"
         />
-
-        <FollowList
-          follow={queryClientFollower}
-          follower={queryClientFollowing}
-        />
+        <FollowingBtn id={id} isFollowing={isFollowing} />
+        <FollowList follow={queryClientFollowing} follower={follower} />
         <UserNickName defaultValue={queryClientNickName} />
         <UserBio defaultValue={queryClientBio} />
 
         <SliderChecker />
       </div>
-      <SliderUpdateChecker />
     </div>
   );
 }

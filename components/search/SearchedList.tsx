@@ -10,7 +10,7 @@ export function SearchedList({
   return (
     <li>
       <Link
-        href={`/user/${UserProfile.nickname}/${UserProfile.id}`}
+        href={`/user/${UserProfile.nickname}/${UserProfile.userId}`}
         legacyBehavior
       >
         <div className="flex items-center list-none bg-gray-100 rounded-md hover:bg-gray-200 cursor-pointer">

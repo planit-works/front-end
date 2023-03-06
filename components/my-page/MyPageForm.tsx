@@ -99,8 +99,8 @@ export default function MyProfileForm() {
     profileImg,
     queryClientAvatarUrl,
     queryClientBio,
-    watch('nickname'),
-    watch('bio'),
+    watch('nickname'), //수정 금지
+    watch('bio'), //빠른 수정하면 watch에 인자를 줄 수 없게 된다
   ]);
 
   const updateNickNameBioOnly = async ({

@@ -38,3 +38,15 @@ export const getUserProfile = async (id: string): Promise<UserProfile[]> => {
 
   return data;
 };
+
+export const followUser = async (id: number) => {
+  await axios.post(`${BaseURL}/follow`, {
+    followingId: id,
+  });
+};
+
+export const unfollowUser = async (id: number) => {
+  await axios.delete(`${BaseURL}/follow`, {
+    data: { unfollowingId: id },
+  });
+};
