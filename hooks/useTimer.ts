@@ -21,8 +21,9 @@ export function useTimer() {
   }, []);
   /**시작 시 이벤트 핸들러*/
   const handleStart = useCallback(() => {
-    setTimeLeft(getTimeFromInput());
-    // if (timeLeft === 0) return;
+    const newLeftTime = getTimeFromInput();
+    if (newLeftTime === 0) return;
+    setTimeLeft(newLeftTime);
     start();
   }, [getTimeFromInput, setTimeLeft, start]);
   /**중단 시 이벤트 핸들러*/

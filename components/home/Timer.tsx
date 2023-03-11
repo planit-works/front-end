@@ -13,17 +13,16 @@ export default function Timer() {
   } = useTimer();
 
   return (
-    <div className="absolute top-10 left-10">
+    <div>
       <div className="text-7xl">
         {inputTypes.map((type, index) => (
-          <>
+          <span key={type}>
             <TimerInput
-              key={type}
               type={type}
               ref={(el) => (timerInputRefs.current[index] = el)}
             />
             {index < 2 && ':'}
-          </>
+          </span>
         ))}
       </div>
       <div className="flex justify-center text-lg">
