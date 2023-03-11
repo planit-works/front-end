@@ -12,3 +12,11 @@
 .todo-side-bar {
   @apply w-[300px] absolute right-0 h-full py-6 px-4  bg-white
 }
+/*number input에 화살표 버튼 제거*/
+@layer utilities {
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+}

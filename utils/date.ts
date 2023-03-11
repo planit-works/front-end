@@ -63,7 +63,7 @@ export const getAnniversaries = async (year: number, month?: number) => {
   const url = '/spcdeInfoService';
   const params = `&solYear=${year}&pageNo=${1}&numOfRows=${30}`;
   const data = await axios
-    .get(`${url}`)
+    .get(`${url}/:path?${params}`)
     .then((res) => res.data)
     .catch((error) => console.error(error));
 
