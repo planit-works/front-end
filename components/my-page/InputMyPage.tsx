@@ -4,6 +4,79 @@ import { MyPageFormField } from 'types/MyInfo';
 import { BsPencilSquare } from 'react-icons/bs';
 import myPageFormStore from 'store/myPageFormStore';
 import MarkDownPreview from './MarkDownPreview';
+import styled from 'styled-components';
+
+const DetailDiv = styled.div`
+  line-height: 1.5;
+  & h1 {
+    font-size: 2em;
+    font-weight: bolder;
+  }
+  & h2 {
+    font-size: 1.5em;
+    font-weight: bolder;
+  }
+  & h3 {
+    font-size: 1.17em;
+    font-weight: bolder;
+  }
+  & h4 {
+    font-size: 1em;
+    font-weight: bolder;
+  }
+  & h5 {
+    font-size: 0.83em;
+    font-weight: bolder;
+  }
+  & h6 {
+    font-size: 0.67em;
+    font-weight: bolder;
+  }
+  & strong {
+    font-weight: bold;
+  }
+  & p {
+    display: block;
+    /* margin-top: 1em;
+    margin-bottom: 1em; */
+    margin-left: 0;
+    margin-right: 0;
+  }
+  i {
+    font-style: italic;
+  }
+  li {
+    display: list-item;
+  }
+
+  ul {
+    display: block;
+    list-style-type: disc;
+    /* margin-top: 1em;
+    margin-bottom: 1 em; */
+    margin-left: 0;
+    margin-right: 0;
+    padding-left: 20px;
+  }
+  ol {
+    display: block;
+    /* margin-top: 1em;
+    margin-bottom: 1 em; */
+    margin-left: 0;
+    margin-right: 0;
+    padding-left: 20px;
+  }
+  a:link,
+  a:visited {
+    color: (internal value);
+    text-decoration: underline;
+    cursor: auto;
+  }
+  a:link:active,
+  a:visited:active {
+    color: (internal value);
+  }
+`;
 
 export const InputMyImgFile = ({
   control,
@@ -110,7 +183,6 @@ export const InputMyBio = ({
   const onChangeTab = () => {
     if (textAreaRef.current?.value) {
       setTextBio(textAreaRef.current.value);
-      console.log('txtbio', textBio.length);
     }
     setTabBio();
   };
@@ -119,7 +191,9 @@ export const InputMyBio = ({
     <div className="group relative">
       {tabBio ? (
         <div className="max-w-[23rem] break-all">
-          <MarkDownPreview child={!textBio ? defaultValue : textBio} />
+          <DetailDiv>
+            <MarkDownPreview child={!textBio ? defaultValue : textBio} />
+          </DetailDiv>
         </div>
       ) : (
         <textarea

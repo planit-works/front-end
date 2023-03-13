@@ -1,13 +1,14 @@
 import { Dispatch, SetStateAction, useRef, useCallback } from 'react';
 import TodoListContainer from './TodoListContainer';
 import { ChevronRightButton } from '../../ChevronButton';
+import CalendarContainer from './CalendarContainer';
 
-interface TodoSideBarProps {
+interface MainSideBarProps {
   isOpen: boolean;
   setIsOpen: Dispatch<SetStateAction<boolean>>;
 }
 
-export default function TodoSideBar(props: TodoSideBarProps) {
+export default function MainSideBar(props: MainSideBarProps) {
   const { setIsOpen } = props;
   const containerRef = useRef<HTMLDivElement>(null);
   const handleClickChevronRight = useCallback(() => {
@@ -17,7 +18,10 @@ export default function TodoSideBar(props: TodoSideBarProps) {
 
   return (
     <div ref={containerRef} className="todo-side-bar animate-slipToLeft">
-      <TodoListContainer />
+      <div className="relative h-full">
+        <CalendarContainer />
+        <TodoListContainer />
+      </div>
       <ChevronRightButton handleButtonClick={handleClickChevronRight} />
     </div>
   );

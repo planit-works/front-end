@@ -19,3 +19,5 @@ export function getTimeByFormat(format: 12 | 24) {
     seconds: String(seconds).padStart(2, '0'),
   };
 }
+
+export const addLeadingZero = (num: number) => num.toString().padStart(2, '0');

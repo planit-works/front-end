@@ -1,6 +1,6 @@
 /* eslint-disable semi */
 import { useState } from 'react';
-import TodoSideBar from '../components/home/Todo/TodoSideBar';
+import MainSideBar from '../components/home/MainSide/MainSideBar';
 import { BsChevronLeft } from 'react-icons/bs';
 import Clock from '../components/home/Clock';
 import UserNavBar from 'components/UserNavBar';
@@ -9,7 +9,7 @@ export default function Home() {
   const [isOpenTodo, setIsOpenTodo] = useState<boolean>(false);
 
   return (
-    <div className="w-screen flex flex-col justify-center items-center relative h-screen overflow-x-hidden bg-[url('../assets/background1.webp')] bg-cover">
+    <div className="w-screen flex flex-col justify-center items-center relative h-screen overflow-x-hidden bg-[url('../assets/background2.jpg')] bg-cover bg-center">
       <div className="">
         <Clock />
       </div>
@@ -22,8 +22,13 @@ export default function Home() {
       <UserNavBar />
       <SearchInput />
       {isOpenTodo && (
-        <TodoSideBar isOpen={isOpenTodo} setIsOpen={setIsOpenTodo} />
+        <MainSideBar isOpen={isOpenTodo} setIsOpen={setIsOpenTodo} />
       )}
+      <img
+        src="/planit-small.png"
+        alt="planit"
+        className="absolute w-20 left-6 bottom-6 opacity-70"
+      />
     </div>
   );
 }

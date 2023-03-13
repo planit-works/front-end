@@ -3,7 +3,6 @@ import { BsChevronLeft, BsChevronRight } from 'react-icons/bs';
 import { getMonthName, getBasicDate } from 'utils/date';
 import useCalendar from '../../../hooks/useCalendar';
 import { BasicDate } from 'types/date';
-import useTodoListContainer from '../../../hooks/useTodoListContainer';
 interface CalenderProps {
   selectedDate: Date;
   setSelectedDate: React.Dispatch<React.SetStateAction<Date>>;
@@ -25,9 +24,23 @@ export default function Calendar({
     handleClickPreMonth,
   } = useCalendar(selectedDate);
 
+  /*.balloon:after {
+ border-top:0px solid transparent;
+ border-left: 10px solid transparent;
+ border-right: 10px solid transparent;
+ border-bottom: 10px solid pink;
+ content:"";
+ position:absolute;
+ top:-10px;
+ left:200px;
+} */
   return (
     <div
-      className="absolute left-0 w-[300px] bg-col-calendar rounded"
+      className="absolute left-0 top-10  w-full bg-col-calendar rounded
+      before:border-transparent before:border-l-[10px] before:border-l-transparent
+      before:border-r-[10px] before:border-r-transparent
+      before:border-b-[10px] before:border-b-col-calendar
+      before:absolute before:-top-2 before:translate-x-[125px] animate-calendarAppear"
       ref={calendarRef}
     >
       <div className="month-container text-white w-full py-2 flex justify-between relative">
@@ -44,7 +57,9 @@ export default function Calendar({
       <div className="days-container text-white pb-1">
         <ul className="grid grid-cols-7 text-center">
           {['SUN', 'MON', 'TUS', 'WED', 'THU', 'FRI', 'SAT'].map((day) => (
-            <li key={day}>{day}</li>
+            <li key={day} className="list-none">
+              {day}
+            </li>
           ))}
         </ul>
       </div>
@@ -61,7 +76,7 @@ export default function Calendar({
                   setSelectedDate(tempDate);
                   setVisible(false);
                 }}
-                className={`text-center py-1 w-full relative ${
+                className={`text-center py-1 w-full relative list-none ${
                   dateInCalendar && 'cursor-pointer hover:font-bold'
                 } ${
                   // 오늘 날짜 표시

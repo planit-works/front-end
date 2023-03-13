@@ -5,10 +5,8 @@ export function useStopwatch() {
   const { start, stop, reset, intervalId } = useStopwatchStore();
   const handleStart = () => {
     start();
-    console.log(intervalId);
   };
   const handleStop = useCallback(() => {
-    console.log('stop', intervalId);
     if (intervalId) {
       clearInterval(intervalId);
     }

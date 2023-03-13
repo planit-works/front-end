@@ -2,29 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
-  h1 {
-    @apply text-2xl;
-  }
-  h2 {
-    @apply text-xl;
-  }
-  h3 {
-    @apply text-lg;
-  }
-  a {
-    @apply text-blue-600 underline;
-  }
-  ul {
-    @apply list-disc;
-    @apply pl-4;
-  }
-  ol {
-    @apply list-decimal;
-    @apply pl-4;
-  }
-}
-
 * {
   margin: 0;
   padding: 0;
@@ -34,4 +11,12 @@
 
 .todo-side-bar {
   @apply w-[300px] absolute right-0 h-full py-6 px-4  bg-white;
+}
+/*number input에 화살표 버튼 제거*/
+@layer utilities {
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
 }

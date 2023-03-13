@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { BasicDate } from 'types/date';
 export const getNextDate = (date: Date) => {
   const copyDate = new Date(date);
@@ -57,3 +58,17 @@ export const getBasicDate = (date: Date): BasicDate => ({
   month: date.getMonth(),
   date: date.getDate(),
 });
+
+export const getAnniversaries = async (year: number, month?: number) => {
+  const SPCDE_KEY = process.env.NEXT_PUBLIC_SPCDE_KEY;
+  if (!SPCDE_KEY) return;
+  const url = '/spcdeInfoService';
+  const params = `serviceKey=${encodeURIComponent(SPCDE_KEY)}&solYear=${year}`;
+  const data = await axios
+    .get(`${url}/:path?${params}`)
+    .then((res) => res.data)
+    .catch((error) => console.error(error));
+  console.log(data);
+
+  return data;
+};
