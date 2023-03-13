@@ -1,13 +1,14 @@
 export interface MyInfo {
-  id: number;
+  userId: number;
   email: string;
   profile: Profile;
   followerCount: number;
   followingCount: number;
+  isFollowing: null | boolean;
 }
 
 export interface Profile {
-  bio: null | string;
+  bio: string;
   nickname: string;
   imageFile: Array<File>;
   avatarUrl: string;

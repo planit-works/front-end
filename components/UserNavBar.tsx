@@ -3,18 +3,19 @@ import { useRouter } from 'next/router';
 import { useGetLoginedUser } from 'react-query/useGetLoginedUser';
 import useErrorStore from 'store/useErrorStore';
 import { useQueryClient } from '@tanstack/react-query';
-import QueryKey from './../react-query/key/index';
+import QueryKey from '../react-query/react-key/index';
 
 export default function UserNavBar() {
   const { isError, setError } = useErrorStore();
   const Router = useRouter();
 
-  const { userInfo } = useGetLoginedUser();
+  const { userInfo, userId } = useGetLoginedUser();
   const queryClient = useQueryClient();
   const onLogOut = async () => {
     try {
       await logoutUser();
       queryClient.removeQueries([QueryKey.getLoginedUser]);
+      queryClient.removeQueries([QueryKey.getMyProfile]);
       Router.replace('/welcome');
       setError(true);
     } catch (error) {
@@ -23,6 +24,11 @@ export default function UserNavBar() {
       }
     }
   };
+
+  console.log(
+    (process.env.NEXT_PUBLIC_IMG_THUMBNAIL as string) +
+      userInfo?.profile.avatarUrl,
+  );
 
   return (
     <div className="absolute [&>button]:mx-4 top-[2%] right-[4%] text-gray-200">
@@ -34,15 +40,7 @@ export default function UserNavBar() {
         <div className="flex [&>button]:mx-2">
           <button
             className="flex flex-col justify-center items-center"
-            onClick={() =>
-              Router.push(
-                // {
-                //   pathname: '/my-page/[id]',
-                //   query: { id: userId },
-                // },//다이나믹 라우팅 대비
-                '/my-page',
-              )
-            }
+            onClick={() => Router.push('/my-page')}
           >
             <img
               alt=""

@@ -1,14 +1,13 @@
-import axios, { AxiosResponse } from 'axios';
-import { AuthInfo, Profile, UserInfo } from 'types/auth';
+import axios from 'axios';
+import { AuthInfo, UserInfo } from 'types/auth';
 
 const BaseURL: string = 'https://www.planit.p-e.kr/api';
 
 axios.defaults.withCredentials = true;
 
-// eslint-disable-next-line @typescript-eslint/no-shadow
-export const createUser = async (AuthInfo: AuthInfo) => {
+export const createUser = async (authInfo: AuthInfo) => {
   try {
-    const { data } = await axios.post(`${BaseURL}/auth`, AuthInfo);
+    const { data } = await axios.post(`${BaseURL}/auth`, authInfo);
 
     return data;
   } catch (error) {
@@ -18,10 +17,9 @@ export const createUser = async (AuthInfo: AuthInfo) => {
   }
 };
 
-// eslint-disable-next-line @typescript-eslint/no-shadow
-export const loginUser = async (AuthInfo: AuthInfo) => {
+export const loginUser = async (authInfo: AuthInfo) => {
   try {
-    const { data } = await axios.post(`${BaseURL}/auth/login`, AuthInfo);
+    const { data } = await axios.post(`${BaseURL}/auth/login`, authInfo);
 
     return data;
   } catch (error) {

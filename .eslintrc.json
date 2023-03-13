@@ -31,7 +31,9 @@
         "args": "none"
       }
     ],
-    "react/jsx-key": "error"
+    "react/jsx-key": "error",
+    "no-shadow": "off",
+    "@typescript-eslint/no-shadow": "off"
   },
   "parserOptions": {
     "project": "./tsconfig.json"

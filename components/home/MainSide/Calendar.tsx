@@ -57,7 +57,9 @@ export default function Calendar({
       <div className="days-container text-white pb-1">
         <ul className="grid grid-cols-7 text-center">
           {['SUN', 'MON', 'TUS', 'WED', 'THU', 'FRI', 'SAT'].map((day) => (
-            <li key={day}>{day}</li>
+            <li key={day} className="list-none">
+              {day}
+            </li>
           ))}
         </ul>
       </div>
@@ -74,7 +76,7 @@ export default function Calendar({
                   setSelectedDate(tempDate);
                   setVisible(false);
                 }}
-                className={`text-center py-1 w-full relative ${
+                className={`text-center py-1 w-full relative list-none ${
                   dateInCalendar && 'cursor-pointer hover:font-bold'
                 } ${
                   // 오늘 날짜 표시

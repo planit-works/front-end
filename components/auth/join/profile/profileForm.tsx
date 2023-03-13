@@ -1,18 +1,18 @@
 import { getPresignedUrl, uploadProfileImg } from 'api/auth/Api';
 import { useForm } from 'react-hook-form';
 import { ProfileFormField, UserInfo } from 'types/auth';
-import AuthSubmitBtn from 'components/auth/authSubmitBtn';
 import { useState } from 'react';
-import { JoinNickNameErrMsg, JoinProfileImgErrMsg } from '../joinErrMsg';
-import useProfileImg from 'hooks/useProfileImg';
+import { NickNameErrMsg, ProfileImgErrMsg } from '../../FormErrMsg';
 import {
   InputImgFile,
   InputNickName,
 } from 'components/auth/join/profile/InputProfile';
-import { useUpdateProfile } from './../../../../react-query/useUpdateProfile';
+import { useUpdateProfile } from '../../../../react-query/profile/useUpdateProfile';
 import { useQueryClient } from '@tanstack/react-query';
-import QueryKey from 'react-query/key';
+import QueryKey from 'react-query/react-key';
 import SliderUpdateChecker from 'components/sliderUpdateChecker';
+import useProfileImg from 'hooks/useProfileImg';
+import AuthSubmitBtn from 'components/auth/AuthSubmitBtn';
 
 export default function ProfileForm() {
   const [disableBtn, setDisable] = useState(false);
@@ -23,7 +23,7 @@ export default function ProfileForm() {
     watch,
     setError,
     control,
-    formState: { isDirty, dirtyFields, errors },
+    formState: { errors },
   } = useForm<ProfileFormField>({
     mode: 'onChange',
     defaultValues: {
@@ -47,14 +47,17 @@ export default function ProfileForm() {
     nickname,
   }: ProfileFormField) => {
     if (!imageFile) {
-      //아무 파일도 없는 경우
-      // await updateUserProfile(nickname); //닉네임만 업데이트
+      //아무 파일도 없는 경우 닉네임만 업데이트
       mutate({
         nickname,
       });
       throw new Error('등록된 파일이 없습니다. 기본 이미지로 등록됩니다');
-    } else if (imageFile[0].type && imageFile[0].type.search('image') < 0) {
-      //파일 형식이 이미지가 아닌 경우
+    }
+  };
+
+  const checkFile = ({ imageFile }: ProfileFormField) => {
+    //file은 존재하지만 image/* 형식이 아닌 경우
+    if (imageFile.length > 0 && imageFile[0].type.search('image') < 0) {
       setError(`imageFile`, {
         type: `imageFile`,
       });
@@ -78,10 +81,9 @@ export default function ProfileForm() {
   const onValid = async (fieldValues: ProfileFormField) => {
     try {
       await updateNickNameOnly(fieldValues);
-      // checkFileType(fieldValues);
-      const AvatarUrl = await uploadS3(fieldValues);
-      mutate({ nickname: fieldValues.nickname, AvatarUrl });
-      // await updateUserProfile(fieldValues.nickname, AvatarUrl);
+      checkFile(fieldValues);
+      const avatarUrl = await uploadS3(fieldValues);
+      mutate({ nickname: fieldValues.nickname, avatarUrl });
     } catch (error) {
       if (error instanceof Error) {
         handleError(error);
@@ -100,12 +102,12 @@ export default function ProfileForm() {
           />
           <InputImgFile control={control} />
         </div>
-        <JoinProfileImgErrMsg
+        <ProfileImgErrMsg
           error={errors}
           checkDirty={getFieldState('imageFile').isDirty}
         />
         <InputNickName control={control} />
-        <JoinNickNameErrMsg
+        <NickNameErrMsg
           error={errors}
           checkDirty={getFieldState('nickname').isDirty}
         />

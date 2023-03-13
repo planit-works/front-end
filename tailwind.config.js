@@ -1,4 +1,5 @@
 /** @type {import('tailwindcss').Config} */
+
 module.exports = {
   content: [
     './pages/**/*.{js,ts,jsx,tsx}',
@@ -9,7 +10,7 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        'col-calendar': 'rgb(14 165 233)'
+        'col-calendar': 'rgb(14 165 233)',
       },
       keyframes: {
         slipToLeft: {
@@ -147,5 +148,5 @@ module.exports = {
       },
     },
   },
-  plugins: [],
+  plugins: [require('@tailwindcss/typography')],
 };

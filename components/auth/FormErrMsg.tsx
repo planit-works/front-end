@@ -11,7 +11,7 @@ type ErrCheck = {
   checkDirty: boolean;
 };
 
-export function JoinEmailErrMsg({ error, checkDirty }: ErrCheck) {
+export function EmailErrMsg({ error, checkDirty }: ErrCheck) {
   const { patternErr, LengthErr } = useAuthValid(error.email?.type);
 
   return (
@@ -26,7 +26,7 @@ export function JoinEmailErrMsg({ error, checkDirty }: ErrCheck) {
   );
 }
 
-export function JoinPwdErrMsg({ error, checkDirty }: ErrCheck) {
+export function PwdErrMsg({ error, checkDirty }: ErrCheck) {
   const { patternErr, LengthErr } = useAuthValid(error.password?.type);
 
   return (
@@ -41,7 +41,7 @@ export function JoinPwdErrMsg({ error, checkDirty }: ErrCheck) {
   );
 }
 
-export function JoinPwdCheckErrMsg({ error, checkDirty }: ErrCheck) {
+export function PwdCheckErrMsg({ error, checkDirty }: ErrCheck) {
   return (
     <div className={`${checkDirty || 'invisible'} mt-2 text-amber-500`}>
       <p className={`${error.pwdCheck?.type || ' invisible'} `}>
@@ -51,7 +51,7 @@ export function JoinPwdCheckErrMsg({ error, checkDirty }: ErrCheck) {
   );
 }
 
-export function JoinNickNameErrMsg({ error, checkDirty }: ErrCheck) {
+export function NickNameErrMsg({ error, checkDirty }: ErrCheck) {
   return (
     <div className={`${checkDirty || 'invisible'} mt-2 text-amber-500`}>
       <p className={`${error.nickname?.type || ' invisible'} `}>
@@ -61,7 +61,7 @@ export function JoinNickNameErrMsg({ error, checkDirty }: ErrCheck) {
   );
 }
 
-export function JoinProfileImgErrMsg({ error, checkDirty }: ErrCheck) {
+export function ProfileImgErrMsg({ error, checkDirty }: ErrCheck) {
   return (
     <div className={`${checkDirty || 'invisible'} mt-2 text-amber-500`}>
       <p className={`${error.imageFile?.type || ' invisible'} `}>

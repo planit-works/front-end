@@ -1,4 +1,4 @@
-import AuthBtnTemplate from 'components/auth/authBtnTemplate';
+import AuthBtnTemplate from 'components/auth/AuthBtnTemplate';
 import LoginForm from 'components/auth/login/loginForm';
 
 export default function Login() {

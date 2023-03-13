@@ -7,7 +7,8 @@ const nextConfig = {
       {
         source: '/spcdeInfoService/:path', //api request path
         destination:
-          `https://apis.data.go.kr/B090041/openapi/service/SpcdeInfoService/getAnniversaryInfo?serviceKey=${SPCDE_KEY}&solYear=$1&pageNo=$2&numOfRows=3`, //목적 path
+          // `https://apis.data.go.kr/B090041/openapi/service/SpcdeInfoService/getAnniversaryInfo?serviceKey=${SPCDE_KEY}&solYear=$1&pageNo=$2&numOfRows=3`, //목적 path
+          `https://apis.data.go.kr/B090041/openapi/service/SpcdeInfoService/getRestDeInfo?serviceKey=$1&solYear=$2`, //목적 path
       },
       {
         source: '/getPresignedUrl', //api request path

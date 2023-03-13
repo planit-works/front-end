@@ -2,19 +2,14 @@
 import { createUser } from 'api/auth/Api';
 import { useForm } from 'react-hook-form';
 import { AuthInfo, UserData } from 'types/auth';
-import {
-  JoinEmailErrMsg,
-  JoinPwdCheckErrMsg,
-  JoinPwdErrMsg,
-} from './joinErrMsg';
+import { EmailErrMsg, PwdCheckErrMsg, PwdErrMsg } from '../FormErrMsg';
 import { JoinFormField } from 'types/auth';
-import AuthSubmitBtn from 'components/auth/authSubmitBtn';
+import AuthSubmitBtn from 'components/auth/AuthSubmitBtn';
 import Router from 'next/router';
 import { useQueryClient } from '@tanstack/react-query';
-import QueryKey from 'react-query/key';
+import QueryKey from 'react-query/react-key';
 import useErrorStore from 'store/useErrorStore';
 import { InputEmailJoin, InputPwdCheckJoin, InputPwdJoin } from './InputJoin';
-import userStore from 'store/userStore';
 
 export default function JoinForm() {
   const {
@@ -22,7 +17,7 @@ export default function JoinForm() {
     getFieldState,
     handleSubmit,
     setError,
-    formState: { isDirty, dirtyFields, errors },
+    formState: { errors },
   } = useForm<JoinFormField>({
     mode: 'onChange',
     defaultValues: {
@@ -85,19 +80,19 @@ export default function JoinForm() {
     <div className=" flex flex-col items-center justify-center w-3/4 relative bottom-[4rem] ">
       <form onSubmit={handleSubmit(onValid)}>
         <InputEmailJoin control={control} />
-        <JoinEmailErrMsg
+        <EmailErrMsg
           error={errors}
           checkDirty={getFieldState('email').isDirty}
         />
 
         <InputPwdJoin control={control} />
-        <JoinPwdErrMsg
+        <PwdErrMsg
           error={errors}
           checkDirty={getFieldState('password').isDirty}
         />
 
         <InputPwdCheckJoin control={control} />
-        <JoinPwdCheckErrMsg
+        <PwdCheckErrMsg
           error={errors}
           checkDirty={getFieldState('pwdCheck').isDirty}
         />

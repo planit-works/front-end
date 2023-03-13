@@ -60,12 +60,15 @@ export const getBasicDate = (date: Date): BasicDate => ({
 });
 
 export const getAnniversaries = async (year: number, month?: number) => {
+  const SPCDE_KEY = process.env.NEXT_PUBLIC_SPCDE_KEY;
+  if (!SPCDE_KEY) return;
   const url = '/spcdeInfoService';
-  const params = `&solYear=${year}&pageNo=${1}&numOfRows=${30}`;
+  const params = `serviceKey=${encodeURIComponent(SPCDE_KEY)}&solYear=${year}`;
   const data = await axios
     .get(`${url}/:path?${params}`)
     .then((res) => res.data)
     .catch((error) => console.error(error));
+  console.log(data);
 
   return data;
 };

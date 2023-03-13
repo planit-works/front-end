@@ -7,13 +7,3 @@ export default function MyPage() {
     </div>
   );
 }
-
-// export async function getServerSideProps() {
-//   const { userId } = await verifyLogin();
-
-//   return {
-//     props: {
-//       id: userId,
-//     },
-//   };
-// }
