@@ -3,7 +3,7 @@ import { RefObject } from 'react';
 import useTodoListStore from 'store/todoStore';
 import { Todo } from 'types/Todo';
 import { getRandomString } from 'utils/getRandomString';
-import { setLocalStorage, getLocalStorage } from 'utils/localStorage';
+import { setLocalStorage } from 'utils/localStorage';
 
 export function useTodo() {
   const { todoList, setTodoList } = useTodoListStore();
@@ -12,12 +12,8 @@ export function useTodo() {
       e.preventDefault();
       if (!inputRef.current || inputRef.current.value.length < 1)
         return; //최소 1글자 이상 입력
-      else if (
-        JSON.parse(localStorage.getItem('todo-list') as string).length >= 25
-      )
-        return;
+      else if (todoList.length >= 25) return;
       else {
-        console.log(JSON.parse(localStorage.getItem('todo-list') as string));
         const newTodo: Todo = {
           id: getRandomString(),
           date: '',
