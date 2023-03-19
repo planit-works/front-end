@@ -9,7 +9,7 @@ import {
   InputMyImgFile,
   InputMyNickName,
 } from './InputMyPage';
-import { MyInfo, MyPageFormField } from 'types/MyInfo';
+import { MyProfileInfo, MyPageFormField } from 'types/MyInfo';
 import { useGetMyProfile } from 'react-query/profile/useGetMyProfile';
 import SliderChecker from 'components/sliderFormChecker';
 import sliderStore from 'store/sliderStore';
@@ -20,7 +20,7 @@ import useProfileImg from 'hooks/useProfileImg';
 import { NickNameErrMsg, ProfileImgErrMsg } from 'components/auth/FormErrMsg';
 
 export default function MyProfileForm() {
-  const { setFormSlider } = sliderStore();
+  const { setFormSlider, isFormSlider } = sliderStore();
   const {
     handleSubmit,
     watch,
@@ -38,37 +38,38 @@ export default function MyProfileForm() {
       bio: '',
     },
   });
-  const { userInfo } = useGetLoginedUser();
+  const { userId } = useGetLoginedUser();
   const queryClient = useQueryClient();
-  const mutateAsync = useGetMyProfile();
+  const mutateGetProfile = useGetMyProfile();
   const imageFile = watch('imageFile');
-  const mutate = useUpdateProfile();
+  const mutateUserProfile = useUpdateProfile();
 
   useEffect(() => {
     //userInfo.id가 들어오면 함수 실행. 유저 정보가 바뀌면(업데이트 성공) 실행.
-    if (userInfo?.userId) {
-      mutateAsync(userInfo?.userId);
+    if (userId) {
+      mutateGetProfile.mutate(userId);
       reset({
         imageFile: undefined,
       });
     }
-  }, [mutateAsync, reset, userInfo?.userId]);
-  const queryClientEmail = queryClient.getQueryData<MyInfo>([
+  }, [mutateGetProfile, reset, userId]);
+
+  const queryClientEmail = queryClient.getQueryData<MyProfileInfo>([
     QueryKey.getMyProfile,
   ])?.email as string;
-  let queryClientNickName = queryClient.getQueryData<MyInfo>([
+  let queryClientNickName = queryClient.getQueryData<MyProfileInfo>([
     QueryKey.getMyProfile,
   ])?.profile.nickname as string;
-  const queryClientBio = queryClient.getQueryData<MyInfo>([
+  const queryClientBio = queryClient.getQueryData<MyProfileInfo>([
     QueryKey.getMyProfile,
   ])?.profile.bio as string;
-  let queryClientAvatarUrl = queryClient.getQueryData<MyInfo>([
+  let queryClientAvatarUrl = queryClient.getQueryData<MyProfileInfo>([
     QueryKey.getMyProfile,
   ])?.profile.avatarUrl as string;
-  let queryClientFollower = queryClient.getQueryData<MyInfo>([
+  let queryClientFollower = queryClient.getQueryData<MyProfileInfo>([
     QueryKey.getMyProfile,
   ])?.followerCount as number;
-  let queryClientFollowing = queryClient.getQueryData<MyInfo>([
+  let queryClientFollowing = queryClient.getQueryData<MyProfileInfo>([
     QueryKey.getMyProfile,
   ])?.followingCount as number;
   const { profileImg } = useProfileImg(imageFile, queryClientAvatarUrl);
@@ -92,7 +93,9 @@ export default function MyProfileForm() {
     ) {
       setFormSlider(true);
     } else {
-      setFormSlider(false);
+      if (isFormSlider) {
+        setFormSlider(false);
+      }
     }
   }, [
     queryClientNickName,
@@ -110,7 +113,7 @@ export default function MyProfileForm() {
   }: MyPageFormField) => {
     if (!imageFile) {
       //아무 파일도 없는 경우 닉네임만 업데이트
-      mutate({
+      mutateUserProfile.mutate({
         nickname,
         avatarUrl: queryClientAvatarUrl.substring(
           queryClientAvatarUrl.indexOf('/') + 1, //avatars/... 에서 / 뒤의 숫자들만 추출
@@ -147,7 +150,7 @@ export default function MyProfileForm() {
       await updateNickNameBioOnly(fieldValues);
       checkFile(fieldValues);
       const avatarUrl = await uploadS3(fieldValues);
-      mutate({
+      mutateUserProfile.mutate({
         nickname: fieldValues.nickname,
         avatarUrl,
         bio: fieldValues.bio,

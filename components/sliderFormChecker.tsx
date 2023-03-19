@@ -7,8 +7,12 @@ export default function SliderChecker() {
   const [hidden, setHidden] = useState(true);
 
   useEffect(() => {
-    setHidden(false);
-  }, []);
+    if (isFormSlider === undefined) {
+      setHidden(true);
+    } else {
+      setHidden(false);
+    }
+  }, [isFormSlider]);
 
   return (
     <div

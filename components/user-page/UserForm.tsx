@@ -42,8 +42,6 @@ export default function UserProfileForm({ id }: { id: number }) {
         <FollowList follow={queryClientFollowing} follower={follower} />
         <UserNickName defaultValue={queryClientNickName} />
         <UserBio defaultValue={queryClientBio} />
-
-        <SliderChecker />
       </div>
     </div>
   );
