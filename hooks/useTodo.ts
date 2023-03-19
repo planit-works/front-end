@@ -10,7 +10,7 @@ export function useTodo() {
   const handleCreate =
     (inputRef: RefObject<HTMLInputElement>) => (e: React.FormEvent) => {
       e.preventDefault();
-      if (!inputRef.current) return;
+      if (!inputRef.current || inputRef.current.value.length < 1) return;
       //새로운 Todo 객체 생성
       const newTodo: Todo = {
         id: getRandomString(),
