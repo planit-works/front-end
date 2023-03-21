@@ -32,7 +32,7 @@ export interface ProfileFormField {
   nickname: string;
 }
 
-export interface UserInfo {
+export interface LoginedUserInfo {
   userId: number;
   profile: Profile;
 }

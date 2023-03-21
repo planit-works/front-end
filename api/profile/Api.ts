@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { MyInfo } from 'types/MyInfo';
+import { MyProfileInfo } from 'types/MyInfo';
 import { UserProfile } from 'types/UserProfie';
 
 const BaseURL: string = 'https://www.planit.p-e.kr/api';
@@ -25,7 +25,7 @@ export const updateUserProfile = async (
   }
 };
 
-export const getProfile = async (id: number): Promise<MyInfo> => {
+export const getProfile = async (id: number): Promise<MyProfileInfo> => {
   const { data } = await axios.post(`${BaseURL}/profiles`, {
     userId: id,
   });
