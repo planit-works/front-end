@@ -1,6 +1,6 @@
 import {
-  UseMutateFunction,
   useMutation,
+  UseMutationResult,
   useQueryClient,
 } from '@tanstack/react-query';
 import { updateUserProfile } from 'api/profile/Api';
@@ -14,8 +14,8 @@ type PatchUserInfo = {
   bio?: string;
 };
 
-export const useUpdateProfile = (): UseMutateFunction<
-  void,
+export const useUpdateProfile = (): UseMutationResult<
+  any,
   unknown,
   PatchUserInfo,
   unknown
@@ -24,7 +24,7 @@ export const useUpdateProfile = (): UseMutateFunction<
   const { setUpdateCheckerSlider, setFormSlider } = sliderStore();
 
   const { setDisabledAll } = useDisabledStore();
-  const { mutate } = useMutation({
+  const mutateUserProfile = useMutation({
     mutationFn: ({ nickname, avatarUrl, bio }: PatchUserInfo) =>
       updateUserProfile(nickname, 'avatars/' + avatarUrl, bio),
     onSuccess: () => {
@@ -42,5 +42,5 @@ export const useUpdateProfile = (): UseMutateFunction<
     },
   });
 
-  return mutate;
+  return mutateUserProfile;
 };

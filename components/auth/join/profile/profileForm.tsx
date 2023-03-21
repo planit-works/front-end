@@ -1,6 +1,6 @@
 import { getPresignedUrl, uploadProfileImg } from 'api/auth/Api';
 import { useForm } from 'react-hook-form';
-import { ProfileFormField, UserInfo } from 'types/auth';
+import { ProfileFormField, LoginedUserInfo } from 'types/auth';
 import { useState } from 'react';
 import { NickNameErrMsg, ProfileImgErrMsg } from '../../FormErrMsg';
 import {
@@ -32,10 +32,10 @@ export default function ProfileForm() {
     },
   });
   const imageFile: Array<File> = watch('imageFile');
-  const mutate = useUpdateProfile();
+  const mutateUserProfile = useUpdateProfile();
 
   const queryClient = useQueryClient();
-  const queryClientAvatarUrl = queryClient.getQueryData<UserInfo>([
+  const queryClientAvatarUrl = queryClient.getQueryData<LoginedUserInfo>([
     QueryKey.getLoginedUser,
   ])?.profile.avatarUrl as string;
 
@@ -48,7 +48,7 @@ export default function ProfileForm() {
   }: ProfileFormField) => {
     if (!imageFile) {
       //아무 파일도 없는 경우 닉네임만 업데이트
-      mutate({
+      mutateUserProfile.mutate({
         nickname,
       });
       throw new Error('등록된 파일이 없습니다. 기본 이미지로 등록됩니다');
@@ -83,7 +83,7 @@ export default function ProfileForm() {
       await updateNickNameOnly(fieldValues);
       checkFile(fieldValues);
       const avatarUrl = await uploadS3(fieldValues);
-      mutate({ nickname: fieldValues.nickname, avatarUrl });
+      mutateUserProfile.mutate({ nickname: fieldValues.nickname, avatarUrl });
     } catch (error) {
       if (error instanceof Error) {
         handleError(error);

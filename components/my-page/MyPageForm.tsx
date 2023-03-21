@@ -52,7 +52,7 @@ export default function MyProfileForm() {
         imageFile: undefined,
       });
     }
-  }, [mutateGetProfile, reset, userId]);
+  }, [userId]);
 
   const queryClientEmail = queryClient.getQueryData<MyProfileInfo>([
     QueryKey.getMyProfile,
@@ -120,6 +120,7 @@ export default function MyProfileForm() {
         ),
         bio,
       });
+
       throw new Error('등록된 파일이 없습니다. 기본 이미지로 등록됩니다');
     }
   };
