@@ -108,7 +108,6 @@ export const InputMyEmail = ({ defaultValue }: { defaultValue: string }) => {
       type="text"
       defaultValue={defaultValue}
       className="block bg-transparent w-[25rem] h-8 mt-6 border-solid border-b-[1px] border-b-white focus:outline-none focus:border-sky-500 text-white text-2xl"
-      placeholder="Email을 입력해 주세요"
     />
   );
 };
@@ -148,7 +147,6 @@ export const InputMyNickName = ({
         onChange={field.onChange}
         defaultValue={defaultValue}
         className="inline bg-transparent w-[25rem] h-8 mt-6 border-solid border-b-[1px] border-b-white focus:outline-none focus:border-sky-500 text-white text-2xl"
-        placeholder="Nickname을 입력해 주세요"
       />
       <button type="button" onClick={onFocusInput}>
         <BsPencilSquare
@@ -178,7 +176,7 @@ export const InputMyBio = ({
   });
   const { tabBio, setTabBio } = myPageFormStore();
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
-  const [textBio, setTextBio] = useState<string>(defaultValue);
+  const [textBio, setTextBio] = useState<string>('');
 
   const onChangeTab = () => {
     if (textAreaRef.current?.value) {
