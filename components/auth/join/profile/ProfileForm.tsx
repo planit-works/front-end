@@ -10,7 +10,7 @@ import {
 import { useUpdateProfile } from '../../../../react-query/profile/useUpdateProfile';
 import { useQueryClient } from '@tanstack/react-query';
 import QueryKey from 'react-query/react-key';
-import SliderUpdateChecker from 'components/sliderUpdateChecker';
+import SliderUpdateChecker from 'components/SliderUpdateChecker';
 import useProfileImg from 'hooks/useProfileImg';
 import AuthSubmitBtn from 'components/auth/AuthSubmitBtn';
 

@@ -1,5 +1,5 @@
 import AuthBtnTemplate from 'components/auth/AuthBtnTemplate';
-import JoinForm from 'components/auth/join/joinForm';
+import JoinForm from 'components/auth/join/JoinForm';
 
 export default function Join() {
   return (

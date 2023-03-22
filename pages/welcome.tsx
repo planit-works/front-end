@@ -1,5 +1,5 @@
-import WelcomeAnswer from 'components/welcome/welcomeAnswer';
-import WelcomeQuestion from 'components/welcome/welcomeQuestion';
+import WelcomeAnswer from 'components/welcome/WelcomeAnswer';
+import WelcomeQuestion from 'components/welcome/WelcomeQuestion';
 import useWelcomeText from 'hooks/useWelcomeText';
 // import getRandomArr from 'utils/getRandomArr';
 // import { InferGetStaticPropsType } from 'next';

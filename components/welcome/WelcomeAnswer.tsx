@@ -1,4 +1,4 @@
-import AnswerLink from './answerLink';
+import AnswerLink from './AnswerLink';
 
 export default function WelcomeAnswer() {
   return (

@@ -11,13 +11,14 @@ import {
 } from './InputMyPage';
 import { MyProfileInfo, MyPageFormField } from 'types/MyInfo';
 import { useGetMyProfile } from 'react-query/profile/useGetMyProfile';
-import SliderChecker from 'components/sliderFormChecker';
+
 import sliderStore from 'store/sliderStore';
 import { useUpdateProfile } from 'react-query/profile/useUpdateProfile';
 import { getPresignedUrl, uploadProfileImg } from 'api/auth/Api';
-import SliderUpdateChecker from 'components/sliderUpdateChecker';
 import useProfileImg from 'hooks/useProfileImg';
 import { NickNameErrMsg, ProfileImgErrMsg } from 'components/auth/FormErrMsg';
+import SliderChecker from 'components/SliderFormChecker';
+import SliderUpdateChecker from 'components/SliderUpdateChecker';
 
 export default function MyProfileForm() {
   const { setFormSlider, isFormSlider } = sliderStore();

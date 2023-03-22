@@ -16,9 +16,7 @@ export default function useProfileImg(
       }
     } else {
       //파일 선택을 취소하면 default이미지
-      if (!avatarUrl) {
-        setProfileImg(process.env.NEXT_PUBLIC_IMG_ORIGIN + avatarUrl);
-      }
+      setProfileImg(process.env.NEXT_PUBLIC_IMG_ORIGIN + avatarUrl);
     }
   }, [imageFile, avatarUrl]);
 
