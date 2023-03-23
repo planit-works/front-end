@@ -19,9 +19,11 @@ import useProfileImg from 'hooks/useProfileImg';
 import { NickNameErrMsg, ProfileImgErrMsg } from 'components/auth/FormErrMsg';
 import SliderChecker from 'components/SliderFormChecker';
 import SliderUpdateChecker from 'components/SliderUpdateChecker';
+import myProfileInfoStore from 'store/myProfileInfoStore';
 
 export default function MyProfileForm() {
-  const { setFormSlider, isFormSlider } = sliderStore();
+  const { myProfile } = myProfileInfoStore();
+  const { setFormSlider } = sliderStore();
   const {
     handleSubmit,
     watch,
@@ -87,16 +89,18 @@ export default function MyProfileForm() {
 
   useEffect(() => {
     //input의 값들이 기존과 달라졌을 때 실행.
+    //처음에 watch()가 undefined가 찍혀서 else가 호출되다가 이후 값이 생겨나면서 if문이 찍힘
+    //else쪽이 먼저 찍혔으므로 isFormSlider는 false가 되어서 맨 처음 로딩시 저렇게 보임
+    //hidden을 전역으로 바꾸고 -> if에서 setHidden을 false
     if (
       (watch('nickname') !== '' && watch('nickname') !== queryClientNickName) ||
       (profileImg && !profileImg.includes(queryClientAvatarUrl)) ||
-      (watch('bio') !== '' && watch('bio') !== queryClientBio)
+      watch('bio') !== queryClientBio
     ) {
       setFormSlider(true);
+      console.log('wat', watch('bio'), queryClientBio);
     } else {
-      if (isFormSlider) {
-        setFormSlider(false);
-      }
+      setFormSlider(false);
     }
   }, [
     queryClientNickName,
@@ -106,7 +110,6 @@ export default function MyProfileForm() {
     watch('nickname'), //수정 금지
     watch('bio'), //빠른 수정하면 watch에 인자를 줄 수 없게 된다
   ]);
-
   const updateNickNameBioOnly = async ({
     imageFile,
     nickname,
@@ -115,11 +118,11 @@ export default function MyProfileForm() {
     if (!imageFile) {
       //아무 파일도 없는 경우 닉네임만 업데이트
       mutateUserProfile.mutate({
-        nickname,
-        avatarUrl: queryClientAvatarUrl.substring(
+        nicknameData: nickname,
+        avatarUrlData: queryClientAvatarUrl.substring(
           queryClientAvatarUrl.indexOf('/') + 1, //avatars/... 에서 / 뒤의 숫자들만 추출
         ),
-        bio,
+        bioData: bio === '' ? null : bio,
       });
 
       throw new Error('등록된 파일이 없습니다. 기본 이미지로 등록됩니다');
@@ -153,9 +156,9 @@ export default function MyProfileForm() {
       checkFile(fieldValues);
       const avatarUrl = await uploadS3(fieldValues);
       mutateUserProfile.mutate({
-        nickname: fieldValues.nickname,
-        avatarUrl,
-        bio: fieldValues.bio,
+        nicknameData: fieldValues.nickname,
+        avatarUrlData: avatarUrl,
+        bioData: fieldValues.bio === '' ? null : fieldValues.bio,
       });
     } catch (error) {
       if (error instanceof Error) {
@@ -181,8 +184,11 @@ export default function MyProfileForm() {
           <p className="text-white text-2xl">팔로우: {queryClientFollowing}</p>
           <p className="text-white text-2xl">팔로워: {queryClientFollower}</p>
         </div>
-        <InputMyEmail defaultValue={queryClientEmail} />
-        <InputMyNickName control={control} defaultValue={queryClientNickName} />
+        <InputMyEmail defaultValue={myProfile?.email} />
+        <InputMyNickName
+          control={control}
+          defaultValue={myProfile?.profile.nickname}
+        />
         <NickNameErrMsg
           error={errors}
           checkDirty={getFieldState('nickname').isDirty}

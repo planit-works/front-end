@@ -8,7 +8,7 @@ export interface MyProfileInfo {
 }
 
 export interface Profile {
-  bio: string;
+  bio?: string | null;
   nickname: string;
   imageFile: Array<File>;
   avatarUrl: string;

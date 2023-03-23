@@ -6,15 +6,15 @@ const BaseURL: string = 'https://www.planit.p-e.kr/api';
 axios.defaults.withCredentials = true;
 
 export const updateUserProfile = async (
-  nickname?: string,
-  avatarUrl?: string,
-  bio?: string,
+  nicknameData?: string,
+  avatarUrlData?: string,
+  bioData?: string | null,
 ) => {
   try {
     const { data } = await axios.patch(`${BaseURL}/profiles`, {
-      nickname,
-      avatarUrl,
-      bio,
+      nickname: nicknameData,
+      avatarUrl: avatarUrlData,
+      bio: bioData,
     });
 
     return data;

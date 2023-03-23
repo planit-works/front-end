@@ -9,9 +9,9 @@ import useDisabledStore from 'store/myPageFormStore';
 import sliderStore from 'store/sliderStore';
 
 type PatchUserInfo = {
-  nickname: string;
-  avatarUrl?: string;
-  bio?: string;
+  nicknameData?: string;
+  avatarUrlData?: string;
+  bioData?: string | null;
 };
 
 export const useUpdateProfile = (): UseMutationResult<
@@ -25,8 +25,8 @@ export const useUpdateProfile = (): UseMutationResult<
 
   const { setDisabledAll } = useDisabledStore();
   const mutateUserProfile = useMutation({
-    mutationFn: ({ nickname, avatarUrl, bio }: PatchUserInfo) =>
-      updateUserProfile(nickname, 'avatars/' + avatarUrl, bio),
+    mutationFn: ({ nicknameData, avatarUrlData, bioData }: PatchUserInfo) =>
+      updateUserProfile(nicknameData, 'avatars/' + avatarUrlData, bioData),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [QueryKey.getLoginedUser] });
       setUpdateCheckerSlider(true); //업데이트 하고 슬라이더 애니메이션 켜준다
