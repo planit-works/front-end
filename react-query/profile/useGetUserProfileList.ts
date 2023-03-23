@@ -1,6 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { getUserProfile } from 'api/profile/Api';
-import useErrorStore from 'store/useErrorStore';
+import { getUserProfileList } from 'api/profile/Api';
 import QueryKey from '../react-key';
 
 export const useGetUserProfileList = (id: string) => {
@@ -8,7 +7,7 @@ export const useGetUserProfileList = (id: string) => {
     queryKey: [QueryKey.getUserProfileList, id],
     queryFn: async () => {
       try {
-        const data = await getUserProfile(id);
+        const data = await getUserProfileList(id);
 
         return data;
       } catch (error) {

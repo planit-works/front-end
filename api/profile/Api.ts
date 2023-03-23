@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { MyProfileInfo } from 'types/MyInfo';
-import { UserProfile } from 'types/UserProfie';
+import { UserProfileList } from 'types/SearchedList';
 
 const BaseURL: string = 'https://www.planit.p-e.kr/api';
 axios.defaults.withCredentials = true;
@@ -33,7 +33,9 @@ export const getProfile = async (id: number): Promise<MyProfileInfo> => {
   return data;
 };
 
-export const getUserProfile = async (id: string): Promise<UserProfile[]> => {
+export const getUserProfileList = async (
+  id: string,
+): Promise<UserProfileList> => {
   const { data } = await axios.get(`${BaseURL}/users?q=${id}`);
 
   return data;

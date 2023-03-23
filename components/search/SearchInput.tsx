@@ -31,7 +31,7 @@ export default function SearchInput() {
             className="w-[13rem] px-2 h-7 rounded-md focus:outline-none "
             placeholder="5자 이상 입력해 주세요"
           />
-          <button type="button" onClick={() => console.log(1)}>
+          <button type="button">
             <AiOutlineSearch className="h-6 w-[2rem] text-zinc-300" />
           </button>
           <SearchedListBar userProfileDatas={userProfileDatas} />

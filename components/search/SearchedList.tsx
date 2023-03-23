@@ -1,10 +1,10 @@
-import { UserProfile } from 'types/UserProfie';
 import Link from 'next/link';
+import { Profile, UserProfileList } from 'types/SearchedList';
 
 export function SearchedList({
   UserProfile,
 }: {
-  UserProfile: UserProfile;
+  UserProfile: Profile;
   key: number;
 }) {
   return (
@@ -20,7 +20,7 @@ export function SearchedList({
               (process.env.NEXT_PUBLIC_IMG_THUMBNAIL as string) +
               UserProfile.avatarUrl
             }
-            className="w-8 h-8 rounded-[20%] pl-2"
+            className="w-8 h-8 rounded-[20%] ml-4"
           />
           <span className="pl-7">{UserProfile.nickname}</span>
         </div>
@@ -32,13 +32,13 @@ export function SearchedList({
 export default function SearchedListBar({
   userProfileDatas,
 }: {
-  userProfileDatas: UserProfile[] | undefined;
+  userProfileDatas: UserProfileList | undefined;
 }) {
   return (
     <ul className="absolute top-[1.75rem] right-[2rem] w-[13rem]">
-      {userProfileDatas &&
-        userProfileDatas.map((item) => {
-          return <SearchedList key={item.id} UserProfile={item} />;
+      {userProfileDatas?.profiles &&
+        userProfileDatas.profiles.map((item) => {
+          return <SearchedList key={item.profileId} UserProfile={item} />;
         })}
     </ul>
   );
