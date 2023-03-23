@@ -5,6 +5,7 @@ import { BsPencilSquare } from 'react-icons/bs';
 import myPageFormStore from 'store/myPageFormStore';
 import MarkDownPreview from './MarkDownPreview';
 import styled from 'styled-components';
+import sliderStore from 'store/sliderStore';
 
 const DetailDiv = styled.div`
   line-height: 1.5;
@@ -101,7 +102,11 @@ export const InputMyImgFile = ({
   );
 };
 
-export const InputMyEmail = ({ defaultValue }: { defaultValue: string }) => {
+export const InputMyEmail = ({
+  defaultValue,
+}: {
+  defaultValue: string | number | readonly string[] | undefined;
+}) => {
   return (
     <input
       disabled
@@ -117,7 +122,7 @@ export const InputMyNickName = ({
   defaultValue,
 }: {
   control: Control<MyPageFormField>;
-  defaultValue: string;
+  defaultValue: string | number | readonly string[] | undefined;
 }) => {
   const { field } = useController({
     control,
@@ -131,10 +136,16 @@ export const InputMyNickName = ({
 
   const { disabledNickName, setDisabledNickName } = myPageFormStore();
   const inputRef = useRef<HTMLInputElement>(null);
+  const { setHidden } = sliderStore();
 
   const onFocusInput = () => {
     setDisabledNickName(false);
     inputRef.current?.focus();
+  };
+
+  const onChangeInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+    field.onChange(event);
+    setHidden(false);
   };
 
   return (
@@ -144,7 +155,11 @@ export const InputMyNickName = ({
         disabled={disabledNickName}
         type="text"
         spellCheck="false"
-        onChange={field.onChange}
+        onChange={onChangeInput}
+        // onFocus={() => {
+        //   setHidden(false);
+
+        // }}
         defaultValue={defaultValue}
         className="inline bg-transparent w-[25rem] h-8 mt-6 border-solid border-b-[1px] border-b-white focus:outline-none focus:border-sky-500 text-white text-2xl"
       />
@@ -177,12 +192,18 @@ export const InputMyBio = ({
   const { tabBio, setTabBio } = myPageFormStore();
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
   const [textBio, setTextBio] = useState<string>('');
+  const { setHidden } = sliderStore();
 
   const onChangeTab = () => {
     if (textAreaRef.current?.value) {
       setTextBio(textAreaRef.current.value);
     }
     setTabBio();
+  };
+
+  const onChangeTextArea = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    field.onChange(event);
+    setHidden(false);
   };
 
   return (
@@ -197,7 +218,7 @@ export const InputMyBio = ({
         <textarea
           ref={textAreaRef}
           defaultValue={!textBio ? defaultValue : textBio} //최초 렌더링 시 textBio는 undefined이므로
-          onChange={field.onChange}
+          onChange={onChangeTextArea}
           spellCheck="false"
           className="block bg-transparent resize-none min-w-[23rem] min-h-[5rem] border-solid border-b-[1px] border-b-white focus:outline-none focus:border-sky-500 text-white"
           placeholder="Bio을 입력해 주세요"
