@@ -49,7 +49,7 @@ export default function ProfileForm() {
     if (!imageFile) {
       //아무 파일도 없는 경우 닉네임만 업데이트
       mutateUserProfile.mutate({
-        nickname,
+        nicknameData: nickname,
       });
       throw new Error('등록된 파일이 없습니다. 기본 이미지로 등록됩니다');
     }
@@ -83,7 +83,10 @@ export default function ProfileForm() {
       await updateNickNameOnly(fieldValues);
       checkFile(fieldValues);
       const avatarUrl = await uploadS3(fieldValues);
-      mutateUserProfile.mutate({ nickname: fieldValues.nickname, avatarUrl });
+      mutateUserProfile.mutate({
+        nicknameData: fieldValues.nickname,
+        avatarUrlData: avatarUrl,
+      });
     } catch (error) {
       if (error instanceof Error) {
         handleError(error);
