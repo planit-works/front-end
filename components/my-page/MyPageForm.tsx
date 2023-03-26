@@ -98,7 +98,6 @@ export default function MyProfileForm() {
       watch('bio') !== queryClientBio
     ) {
       setFormSlider(true);
-      console.log('wat', watch('bio'), queryClientBio);
     } else {
       setFormSlider(false);
     }

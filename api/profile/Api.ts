@@ -35,8 +35,9 @@ export const getProfile = async (id: number): Promise<MyProfileInfo> => {
 
 export const getUserProfileList = async (
   id: string,
+  page = 1,
 ): Promise<UserProfileList> => {
-  const { data } = await axios.get(`${BaseURL}/users?q=${id}`);
+  const { data } = await axios.get(`${BaseURL}/users?q=${id}&page=${page}`);
 
   return data;
 };

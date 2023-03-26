@@ -1,20 +1,15 @@
-import { useQuery } from '@tanstack/react-query';
+import { useInfiniteQuery } from '@tanstack/react-query';
 import { getUserProfileList } from 'api/profile/Api';
 import QueryKey from '../react-key';
 
 export const useGetUserProfileList = (id: string) => {
-  const { data, refetch, isError, isLoading } = useQuery({
+  const { data, fetchNextPage, hasNextPage, isLoading } = useInfiniteQuery({
     queryKey: [QueryKey.getUserProfileList, id],
-    queryFn: async () => {
-      try {
-        const data = await getUserProfileList(id);
-
-        return data;
-      } catch (error) {
-        if (error instanceof Error) {
-          throw Error('sd');
-        }
-      }
+    queryFn: async ({ pageParam = 1 }) => getUserProfileList(id, pageParam),
+    getNextPageParam: (lastpage) => {
+      if (lastpage.paginationInfo.hasNextPage)
+        return lastpage.paginationInfo.currentPage + 1;
+      else return undefined;
     },
     enabled: id === '' ? false : true,
     staleTime: 1000 * 60,
@@ -23,13 +18,15 @@ export const useGetUserProfileList = (id: string) => {
     onError: (error: Error) => {
       console.log(error.message);
     },
-    onSuccess: (data) => {},
+    onSuccess: (data) => {
+      console.log(data.pages.map((data) => data.profiles));
+    },
   });
 
   return {
-    userProfileDatas: data,
-    isError,
+    userProfileDatas: data?.pages,
+    fetchNextPage,
+    hasNextPage,
     isLoading,
-    refetch,
   };
 };
