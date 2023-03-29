@@ -136,7 +136,7 @@ export default function MyProfileForm() {
           alt="기본 프로필"
           className="w-[25rem] h-[20rem] my-2 rounded-[8%]"
         />
-        <InputMyImgFile ImgUrl={profileImg} control={control} />
+        <InputMyImgFile control={control} />
         <ProfileImgErrMsg
           error={errors}
           checkDirty={getFieldState('imageFile').isDirty}
