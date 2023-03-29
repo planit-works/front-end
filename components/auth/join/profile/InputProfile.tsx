@@ -25,8 +25,10 @@ export const InputImgFile = ({
 
 export const InputNickName = ({
   control,
+  defaultValue,
 }: {
   control: Control<ProfileFormField>;
+  defaultValue: string | number | readonly string[] | undefined;
 }) => {
   const { field } = useController({
     control,
@@ -42,6 +44,7 @@ export const InputNickName = ({
     <input
       type="text"
       onChange={field.onChange}
+      defaultValue={defaultValue}
       className="block bg-transparent w-[30rem] h-12 mt-8 border-solid border-b-[1px] border-b-white focus:outline-none focus:border-sky-500 text-white text-2xl"
       placeholder="Nickname을 입력해 주세요"
     />

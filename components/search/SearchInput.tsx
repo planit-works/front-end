@@ -1,5 +1,5 @@
 import { AiOutlineSearch } from 'react-icons/ai';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import useDebounce from '../../hooks/useDebounce';
 import SearchedListBar from './SearchedList';
 import { useGetUserProfileList } from 'react-query/profile/useGetUserProfileList';

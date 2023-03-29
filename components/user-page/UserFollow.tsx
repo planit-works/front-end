@@ -8,18 +8,18 @@ type IsFollwoing = {
   isFollowing: boolean | null;
 };
 
-export const Following = ({ follow }: { follow: number }) => {
+export const Following = ({ follow }: { follow: number | null }) => {
   return (
     <p className="text-white text-2xl">
-      팔로우: <button>{follow}</button>
+      팔로우: <button type="button">{follow}</button>
     </p>
   );
 };
 
-export const Follower = ({ follower }: { follower: number }) => {
+export const Follower = ({ follower }: { follower: number | null }) => {
   return (
     <p className="text-white text-2xl">
-      팔로워: <button>{follower}</button>
+      팔로워: <button type="button">{follower}</button>
     </p>
   );
 };
@@ -69,11 +69,11 @@ export default function FollowList({
   follow,
   follower,
 }: {
-  follow: number;
-  follower: number;
+  follow: number | null;
+  follower: number | null;
 }) {
   return (
-    <div className="flex mt-[3rem] justify-center items-center [&>p]:mx-8">
+    <div className="flex justify-center items-center my-8 [&>p]:mx-8">
       <Following follow={follow} />
       <Follower follower={follower} />
     </div>

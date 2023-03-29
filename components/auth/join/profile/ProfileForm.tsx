@@ -1,7 +1,7 @@
-import { getPresignedUrl, uploadProfileImg } from 'api/auth/Api';
+import { getPresignedUrl, uploadProfileImg } from 'api/aws/Api';
 import { useForm } from 'react-hook-form';
 import { ProfileFormField, LoginedUserInfo } from 'types/auth';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { NickNameErrMsg, ProfileImgErrMsg } from '../../FormErrMsg';
 import {
   InputImgFile,
@@ -13,6 +13,7 @@ import QueryKey from 'react-query/react-key';
 import SliderUpdateChecker from 'components/SliderUpdateChecker';
 import useProfileImg from 'hooks/useProfileImg';
 import AuthSubmitBtn from 'components/auth/AuthSubmitBtn';
+import { getSerialNumFromUrl } from 'utils/getSerialNumFromUrl';
 
 export default function ProfileForm() {
   const [disableBtn, setDisable] = useState(false);
@@ -38,55 +39,64 @@ export default function ProfileForm() {
   const queryClientAvatarUrl = queryClient.getQueryData<LoginedUserInfo>([
     QueryKey.getLoginedUser,
   ])?.profile.avatarUrl as string;
+  const queryClientNickName = queryClient.getQueryData<LoginedUserInfo>([
+    QueryKey.getLoginedUser,
+  ])?.profile.nickname as string;
 
   const { profileImg } = useProfileImg(imageFile, queryClientAvatarUrl);
 
-  const updateNickNameOnly = async ({
-    // eslint-disable-next-line @typescript-eslint/no-shadow
-    imageFile,
-    nickname,
-  }: ProfileFormField) => {
-    if (!imageFile) {
-      //아무 파일도 없는 경우 닉네임만 업데이트
-      mutateUserProfile.mutate({
-        nicknameData: nickname,
-      });
-      throw new Error('등록된 파일이 없습니다. 기본 이미지로 등록됩니다');
-    }
-  };
-
-  const checkFile = ({ imageFile }: ProfileFormField) => {
-    //file은 존재하지만 image/* 형식이 아닌 경우
-    if (imageFile.length > 0 && imageFile[0].type.search('image') < 0) {
+  useEffect(() => {
+    //profileImg가 이미지 형식 파일이 아니면 Error 발생
+    if (!profileImg) {
       setError(`imageFile`, {
         type: `imageFile`,
       });
-      throw new Error('이미지 형식의 파일을 등록해주세요');
     }
-  };
-
-  // eslint-disable-next-line @typescript-eslint/no-shadow
-  const uploadS3 = async ({ imageFile }: ProfileFormField) => {
-    const EndPoint: string = await getPresignedUrl(); //presignedUrl 추출
-    await uploadProfileImg(EndPoint, imageFile[0]); //s3에 업로드
-
-    return EndPoint.substring(0, EndPoint.indexOf('?')); //EndPoint에서 ? 앞 숫자들만 추출
-  };
+  }, [profileImg]);
 
   const handleError = (error: Error) => {
     setDisable(false);
     alert(error.message);
   };
 
-  const onValid = async (fieldValues: ProfileFormField) => {
-    try {
-      await updateNickNameOnly(fieldValues);
-      checkFile(fieldValues);
-      const avatarUrl = await uploadS3(fieldValues);
-      mutateUserProfile.mutate({
-        nicknameData: fieldValues.nickname,
-        avatarUrlData: avatarUrl,
+  const updateProfileWithImg = async (imageFile: File[], nickname: string) => {
+    const EndPoint: string = await getPresignedUrl();
+    await uploadProfileImg(EndPoint, imageFile[0]);
+    const AvatarUrl = getSerialNumFromUrl(EndPoint);
+    mutateUserProfile.mutate({
+      nicknameData: nickname,
+      avatarUrlData: AvatarUrl,
+    });
+  };
+
+  const updateProfileWithOutImg = async (nickname: string) => {
+    //아무 파일도 없는 경우 닉네임만 업데이트
+    mutateUserProfile.mutate({
+      nicknameData: nickname,
+      avatarUrlData: queryClientAvatarUrl.substring(
+        queryClientAvatarUrl.indexOf('/') + 1, //avatars/... 에서 / 뒤의 숫자들만 추출
+      ),
+    });
+  };
+
+  const checkImgFileType = (imageFile: File[]) => {
+    if (!imageFile[0].type.includes('image')) {
+      setError(`imageFile`, {
+        type: `imageFile`,
       });
+      throw Error('이미지 형식의 파일만 등록할 수 있습니다');
+    }
+  };
+
+  const onValid = async ({ imageFile, nickname }: ProfileFormField) => {
+    //이미지 파일이 등록된 경우&파일은 있으나 이미지 파일이 아닌 경우&파일이 등록되지 않은 경우
+    try {
+      if (imageFile && imageFile.length) {
+        checkImgFileType(imageFile);
+        await updateProfileWithImg(imageFile, nickname);
+      } else {
+        await updateProfileWithOutImg(nickname);
+      }
     } catch (error) {
       if (error instanceof Error) {
         handleError(error);
@@ -109,7 +119,7 @@ export default function ProfileForm() {
           error={errors}
           checkDirty={getFieldState('imageFile').isDirty}
         />
-        <InputNickName control={control} />
+        <InputNickName defaultValue={queryClientNickName} control={control} />
         <NickNameErrMsg
           error={errors}
           checkDirty={getFieldState('nickname').isDirty}
