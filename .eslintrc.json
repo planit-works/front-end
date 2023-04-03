@@ -1,10 +1,18 @@
 {
-  "plugins": ["prettier", "@typescript-eslint", "react-hook-form"],
+  "plugins": [
+    "prettier",
+    "@typescript-eslint",
+    "react-hook-form",
+    "jest-dom",
+    "testing-library"
+  ],
   "extends": [
     "airbnb-typescript",
     "react-app",
     "prettier",
-    "plugin:react-hook-form/recommended"
+    "plugin:react-hook-form/recommended",
+    "plugin:jest-dom/recommended",
+    "plugin:testing-library/react"
   ],
   "rules": {
     "prettier/prettier": "error",
@@ -37,5 +45,8 @@
   },
   "parserOptions": {
     "project": "./tsconfig.json"
+  },
+  "env": {
+    "jest": true
   }
 }
