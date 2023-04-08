@@ -22,8 +22,6 @@ import FollowList from 'components/user-page/UserFollow';
 import { getSerialNumFromUrl } from 'utils/getSerialNumFromUrl';
 
 export default function MyProfileForm() {
-  const { myProfile } = myProfileInfoStore();
-  const { setFormSlider } = sliderStore();
   const {
     handleSubmit,
     watch,
@@ -33,7 +31,7 @@ export default function MyProfileForm() {
     reset,
     formState: { errors },
   } = useForm<MyPageFormField>({
-    mode: 'onChange',
+    mode: 'onSubmit',
     defaultValues: {
       email: '',
       imageFile: undefined,
@@ -42,6 +40,8 @@ export default function MyProfileForm() {
     },
   });
   const { userId } = useGetLoginedUser();
+  const { myProfile } = myProfileInfoStore();
+  const { setFormSlider } = sliderStore();
   const mutateGetProfile = useGetMyProfile();
   const imageFile = watch('imageFile');
   const mutateUserProfile = useUpdateProfile();

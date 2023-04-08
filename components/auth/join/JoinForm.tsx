@@ -1,15 +1,11 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
-import { createUser } from 'api/auth/Api';
 import { useForm } from 'react-hook-form';
-import { AuthInfo, UserData } from 'types/auth';
+import { AuthInfo } from 'types/auth';
 import { EmailErrMsg, PwdCheckErrMsg, PwdErrMsg } from '../FormErrMsg';
 import { JoinFormField } from 'types/auth';
 import AuthSubmitBtn from 'components/auth/AuthSubmitBtn';
 import Router from 'next/router';
-import { useQueryClient } from '@tanstack/react-query';
-import QueryKey from 'react-query/react-key';
-import useErrorStore from 'store/useErrorStore';
 import { InputEmailJoin, InputPwdCheckJoin, InputPwdJoin } from './InputJoin';
+import { useJoinUser } from 'react-query/useJoinUser';
 
 export default function JoinForm() {
   const {
@@ -27,8 +23,7 @@ export default function JoinForm() {
     },
   });
 
-  const queryClient = useQueryClient();
-  const { setError: SetError } = useErrorStore();
+  const joinUSer = useJoinUser();
 
   type CheckPwd = {
     password: string;
@@ -42,11 +37,9 @@ export default function JoinForm() {
   };
 
   const handleJoin = async (authInfo: AuthInfo) => {
-    const profile = (await createUser(authInfo)) as UserData;
+    joinUSer(authInfo);
     alert('회원가입이 완료되었습니다');
     Router.push('join/profile');
-    queryClient.setQueryData([QueryKey.getLoginedUser], profile);
-    SetError(false);
   };
 
   const handleError = (errorType: string) => {

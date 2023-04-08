@@ -3,7 +3,7 @@ import sliderStore from 'store/sliderStore';
 
 export default function useProfileImg(
   imageFile: Array<File>,
-  avatarUrl: string,
+  avatarUrl: string | undefined,
 ) {
   const [profileImg, setProfileImg] = useState<string>('');
   const { setHidden } = sliderStore();
@@ -19,7 +19,8 @@ export default function useProfileImg(
       }
     } else {
       //파일 선택을 취소하면 기존 이미지
-      setProfileImg(process.env.NEXT_PUBLIC_IMG_ORIGIN + avatarUrl);
+      avatarUrl &&
+        setProfileImg(process.env.NEXT_PUBLIC_IMG_ORIGIN + avatarUrl);
     }
   }, [imageFile, avatarUrl]);
 

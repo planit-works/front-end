@@ -14,6 +14,7 @@ import SliderUpdateChecker from 'components/SliderUpdateChecker';
 import useProfileImg from 'hooks/useProfileImg';
 import AuthSubmitBtn from 'components/auth/AuthSubmitBtn';
 import { getSerialNumFromUrl } from 'utils/getSerialNumFromUrl';
+import { useGetLoginedUser } from 'react-query/useGetLoginedUser';
 
 export default function ProfileForm() {
   const [disableBtn, setDisable] = useState(false);
@@ -35,15 +36,17 @@ export default function ProfileForm() {
   const imageFile: Array<File> = watch('imageFile');
   const mutateUserProfile = useUpdateProfile();
 
-  const queryClient = useQueryClient();
-  const queryClientAvatarUrl = queryClient.getQueryData<LoginedUserInfo>([
-    QueryKey.getLoginedUser,
-  ])?.profile.avatarUrl as string;
-  const queryClientNickName = queryClient.getQueryData<LoginedUserInfo>([
-    QueryKey.getLoginedUser,
-  ])?.profile.nickname as string;
+  // const queryClient = useQueryClient();
+  // const queryClientAvatarUrl = queryClient.getQueryData<LoginedUserInfo>([
+  //   QueryKey.getLoginedUser,
+  // ])?.profile.avatarUrl as string;
+  // const queryClientNickName = queryClient.getQueryData<LoginedUserInfo>([
+  //   QueryKey.getLoginedUser,
+  // ])?.profile.nickname as string;
+  // console.log(queryClientNickName);
+  const { userInfo } = useGetLoginedUser();
 
-  const { profileImg } = useProfileImg(imageFile, queryClientAvatarUrl);
+  const { profileImg } = useProfileImg(imageFile, userInfo?.profile.avatarUrl);
 
   useEffect(() => {
     //profileImg가 이미지 형식 파일이 아니면 Error 발생
@@ -73,8 +76,8 @@ export default function ProfileForm() {
     //아무 파일도 없는 경우 닉네임만 업데이트
     mutateUserProfile.mutate({
       nicknameData: nickname,
-      avatarUrlData: queryClientAvatarUrl.substring(
-        queryClientAvatarUrl.indexOf('/') + 1, //avatars/... 에서 / 뒤의 숫자들만 추출
+      avatarUrlData: userInfo?.profile.avatarUrl.substring(
+        userInfo?.profile.avatarUrl.indexOf('/') + 1, //avatars/... 에서 / 뒤의 숫자들만 추출
       ),
     });
   };
@@ -119,7 +122,10 @@ export default function ProfileForm() {
           error={errors}
           checkDirty={getFieldState('imageFile').isDirty}
         />
-        <InputNickName defaultValue={queryClientNickName} control={control} />
+        <InputNickName
+          defaultValue={userInfo?.profile.nickname}
+          control={control}
+        />
         <NickNameErrMsg
           error={errors}
           checkDirty={getFieldState('nickname').isDirty}

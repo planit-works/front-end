@@ -7,6 +7,7 @@ import { createUser } from 'api/auth/Api';
 import useErrorStore from 'store/useErrorStore';
 import { AuthInfo } from 'types/auth';
 import QueryKey from './react-key';
+import Router from 'next/router';
 
 export const useJoinUser = (): UseMutateFunction<
   void,
@@ -18,8 +19,7 @@ export const useJoinUser = (): UseMutateFunction<
   const { setError } = useErrorStore();
   const { mutate } = useMutation({
     mutationFn: (authInfo: AuthInfo) => createUser(authInfo),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [QueryKey.getLoginedUser] });
+    onSuccess: (profile) => {
       setError(false);
     },
   });
