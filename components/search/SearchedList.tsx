@@ -22,10 +22,7 @@ export function SearchedList({
         <div className="flex items-center list-none bg-gray-100 hover:bg-gray-200 cursor-pointer">
           <img
             alt=""
-            src={
-              (process.env.NEXT_PUBLIC_IMG_THUMBNAIL as string) +
-              UserProfile.avatarUrl
-            }
+            src={process.env.NEXT_PUBLIC_IMG_THUMBNAIL + UserProfile.avatarUrl}
             className="w-8 h-8 rounded-[20%] ml-4"
           />
           <span className="pl-7">{UserProfile.nickname}</span>

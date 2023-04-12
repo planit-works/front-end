@@ -1,5 +1,5 @@
 import { AiOutlineSearch } from 'react-icons/ai';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import useDebounce from '../../hooks/useDebounce';
 import SearchedListBar from './SearchedList';
 import { useGetUserProfileList } from 'react-query/profile/useGetUserProfileList';
@@ -7,17 +7,17 @@ import { useGetUserProfileList } from 'react-query/profile/useGetUserProfileList
 export default function SearchInput() {
   const [searchVal, setSearchVal] = useState('');
   const debounceVal = useDebounce(searchVal);
-  const { userProfileDatas, fetchNextPage, hasNextPage, isLoading } =
+  const { userProfileDatas, fetchNextPage, hasNextPage, isLoading, refetch } =
     useGetUserProfileList(debounceVal);
 
-  // useEffect(() => {
-  //   if (searchVal === '' || debounceVal === '') {
-  //     return;
-  //   } else {
-  //     // refetch();
-  //   }
-  //   console.log('hasNextPage', hasNextPage);
-  // }, [debounceVal]);
+  useEffect(() => {
+    if (searchVal === '' || debounceVal === '') {
+      return;
+    } else {
+      refetch();
+    }
+    console.log('hasNextPage', hasNextPage);
+  }, [debounceVal]);
 
   const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchVal(event.target.value);
