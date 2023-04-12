@@ -14,6 +14,7 @@ const customJestConfig = {
   moduleNameMapper: {
     '^@/components/(.*)$': '<rootDir>/components/$1',
   },
+  modulePaths: ['<rootDir>'],
   testEnvironment: 'jest-environment-jsdom',
   transform: {
     '^.+\\.css$': [

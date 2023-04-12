@@ -1,9 +1,9 @@
 import '@testing-library/jest-dom/extend-expect';
 import '@testing-library/jest-dom';
 // src/setupTests.js
-import { server } from './test/mocks/server.js';
+import { server } from './test/mocks/server';
 
-jest.mock('zustand');
+// jest.mock('zustand');
 
 
 // Establish API mocking before all tests.
