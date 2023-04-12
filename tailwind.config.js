@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 
+
 module.exports = {
   content: [
     './pages/**/*.{js,ts,jsx,tsx}',
@@ -11,6 +12,7 @@ module.exports = {
     extend: {
 
       colors: {
+        'col-calendar': 'rgb(14 165 233)',
         'col-calendar': 'rgb(14 165 233)',
       },
       keyframes: {

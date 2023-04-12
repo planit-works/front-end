@@ -1,6 +1,6 @@
 import { getPresignedUrl, uploadProfileImg } from 'api/aws/Api';
 import { useForm } from 'react-hook-form';
-import { ProfileFormField, LoginedUserInfo } from 'types/auth';
+import { ProfileFormField } from 'types/auth';
 import { useEffect, useState } from 'react';
 import { NickNameErrMsg, ProfileImgErrMsg } from '../../FormErrMsg';
 import {
@@ -8,8 +8,6 @@ import {
   InputNickName,
 } from 'components/auth/join/profile/InputProfile';
 import { useUpdateProfile } from '../../../../react-query/profile/useUpdateProfile';
-import { useQueryClient } from '@tanstack/react-query';
-import QueryKey from 'react-query/react-key';
 import SliderUpdateChecker from 'components/SliderUpdateChecker';
 import useProfileImg from 'hooks/useProfileImg';
 import AuthSubmitBtn from 'components/auth/AuthSubmitBtn';
@@ -35,15 +33,6 @@ export default function ProfileForm() {
   });
   const imageFile: Array<File> = watch('imageFile');
   const mutateUserProfile = useUpdateProfile();
-
-  // const queryClient = useQueryClient();
-  // const queryClientAvatarUrl = queryClient.getQueryData<LoginedUserInfo>([
-  //   QueryKey.getLoginedUser,
-  // ])?.profile.avatarUrl as string;
-  // const queryClientNickName = queryClient.getQueryData<LoginedUserInfo>([
-  //   QueryKey.getLoginedUser,
-  // ])?.profile.nickname as string;
-  // console.log(queryClientNickName);
   const { userInfo } = useGetLoginedUser();
 
   const { profileImg } = useProfileImg(imageFile, userInfo?.profile.avatarUrl);

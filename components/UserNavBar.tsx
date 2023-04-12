@@ -25,6 +25,11 @@ export default function UserNavBar() {
     }
   };
 
+  console.log(
+    (process.env.NEXT_PUBLIC_IMG_THUMBNAIL as string) +
+      userInfo?.profile.avatarUrl,
+  );
+
   return (
     <div className="absolute [&>button]:mx-4 top-[2%] right-[4%] text-gray-200">
       {isError ? (
