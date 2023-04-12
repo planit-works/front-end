@@ -1,16 +1,22 @@
-export interface MyInfo {
+export interface MyProfileInfo {
   userId: number;
   email: string;
-  profile: Profile;
-  followerCount: number;
-  followingCount: number;
+  profile: ProfileReal;
+  followerCount: number | null;
+  followingCount: number | null;
   isFollowing: null | boolean;
 }
 
 export interface Profile {
-  bio: string;
+  bio?: string | null;
   nickname: string;
   imageFile: Array<File>;
+  avatarUrl: string;
+}
+
+export interface ProfileReal {
+  bio?: string | null;
+  nickname: string;
   avatarUrl: string;
 }
 

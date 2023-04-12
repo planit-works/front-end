@@ -9,7 +9,7 @@ export default function UserNavBar() {
   const { isError, setError } = useErrorStore();
   const Router = useRouter();
 
-  const { userInfo, userId } = useGetLoginedUser();
+  const { userInfo } = useGetLoginedUser();
   const queryClient = useQueryClient();
   const onLogOut = async () => {
     try {

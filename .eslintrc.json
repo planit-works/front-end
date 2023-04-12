@@ -1,10 +1,18 @@
 {
-  "plugins": ["prettier", "@typescript-eslint", "react-hook-form"],
+  "plugins": [
+    "prettier",
+    "@typescript-eslint",
+    "react-hook-form",
+    "jest-dom",
+    "testing-library"
+  ],
   "extends": [
     "airbnb-typescript",
     "react-app",
     "prettier",
-    "plugin:react-hook-form/recommended"
+    "plugin:react-hook-form/recommended",
+    "plugin:jest-dom/recommended",
+    "plugin:testing-library/react"
   ],
   "rules": {
     "prettier/prettier": "error",
@@ -33,9 +41,19 @@
     ],
     "react/jsx-key": "error",
     "no-shadow": "off",
-    "@typescript-eslint/no-shadow": "off"
+    "@typescript-eslint/no-shadow": "off",
+    //devDependencies 가 false면 devDependencies에서 라이브러리를 가져올 때 error가 표시된다
+    "import/no-extraneous-dependencies": [
+      "error",
+      {
+        "devDependencies": true
+      }
+    ]
   },
   "parserOptions": {
     "project": "./tsconfig.json"
+  },
+  "env": {
+    "jest": true
   }
 }

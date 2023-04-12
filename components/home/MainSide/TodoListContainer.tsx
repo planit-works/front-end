@@ -7,7 +7,7 @@ export default function TodoListContainer() {
   return (
     <div className="absolute bottom-10 w-full">
       <p className="font-bold text-center text-xl">To do</p>
-      <ul className="mx-3 my-2">
+      <ul className="mx-3 my-2 max-h-[30rem] overflow-scroll">
         {todoList &&
           todoList.map((todo) => {
             return (

@@ -4,12 +4,12 @@ import {
   useQueryClient,
 } from '@tanstack/react-query';
 import followingStore from 'store/followingStore';
-import { MyInfo } from 'types/MyInfo';
+import { MyProfileInfo } from 'types/MyInfo';
 import { getProfile } from '../../api/profile/Api';
 import QueryKey from '../react-key';
 
 export const useGetUserProfile = (): UseMutateAsyncFunction<
-  MyInfo,
+  MyProfileInfo,
   unknown,
   number,
   unknown

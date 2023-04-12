@@ -10,19 +10,22 @@ export function useTodo() {
   const handleCreate =
     (inputRef: RefObject<HTMLInputElement>) => (e: React.FormEvent) => {
       e.preventDefault();
-      if (!inputRef.current) return;
+      if (!inputRef.current || inputRef.current.value.length < 1)
+        return; //최소 1글자 이상 입력
+      else {
+        const newTodo: Todo = {
+          id: getRandomString(),
+          date: '',
+          title: inputRef.current.value,
+          done: false,
+        };
+        //로컬스토리지 저장
+        setLocalStorage('todo-list', JSON.stringify([...todoList, newTodo]));
+        setTodoList([...todoList, newTodo]);
+        //input 요소 초기화
+        inputRef.current.value = '';
+      }
       //새로운 Todo 객체 생성
-      const newTodo: Todo = {
-        id: getRandomString(),
-        date: '',
-        title: inputRef.current.value,
-        done: false,
-      };
-      //로컬스토리지 저장
-      setLocalStorage('todo-list', JSON.stringify([...todoList, newTodo]));
-      setTodoList([...todoList, newTodo]);
-      //input 요소 초기화
-      inputRef.current.value = '';
     };
 
   const handleDelete = (id: string) => () => {
@@ -33,6 +36,7 @@ export function useTodo() {
     setTodoList(updatedList);
   };
   const handleUpdate = (id: string, updatedTodo: Todo) => () => {
+    if (updatedTodo.title.length < 1) return; //최소 1글자 이상 입력
     const updatedList = todoList.map((todo) =>
       todo.id === id ? updatedTodo : todo,
     );

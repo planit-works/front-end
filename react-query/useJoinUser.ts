@@ -1,12 +1,7 @@
-import {
-  UseMutateFunction,
-  useMutation,
-  useQueryClient,
-} from '@tanstack/react-query';
+import { UseMutateFunction, useMutation } from '@tanstack/react-query';
 import { createUser } from 'api/auth/Api';
 import useErrorStore from 'store/useErrorStore';
 import { AuthInfo } from 'types/auth';
-import QueryKey from './react-key';
 
 export const useJoinUser = (): UseMutateFunction<
   void,
@@ -14,12 +9,10 @@ export const useJoinUser = (): UseMutateFunction<
   AuthInfo,
   unknown
 > => {
-  const queryClient = useQueryClient();
   const { setError } = useErrorStore();
   const { mutate } = useMutation({
     mutationFn: (authInfo: AuthInfo) => createUser(authInfo),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [QueryKey.getLoginedUser] });
+    onSuccess: (profile) => {
       setError(false);
     },
   });

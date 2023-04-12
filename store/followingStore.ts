@@ -2,9 +2,9 @@ import { create } from 'zustand';
 
 interface FollowingState {
   isFollowing: boolean | null;
-  follower: number;
+  follower: number | null;
   setIsFollowing: (value: boolean | null) => void;
-  setFollower: (value: number) => void;
+  setFollower: (value: number | null) => void;
   Following: () => void;
   UnFollow: () => void;
 }
@@ -23,12 +23,12 @@ const followingStore = create<FollowingState>()((set) => ({
   Following: () =>
     set((state) => ({
       isFollowing: !state.isFollowing,
-      follower: state.follower + 1,
+      follower: state.follower && state.follower + 1,
     })),
   UnFollow: () =>
     set((state) => ({
       isFollowing: !state.isFollowing,
-      follower: state.follower - 1,
+      follower: state.follower && state.follower - 1,
     })),
 }));
 export default followingStore;

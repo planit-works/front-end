@@ -1,82 +1,11 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useController, Control } from 'react-hook-form';
 import { MyPageFormField } from 'types/MyInfo';
 import { BsPencilSquare } from 'react-icons/bs';
 import myPageFormStore from 'store/myPageFormStore';
 import MarkDownPreview from './MarkDownPreview';
-import styled from 'styled-components';
-
-const DetailDiv = styled.div`
-  line-height: 1.5;
-  & h1 {
-    font-size: 2em;
-    font-weight: bolder;
-  }
-  & h2 {
-    font-size: 1.5em;
-    font-weight: bolder;
-  }
-  & h3 {
-    font-size: 1.17em;
-    font-weight: bolder;
-  }
-  & h4 {
-    font-size: 1em;
-    font-weight: bolder;
-  }
-  & h5 {
-    font-size: 0.83em;
-    font-weight: bolder;
-  }
-  & h6 {
-    font-size: 0.67em;
-    font-weight: bolder;
-  }
-  & strong {
-    font-weight: bold;
-  }
-  & p {
-    display: block;
-    /* margin-top: 1em;
-    margin-bottom: 1em; */
-    margin-left: 0;
-    margin-right: 0;
-  }
-  i {
-    font-style: italic;
-  }
-  li {
-    display: list-item;
-  }
-
-  ul {
-    display: block;
-    list-style-type: disc;
-    /* margin-top: 1em;
-    margin-bottom: 1 em; */
-    margin-left: 0;
-    margin-right: 0;
-    padding-left: 20px;
-  }
-  ol {
-    display: block;
-    /* margin-top: 1em;
-    margin-bottom: 1 em; */
-    margin-left: 0;
-    margin-right: 0;
-    padding-left: 20px;
-  }
-  a:link,
-  a:visited {
-    color: (internal value);
-    text-decoration: underline;
-    cursor: auto;
-  }
-  a:link:active,
-  a:visited:active {
-    color: (internal value);
-  }
-`;
+import sliderStore from 'store/sliderStore';
+import myProfileInfoStore from 'store/myProfileInfoStore';
 
 export const InputMyImgFile = ({
   control,
@@ -87,28 +16,47 @@ export const InputMyImgFile = ({
     control,
     name: 'imageFile',
   });
+  const { hiddenOfFormSlider, setHidden, setFormSlider } = sliderStore();
+
+  const checkInputWithImgFile = (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    if (!event.target.files?.length)
+      setFormSlider(false); //파일을 등록하지 않은 경우(기본 이미지 사용)
+    else if (!event.target.files[0].type.includes('image'))
+      setFormSlider(false); //등록한 파일이 이미지 형식이 아닐 경우
+    else setFormSlider(true);
+  };
+
+  const onChangeFile = (event: React.ChangeEvent<HTMLInputElement>) => {
+    console.log('file', event.target.files);
+    field.onChange(event.target.files);
+    checkInputWithImgFile(event);
+    hiddenOfFormSlider && setHidden(false);
+  };
 
   return (
     <input
       type="file"
       spellCheck="false"
       accept="image/*"
-      className="w-[25rem] my-4"
-      onChange={(event) => field.onChange(event.target.files)}
-      //일부러 onChange 속성을 이용해 field value를 바꿔준다.
-      //default는 string 값이 field value에 들어가기 때문.
+      className="w-[25rem]"
+      onChange={onChangeFile}
     />
   );
 };
 
-export const InputMyEmail = ({ defaultValue }: { defaultValue: string }) => {
+export const InputMyEmail = ({
+  defaultValue,
+}: {
+  defaultValue: string | number | readonly string[] | undefined;
+}) => {
   return (
     <input
       disabled
       type="text"
       defaultValue={defaultValue}
       className="block bg-transparent w-[25rem] h-8 mt-6 border-solid border-b-[1px] border-b-white focus:outline-none focus:border-sky-500 text-white text-2xl"
-      placeholder="Email을 입력해 주세요"
     />
   );
 };
@@ -118,7 +66,7 @@ export const InputMyNickName = ({
   defaultValue,
 }: {
   control: Control<MyPageFormField>;
-  defaultValue: string;
+  defaultValue: string | number | readonly string[] | undefined;
 }) => {
   const { field } = useController({
     control,
@@ -132,10 +80,25 @@ export const InputMyNickName = ({
 
   const { disabledNickName, setDisabledNickName } = myPageFormStore();
   const inputRef = useRef<HTMLInputElement>(null);
+  const { hiddenOfFormSlider, setHidden, setFormSlider } = sliderStore();
+  const { myProfile } = myProfileInfoStore();
 
   const onFocusInput = () => {
     setDisabledNickName(false);
     inputRef.current?.focus();
+  };
+
+  const checkInputWithMyProfile = (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    if (event.target.value === myProfile.profile.nickname) setFormSlider(false);
+    else setFormSlider(true);
+  };
+
+  const onChangeInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+    field.onChange(event);
+    hiddenOfFormSlider && setHidden(false);
+    checkInputWithMyProfile(event);
   };
 
   return (
@@ -145,10 +108,9 @@ export const InputMyNickName = ({
         disabled={disabledNickName}
         type="text"
         spellCheck="false"
-        onChange={field.onChange}
+        onChange={onChangeInput}
         defaultValue={defaultValue}
         className="inline bg-transparent w-[25rem] h-8 mt-6 border-solid border-b-[1px] border-b-white focus:outline-none focus:border-sky-500 text-white text-2xl"
-        placeholder="Nickname을 입력해 주세요"
       />
       <button type="button" onClick={onFocusInput}>
         <BsPencilSquare
@@ -165,20 +127,23 @@ export const InputMyBio = ({
   defaultValue,
 }: {
   control: Control<MyPageFormField>;
-  defaultValue: string;
+  defaultValue: string | null | undefined;
 }) => {
   const { field } = useController({
     control,
     name: 'bio',
-    // rules: {
-    //   validate: {
-    //     checkLength: (value) => value.length <= 300,
-    //   },
-    // },
   });
   const { tabBio, setTabBio } = myPageFormStore();
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
-  const [textBio, setTextBio] = useState<string>(defaultValue);
+  const [textBio, setTextBio] = useState<string>('');
+  const [defaultVal, setDefaultVal] = useState('');
+  const { hiddenOfFormSlider, setHidden, setFormSlider } = sliderStore();
+  const { myProfile } = myProfileInfoStore();
+
+  useEffect(() => {
+    if (defaultValue) setDefaultVal(defaultValue);
+    else setDefaultVal('');
+  }, [defaultValue]);
 
   const onChangeTab = () => {
     if (textAreaRef.current?.value) {
@@ -187,19 +152,30 @@ export const InputMyBio = ({
     setTabBio();
   };
 
+  const checkTextAreaWithMyProfile = (
+    event: React.ChangeEvent<HTMLTextAreaElement>,
+  ) => {
+    if (event.target.value === myProfile.profile.bio) setFormSlider(false);
+    else setFormSlider(true);
+  };
+
+  const onChangeTextArea = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    field.onChange(event);
+    hiddenOfFormSlider && setHidden(false);
+    checkTextAreaWithMyProfile(event);
+  };
+
   return (
     <div className="group relative">
       {tabBio ? (
         <div className="max-w-[23rem] break-all">
-          <DetailDiv>
-            <MarkDownPreview child={!textBio ? defaultValue : textBio} />
-          </DetailDiv>
+          <MarkDownPreview child={!textBio ? defaultVal : textBio} />
         </div>
       ) : (
         <textarea
           ref={textAreaRef}
-          defaultValue={!textBio ? defaultValue : textBio} //최초 렌더링 시 textBio는 undefined이므로
-          onChange={field.onChange}
+          defaultValue={!textBio ? defaultVal : textBio} //최초 렌더링 시 textBio는 undefined이므로
+          onChange={onChangeTextArea}
           spellCheck="false"
           className="block bg-transparent resize-none min-w-[23rem] min-h-[5rem] border-solid border-b-[1px] border-b-white focus:outline-none focus:border-sky-500 text-white"
           placeholder="Bio을 입력해 주세요"

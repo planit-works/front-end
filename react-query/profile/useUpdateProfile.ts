@@ -1,6 +1,6 @@
 import {
-  UseMutateFunction,
   useMutation,
+  UseMutationResult,
   useQueryClient,
 } from '@tanstack/react-query';
 import { updateUserProfile } from 'api/profile/Api';
@@ -9,13 +9,13 @@ import useDisabledStore from 'store/myPageFormStore';
 import sliderStore from 'store/sliderStore';
 
 type PatchUserInfo = {
-  nickname: string;
-  avatarUrl?: string;
-  bio?: string;
+  nicknameData?: string;
+  avatarUrlData?: string;
+  bioData?: string | null;
 };
 
-export const useUpdateProfile = (): UseMutateFunction<
-  void,
+export const useUpdateProfile = (): UseMutationResult<
+  any,
   unknown,
   PatchUserInfo,
   unknown
@@ -24,9 +24,9 @@ export const useUpdateProfile = (): UseMutateFunction<
   const { setUpdateCheckerSlider, setFormSlider } = sliderStore();
 
   const { setDisabledAll } = useDisabledStore();
-  const { mutate } = useMutation({
-    mutationFn: ({ nickname, avatarUrl, bio }: PatchUserInfo) =>
-      updateUserProfile(nickname, 'avatars/' + avatarUrl, bio),
+  const mutateUserProfile = useMutation({
+    mutationFn: ({ nicknameData, avatarUrlData, bioData }: PatchUserInfo) =>
+      updateUserProfile(nicknameData, 'avatars/' + avatarUrlData, bioData),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [QueryKey.getLoginedUser] });
       setUpdateCheckerSlider(true); //업데이트 하고 슬라이더 애니메이션 켜준다
@@ -42,5 +42,5 @@ export const useUpdateProfile = (): UseMutateFunction<
     },
   });
 
-  return mutate;
+  return mutateUserProfile;
 };

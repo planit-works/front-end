@@ -1,20 +1,20 @@
 import axios from 'axios';
-import { MyInfo } from 'types/MyInfo';
-import { UserProfile } from 'types/UserProfie';
+import { MyProfileInfo } from 'types/MyInfo';
+import { UserProfileList } from 'types/SearchedList';
 
 const BaseURL: string = 'https://www.planit.p-e.kr/api';
 axios.defaults.withCredentials = true;
 
 export const updateUserProfile = async (
-  nickname?: string,
-  avatarUrl?: string,
-  bio?: string,
+  nicknameData?: string,
+  avatarUrlData?: string,
+  bioData?: string | null,
 ) => {
   try {
     const { data } = await axios.patch(`${BaseURL}/profiles`, {
-      nickname,
-      avatarUrl,
-      bio,
+      nickname: nicknameData,
+      avatarUrl: avatarUrlData,
+      bio: bioData,
     });
 
     return data;
@@ -25,7 +25,7 @@ export const updateUserProfile = async (
   }
 };
 
-export const getProfile = async (id: number): Promise<MyInfo> => {
+export const getProfile = async (id: number): Promise<MyProfileInfo> => {
   const { data } = await axios.post(`${BaseURL}/profiles`, {
     userId: id,
   });
@@ -33,8 +33,11 @@ export const getProfile = async (id: number): Promise<MyInfo> => {
   return data;
 };
 
-export const getUserProfile = async (id: string): Promise<UserProfile[]> => {
-  const { data } = await axios.get(`${BaseURL}/users?q=${id}`);
+export const getUserProfileList = async (
+  id: string,
+  page = 1,
+): Promise<UserProfileList> => {
+  const { data } = await axios.get(`${BaseURL}/users?q=${id}&page=${page}`);
 
   return data;
 };

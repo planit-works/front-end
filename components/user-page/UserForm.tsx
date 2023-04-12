@@ -1,8 +1,7 @@
 import { useEffect } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import QueryKey from 'react-query/react-key';
-import { MyInfo } from 'types/MyInfo';
-import SliderChecker from 'components/sliderFormChecker';
+import { MyProfileInfo } from 'types/MyInfo';
 import { UserBio, UserNickName } from './InputUserPage';
 import FollowList, { FollowingBtn } from './UserFollow';
 import { useGetUserProfile } from 'react-query/profile/useGetUserProfile';
@@ -17,16 +16,16 @@ export default function UserProfileForm({ id }: { id: number }) {
     mutateAsync(id);
   }, [id, mutateAsync]);
 
-  let queryClientNickName = queryClient.getQueryData<MyInfo>([
+  let queryClientNickName = queryClient.getQueryData<MyProfileInfo>([
     QueryKey.getUserProfile,
   ])?.profile.nickname as string;
-  const queryClientBio = queryClient.getQueryData<MyInfo>([
+  const queryClientBio = queryClient.getQueryData<MyProfileInfo>([
     QueryKey.getUserProfile,
   ])?.profile.bio as string;
-  let queryClientAvatarUrl = queryClient.getQueryData<MyInfo>([
+  let queryClientAvatarUrl = queryClient.getQueryData<MyProfileInfo>([
     QueryKey.getUserProfile,
   ])?.profile.avatarUrl as string;
-  let queryClientFollowing = queryClient.getQueryData<MyInfo>([
+  let queryClientFollowing = queryClient.getQueryData<MyProfileInfo>([
     QueryKey.getUserProfile,
   ])?.followingCount as number;
 
@@ -42,8 +41,6 @@ export default function UserProfileForm({ id }: { id: number }) {
         <FollowList follow={queryClientFollowing} follower={follower} />
         <UserNickName defaultValue={queryClientNickName} />
         <UserBio defaultValue={queryClientBio} />
-
-        <SliderChecker />
       </div>
     </div>
   );

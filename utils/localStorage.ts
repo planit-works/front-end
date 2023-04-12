@@ -13,3 +13,8 @@ export const removeLocalStorage = (key: string) => {
 export const getLocalStorage = (key: string) => {
   return localStorage.getItem(key);
 };
+
+export const getParsedLocalStorageItem = (key: string) => {
+  const storageItem = getLocalStorage(key);
+  if (storageItem) return JSON.parse(storageItem);
+};

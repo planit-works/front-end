@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 
+
 module.exports = {
   content: [
     './pages/**/*.{js,ts,jsx,tsx}',
@@ -9,7 +10,9 @@ module.exports = {
   ],
   theme: {
     extend: {
+
       colors: {
+        'col-calendar': 'rgb(14 165 233)',
         'col-calendar': 'rgb(14 165 233)',
       },
       keyframes: {
@@ -90,12 +93,12 @@ module.exports = {
           '0%': {
             transformOrigin: '50% 0',
             transform: 'scale(0.01, 0)',
-            opacity: '0'
+            opacity: '0',
           },
           '50%': {
             transformOrigin: '50% 0',
             transform: 'scale(0.01, 1)',
-            opacity: '1'
+            opacity: '1',
           },
           '100%': {
             transform: 'scale(1, 1)',
@@ -105,7 +108,7 @@ module.exports = {
           '50%': {
             transformOrigin: '50% 0',
             transform: 'scale(0.01, 1)',
-            opacity: '1'
+            opacity: '1',
           },
           '100%': {
             transformOrigin: '50% 0',
@@ -125,7 +128,6 @@ module.exports = {
           '50%': { transform: 'translateY(0)', opacity: '1' },
           '100%': { transform: 'translateY(100%)', opacity: '0' },
         },
-
       },
       animation: {
         slipToLeft: 'slipToLeft 500ms ease-in-out both',
@@ -140,13 +142,17 @@ module.exports = {
         profile: 'opacityDown 2s ease-in-out forwards',
         profileSecond: 'opacityDown 2s 2s ease-in-out forwards',
         profileAtter: 'opacityUp 3s 3s ease-in-out forwards',
-        calendarAppear:'calendarAppear 700ms ease-in-out both',
-        calendarDisappear:'calendarDisappear 700ms ease-in-out both',
+        calendarAppear: 'calendarAppear 700ms ease-in-out both',
+        calendarDisappear: 'calendarDisappear 700ms ease-in-out both',
         sliderUp: 'sliderUp 500ms ease-in-out forwards',
         sliderDown: 'sliderDown 500ms ease-in-out forwards',
         sliderMove: 'sliderMove 2s ease-in-out forwards',
       },
     },
   },
-  plugins: [require('@tailwindcss/typography')],
+  plugins: [
+    require('@tailwindcss/typography')({
+      className: 'markdownCss',
+    }),
+  ],
 };
