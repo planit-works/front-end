@@ -12,7 +12,6 @@ export function useTodo() {
       e.preventDefault();
       if (!inputRef.current || inputRef.current.value.length < 1)
         return; //최소 1글자 이상 입력
-      else if (todoList.length >= 25) return;
       else {
         const newTodo: Todo = {
           id: getRandomString(),
