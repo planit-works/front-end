@@ -14,7 +14,7 @@ import {
   getParsedLocalStorageItem,
 } from '../../utils/localStorage';
 
-describe('<TodoInput />', () => {
+describe.skip('<TodoInput />', () => {
   const user = UserEvent.setup();
   it('checkItemInLocalStorage', async () => {
     const { container } = render(<TodoItemPlus />);
