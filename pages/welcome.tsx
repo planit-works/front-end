@@ -1,6 +1,7 @@
 import WelcomeAnswer from 'components/welcome/WelcomeAnswer';
 import WelcomeQuestion from 'components/welcome/WelcomeQuestion';
 import useWelcomeText from 'hooks/useWelcomeText';
+import Head from 'next/head';
 // import getRandomArr from 'utils/getRandomArr';
 // import { InferGetStaticPropsType } from 'next';
 // import { welcomeTextArr } from 'constants/welcomeTextArr';
@@ -10,6 +11,10 @@ export default function Welcome() {
 
   return (
     <div className="w-screen flex flex-col items-center justify-center relative h-screen overflow-x-hidden bg-[url('../assets/background2.jpg')] bg-cover bg-top bg-center bg-fixed">
+      <Head>
+        <title>Welcome!</title>
+        <meta name="plain-it" content="Plan-it에 오신 여러분을 환영합니다" />
+      </Head>
       <WelcomeQuestion welcomeText={welcomeText} />
       <WelcomeAnswer />
     </div>
