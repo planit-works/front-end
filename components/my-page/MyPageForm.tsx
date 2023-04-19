@@ -20,6 +20,7 @@ import SliderUpdateChecker from 'components/SliderUpdateChecker';
 import myProfileInfoStore from 'store/myProfileInfoStore';
 import FollowList from 'components/user-page/UserFollow';
 import { getSerialNumFromUrl } from 'utils/getSerialNumFromUrl';
+import ImageFilled from './../ImageFilled';
 
 export default function MyProfileForm() {
   const {
@@ -131,10 +132,11 @@ export default function MyProfileForm() {
   return (
     <div className="flex relative right-64 flex-col justify-center items-center">
       <form onSubmit={handleSubmit(onValid)} className="relative">
-        <img
+        <ImageFilled
+          containerClass={'relative w-[25rem] h-[20rem] my-2'}
+          imageClass={' rounded-[8%]'}
           src={profileImg}
-          alt="기본 프로필"
-          className="w-[25rem] h-[20rem] my-2 rounded-[8%]"
+          alt={'기본 프로필'}
         />
         <InputMyImgFile control={control} />
         <ProfileImgErrMsg
