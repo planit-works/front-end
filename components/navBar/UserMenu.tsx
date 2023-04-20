@@ -3,6 +3,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { logoutUser } from 'api/auth/Api';
 import useErrorStore from 'store/useErrorStore';
 import QueryKey from '../../react-query/react-key/index';
+import { useCallback } from 'react';
 
 type UserMenuLinkedProps = {
   name: string;
@@ -18,7 +19,7 @@ export const UserMenuLinked = ({ name, link }: UserMenuLinkedProps) => {
   const Router = useRouter();
 
   return (
-    <li>
+    <li className="text-center font-medium bg-white my-0.5 p-0.5 rounded-md border hover:bg-slate-200 hover:border-slate-200">
       <button onClick={() => Router.push(link)}>{name}</button>
     </li>
   );
@@ -26,34 +27,38 @@ export const UserMenuLinked = ({ name, link }: UserMenuLinkedProps) => {
 
 export const UserMenuBtn = ({ name, execution }: UserMenuBtnProps) => {
   return (
-    <li>
+    <li className="text-center font-medium bg-white my-0.5 p-0.5 rounded-md border hover:bg-slate-200 hover:border-slate-200">
       <button onClick={execution}>{name}</button>
     </li>
   );
 };
 
-export const UserMenuList = () => {
+const UserMenuList = () => {
   const queryClient = useQueryClient();
   const Router = useRouter();
   const { setErrorLogined } = useErrorStore();
-  const onLogOut = async () => {
+  const onLogOut = useCallback(async () => {
     try {
-      await logoutUser();
-      queryClient.removeQueries([QueryKey.getLoginedUser]);
-      queryClient.removeQueries([QueryKey.getMyProfile]);
+      // queryClient.removeQueries([QueryKey.getLoginedUser]);
+      // queryClient.removeQueries([QueryKey.getMyProfile]);
+      queryClient.clear();
+
       Router.replace('/welcome');
-      setErrorLogined(true);
+      // setErrorLogined(true);
+      await logoutUser();
     } catch (error) {
       if (error instanceof Error) {
         alert(error.message);
       }
     }
-  };
+  }, []);
 
   return (
-    <ul>
+    <ul className={`absolute top-[3.8rem] text-xs text-black my-0.5 `}>
       <UserMenuLinked name="My Page" link="/my-page" />
-      <UserMenuBtn name="LogOut" execution={onLogOut} />
+      <UserMenuBtn name="Log Out" execution={onLogOut} />
     </ul>
   );
 };
+
+export default UserMenuList;
