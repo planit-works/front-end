@@ -10,9 +10,9 @@ export default function UserNavBar() {
   //배포 후 테스트
 
   return (
-    <div className="absolute top-[1rem] flex w-full justify-between">
+    <nav className="absolute top-[1rem] flex w-full justify-between">
       <SearchInput />
       {userInfo ? <UserAccountBtn userInfo={userInfo} /> : <LoginBtn />}
-    </div>
+    </nav>
   );
 }

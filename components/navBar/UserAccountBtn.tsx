@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import UserMenuList from './UserMenu';
+import { UserMenuList } from './UserMenu';
 import { LoginedUserInfo } from 'types/auth';
 import ImageFilled from './../ImageFilled';
 

@@ -1,10 +1,9 @@
 import { useRouter } from 'next/router';
 import { useQueryClient } from '@tanstack/react-query';
 import { logoutUser } from 'api/auth/Api';
-import useErrorStore from 'store/useErrorStore';
-import QueryKey from '../../react-query/react-key/index';
 import { useCallback } from 'react';
 
+// import useErrorStore from 'store/useErrorStore';
 type UserMenuLinkedProps = {
   name: string;
   link: string;
@@ -33,10 +32,10 @@ export const UserMenuBtn = ({ name, execution }: UserMenuBtnProps) => {
   );
 };
 
-const UserMenuList = () => {
+export const UserMenuList = () => {
   const queryClient = useQueryClient();
   const Router = useRouter();
-  const { setErrorLogined } = useErrorStore();
+  // const { setErrorLogined } = useErrorStore();
   const onLogOut = useCallback(async () => {
     try {
       // queryClient.removeQueries([QueryKey.getLoginedUser]);
@@ -48,7 +47,7 @@ const UserMenuList = () => {
       await logoutUser();
     } catch (error) {
       if (error instanceof Error) {
-        alert(error.message);
+        alert('로그아웃에 실패하였습니다. 잠시 후 다시 시도해 주십시오');
       }
     }
   }, []);
@@ -60,5 +59,3 @@ const UserMenuList = () => {
     </ul>
   );
 };
-
-export default UserMenuList;
