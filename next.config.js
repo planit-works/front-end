@@ -22,6 +22,9 @@ const nextConfig = {
       },
     ];
   },
+  images: {
+    domains: ['56bwrcz09f.execute-api.ap-northeast-2.amazonaws.com'],
+  },
 };
 
 module.exports = nextConfig;

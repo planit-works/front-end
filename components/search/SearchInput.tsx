@@ -24,7 +24,7 @@ export default function SearchInput() {
   };
 
   return (
-    <div className="absolute top-[2rem] left-[2rem]">
+    <div className="mx-2">
       <form action="">
         <div className="flex justify-center items-center w-[15rem]">
           <input

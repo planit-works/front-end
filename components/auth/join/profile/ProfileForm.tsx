@@ -13,6 +13,7 @@ import useProfileImg from 'hooks/useProfileImg';
 import AuthSubmitBtn from 'components/auth/AuthSubmitBtn';
 import { getSerialNumFromUrl } from 'utils/getSerialNumFromUrl';
 import { useGetLoginedUser } from 'react-query/useGetLoginedUser';
+import ImageFilled from './../../../ImageFilled';
 
 export default function ProfileForm() {
   const [disableBtn, setDisable] = useState(false);
@@ -100,10 +101,11 @@ export default function ProfileForm() {
     <div className="relative flex flex-col jusify-center items-center animate-profileAtter opacity-0 ">
       <form onSubmit={handleSubmit(onValid)}>
         <div className="flex flex-row flex-wrap w-[30rem] justify-center items-center overflow-hidden">
-          <img
+          <ImageFilled
+            containerClass={'relative w-[30rem] h-[25rem] my-2'}
+            imageClass={'rounded-[8%]'}
             src={profileImg}
-            alt="기본 프로필"
-            className="w-[30rem] h-[25rem] my-2 rounded-[8%]"
+            alt={'기본 프로필'}
           />
           <InputImgFile control={control} />
         </div>

@@ -1,21 +1,21 @@
 import { create } from 'zustand';
 
 interface ErrorState {
-  isError: boolean;
+  isErrorLogined: boolean;
   isErrorSlider?: boolean;
   isErrorUpdateChecker?: boolean;
-  setError: (value: boolean) => void;
+  setErrorLogined: (value: boolean) => void;
   setErrorSlider: (value: boolean) => void;
   setErrorUpdateChecker: (value: boolean) => void;
 }
 
 const useErrorStore = create<ErrorState>()((set) => ({
-  isError: true,
+  isErrorLogined: true,
   isErrorSlider: undefined,
   isErrorUpdateChecker: false,
-  setError: (value) =>
+  setErrorLogined: (value) =>
     set({
-      isError: value,
+      isErrorLogined: value,
     }),
   setErrorSlider: (value) =>
     set({

@@ -4,7 +4,7 @@ import { verifyLogin } from '../api/auth/Api';
 import QueryKey from './react-key';
 
 export const useGetLoginedUser = (enable: boolean = true) => {
-  const { setError } = useErrorStore();
+  const { setErrorLogined } = useErrorStore();
   const { data, refetch, isError, isLoading } = useQuery({
     queryKey: [QueryKey.getLoginedUser],
     queryFn: verifyLogin,
@@ -13,16 +13,17 @@ export const useGetLoginedUser = (enable: boolean = true) => {
     retry: false,
     enabled: enable,
     onError: () => {
-      setError(true);
+      setErrorLogined(true);
     },
-    onSuccess: () => {
-      setError(false);
+    onSuccess: (data) => {
+      console.log('data', data);
+      setErrorLogined(false);
     },
   });
 
   return {
     userInfo: data,
-    userId: data?.userId as number,
+    userId: data && data.userId,
     verifyErr: isError,
     isLoading,
     refetch,
