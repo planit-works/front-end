@@ -2,6 +2,10 @@ import {
   FetchNextPageOptions,
   InfiniteQueryObserverResult,
 } from '@tanstack/react-query';
+import {
+  FetchNextPageOptions,
+  InfiniteQueryObserverResult,
+} from '@tanstack/react-query';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
@@ -10,6 +14,7 @@ import { Profile, UserProfileList } from 'types/SearchedList';
 export function SearchedList({
   UserProfile,
 }: {
+  UserProfile: Profile;
   UserProfile: Profile;
   key: number;
 }) {
@@ -20,8 +25,11 @@ export function SearchedList({
         legacyBehavior
       >
         <div className="flex items-center list-none bg-gray-100 hover:bg-gray-200 cursor-pointer">
+        <div className="flex items-center list-none bg-gray-100 hover:bg-gray-200 cursor-pointer">
           <img
             alt=""
+            src={process.env.NEXT_PUBLIC_IMG_THUMBNAIL + UserProfile.avatarUrl}
+            className="w-8 h-8 rounded-[20%] ml-4"
             src={process.env.NEXT_PUBLIC_IMG_THUMBNAIL + UserProfile.avatarUrl}
             className="w-8 h-8 rounded-[20%] ml-4"
           />
@@ -36,7 +44,14 @@ export default function SearchedListBar({
   userProfileDatas,
   fetchNextPage,
   hasNextPage,
+  fetchNextPage,
+  hasNextPage,
 }: {
+  userProfileDatas: UserProfileList[] | undefined;
+  fetchNextPage: (
+    options?: FetchNextPageOptions | undefined,
+  ) => Promise<InfiniteQueryObserverResult<UserProfileList, Error>>;
+  hasNextPage: boolean | undefined;
   userProfileDatas: UserProfileList[] | undefined;
   fetchNextPage: (
     options?: FetchNextPageOptions | undefined,
@@ -54,6 +69,10 @@ export default function SearchedListBar({
   return (
     <ul className="absolute top-[1.75rem]  left-[0.5rem]  w-[13rem] max-h-32 overflow-auto">
       {userProfileDatas &&
+        userProfileDatas.map((result) => {
+          return result.profiles?.map((item, i) => {
+            return <SearchedList key={i} UserProfile={item} />;
+          });
         userProfileDatas.map((result) => {
           return result.profiles?.map((item, i) => {
             return <SearchedList key={i} UserProfile={item} />;
