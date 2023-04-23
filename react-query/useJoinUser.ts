@@ -9,11 +9,11 @@ export const useJoinUser = (): UseMutateFunction<
   AuthInfo,
   unknown
 > => {
-  const { setError } = useErrorStore();
+  const { setErrorLogined } = useErrorStore();
   const { mutate } = useMutation({
     mutationFn: (authInfo: AuthInfo) => createUser(authInfo),
-    onSuccess: (profile) => {
-      setError(false);
+    onSuccess: () => {
+      setErrorLogined(false);
     },
   });
 

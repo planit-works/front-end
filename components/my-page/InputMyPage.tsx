@@ -169,7 +169,7 @@ export const InputMyBio = ({
     <div className="group relative">
       {tabBio ? (
         <div className="max-w-[23rem] break-all">
-          <MarkDownPreview child={!textBio ? defaultVal : textBio} />
+          <MarkDownPreview textBio={!textBio ? defaultVal : textBio} />
         </div>
       ) : (
         <textarea

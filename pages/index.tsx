@@ -3,13 +3,14 @@ import { useState } from 'react';
 import MainSideBar from '../components/home/MainSide/MainSideBar';
 import { BsChevronLeft } from 'react-icons/bs';
 import Clock from '../components/home/Clock';
-import UserNavBar from 'components/UserNavBar';
+import UserNavBar from 'components/navBar/UserNavBar';
 import SearchInput from 'components/search/SearchInput';
 export default function Home() {
   const [isOpenTodo, setIsOpenTodo] = useState<boolean>(false);
 
   return (
     <div className="w-screen flex flex-col justify-center items-center relative h-screen overflow-x-hidden bg-[url('../assets/background2.jpg')] bg-cover bg-center">
+      <UserNavBar />
       <div className="">
         <Clock />
       </div>
@@ -19,8 +20,8 @@ export default function Home() {
       >
         <BsChevronLeft /> <span>todo</span>
       </button>
-      <UserNavBar />
-      <SearchInput />
+
+      {/* <SearchInput /> */}
       {isOpenTodo && (
         <MainSideBar isOpen={isOpenTodo} setIsOpen={setIsOpenTodo} />
       )}

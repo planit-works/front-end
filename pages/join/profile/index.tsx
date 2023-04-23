@@ -1,7 +1,7 @@
 import WelcomeProfile from 'components/auth/join/profile/InfoAnimation';
 import ProfileForm from 'components/auth/join/profile/ProfileForm';
 import { ChevronRightButton } from 'components/ChevronButton';
-import UserNavBar from 'components/UserNavBar';
+import UserNavBar from 'components/navBar/UserNavBar';
 import { useRouter } from 'next/router';
 export default function Profile() {
   const router = useRouter();

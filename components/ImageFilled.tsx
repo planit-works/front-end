@@ -15,7 +15,13 @@ export default function ImageFilled({
 }: ImageFilledProps) {
   return (
     <div className={`${containerClass}`}>
-      <Image className={`${imageClass}`} alt={`${alt}`} src={`${src}`} fill />
+      <Image
+        priority={true}
+        className={`${imageClass}`}
+        alt={`${alt}`}
+        src={`${src}`}
+        fill
+      />
     </div>
   );
 }

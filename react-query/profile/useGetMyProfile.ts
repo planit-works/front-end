@@ -16,12 +16,12 @@ export const useGetMyProfile = (): UseMutationResult<
   unknown
 > => {
   const queryClient = useQueryClient();
-  const { setError } = useErrorStore();
+  const { setErrorLogined } = useErrorStore();
   const { setMyProfile } = myProfileInfoStore();
   const mutateGetProfile = useMutation({
     mutationFn: (id: number) => getProfile(id),
     onError: () => {
-      setError(true);
+      setErrorLogined(true);
     },
 
     onSuccess: (data) => {
