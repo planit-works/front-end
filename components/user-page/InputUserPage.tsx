@@ -48,7 +48,7 @@ export const UserNickName = ({ defaultValue }: { defaultValue: string }) => {
 export const UserBio = ({ defaultValue }: { defaultValue: string }) => {
   return (
     <div className="mt-[4rem]">
-      <MarkDownPreview child={defaultValue} />
+      <MarkDownPreview textBio={defaultValue} />
     </div>
   );
 };

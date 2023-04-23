@@ -1,12 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
-import { useEffect, useRef, useState } from 'react';
 import { useController, Control } from 'react-hook-form';
 import { MyPageFormField } from 'types/MyInfo';
 import { BsPencilSquare } from 'react-icons/bs';
 import myPageFormStore from 'store/myPageFormStore';
 import MarkDownPreview from './MarkDownPreview';
-import sliderStore from 'store/sliderStore';
-import myProfileInfoStore from 'store/myProfileInfoStore';
 import sliderStore from 'store/sliderStore';
 import myProfileInfoStore from 'store/myProfileInfoStore';
 
@@ -19,24 +16,7 @@ export const InputMyImgFile = ({
     control,
     name: 'imageFile',
   });
-  const { hiddenOfFormSlider, setHidden, setFormSlider } = sliderStore();
 
-  const checkInputWithImgFile = (
-    event: React.ChangeEvent<HTMLInputElement>,
-  ) => {
-    if (!event.target.files?.length)
-      setFormSlider(false); //파일을 등록하지 않은 경우(기본 이미지 사용)
-    else if (!event.target.files[0].type.includes('image'))
-      setFormSlider(false); //등록한 파일이 이미지 형식이 아닐 경우
-    else setFormSlider(true);
-  };
-
-  const onChangeFile = (event: React.ChangeEvent<HTMLInputElement>) => {
-    console.log('file', event.target.files);
-    field.onChange(event.target.files);
-    checkInputWithImgFile(event);
-    hiddenOfFormSlider && setHidden(false);
-  };
   const { hiddenOfFormSlider, setHidden, setFormSlider } = sliderStore();
 
   const checkInputWithImgFile = (
@@ -63,17 +43,10 @@ export const InputMyImgFile = ({
       accept="image/*"
       className="w-[25rem]"
       onChange={onChangeFile}
-      className="w-[25rem]"
-      onChange={onChangeFile}
     />
   );
 };
 
-export const InputMyEmail = ({
-  defaultValue,
-}: {
-  defaultValue: string | number | readonly string[] | undefined;
-}) => {
 export const InputMyEmail = ({
   defaultValue,
 }: {
@@ -95,7 +68,6 @@ export const InputMyNickName = ({
 }: {
   control: Control<MyPageFormField>;
   defaultValue: string | number | readonly string[] | undefined;
-  defaultValue: string | number | readonly string[] | undefined;
 }) => {
   const { field } = useController({
     control,
@@ -111,25 +83,10 @@ export const InputMyNickName = ({
   const inputRef = useRef<HTMLInputElement>(null);
   const { hiddenOfFormSlider, setHidden, setFormSlider } = sliderStore();
   const { myProfile } = myProfileInfoStore();
-  const { hiddenOfFormSlider, setHidden, setFormSlider } = sliderStore();
-  const { myProfile } = myProfileInfoStore();
 
   const onFocusInput = () => {
     setDisabledNickName(false);
     inputRef.current?.focus();
-  };
-
-  const checkInputWithMyProfile = (
-    event: React.ChangeEvent<HTMLInputElement>,
-  ) => {
-    if (event.target.value === myProfile.profile.nickname) setFormSlider(false);
-    else setFormSlider(true);
-  };
-
-  const onChangeInput = (event: React.ChangeEvent<HTMLInputElement>) => {
-    field.onChange(event);
-    hiddenOfFormSlider && setHidden(false);
-    checkInputWithMyProfile(event);
   };
 
   const checkInputWithMyProfile = (
@@ -153,7 +110,6 @@ export const InputMyNickName = ({
         type="text"
         spellCheck="false"
         onChange={onChangeInput}
-        onChange={onChangeInput}
         defaultValue={defaultValue}
         className="inline bg-transparent w-[25rem] h-8 mt-6 border-solid border-b-[1px] border-b-white focus:outline-none focus:border-sky-500 text-white text-2xl"
       />
@@ -173,7 +129,6 @@ export const InputMyBio = ({
 }: {
   control: Control<MyPageFormField>;
   defaultValue: string | null | undefined;
-  defaultValue: string | null | undefined;
 }) => {
   const { field } = useController({
     control,
@@ -181,15 +136,6 @@ export const InputMyBio = ({
   });
   const { tabBio, setTabBio } = myPageFormStore();
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
-  const [textBio, setTextBio] = useState<string>('');
-  const [defaultVal, setDefaultVal] = useState('');
-  const { hiddenOfFormSlider, setHidden, setFormSlider } = sliderStore();
-  const { myProfile } = myProfileInfoStore();
-
-  useEffect(() => {
-    if (defaultValue) setDefaultVal(defaultValue);
-    else setDefaultVal('');
-  }, [defaultValue]);
   const [textBio, setTextBio] = useState<string>('');
   const [defaultVal, setDefaultVal] = useState('');
   const { hiddenOfFormSlider, setHidden, setFormSlider } = sliderStore();
@@ -220,19 +166,6 @@ export const InputMyBio = ({
     checkTextAreaWithMyProfile(event);
   };
 
-  const checkTextAreaWithMyProfile = (
-    event: React.ChangeEvent<HTMLTextAreaElement>,
-  ) => {
-    if (event.target.value === myProfile.profile.bio) setFormSlider(false);
-    else setFormSlider(true);
-  };
-
-  const onChangeTextArea = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    field.onChange(event);
-    hiddenOfFormSlider && setHidden(false);
-    checkTextAreaWithMyProfile(event);
-  };
-
   return (
     <div className="group relative">
       {tabBio ? (
@@ -242,8 +175,6 @@ export const InputMyBio = ({
       ) : (
         <textarea
           ref={textAreaRef}
-          defaultValue={!textBio ? defaultVal : textBio} //최초 렌더링 시 textBio는 undefined이므로
-          onChange={onChangeTextArea}
           defaultValue={!textBio ? defaultVal : textBio} //최초 렌더링 시 textBio는 undefined이므로
           onChange={onChangeTextArea}
           spellCheck="false"
