@@ -178,7 +178,7 @@ export const InputMyBio = ({
           defaultValue={!textBio ? defaultVal : textBio} //최초 렌더링 시 textBio는 undefined이므로
           onChange={onChangeTextArea}
           spellCheck="false"
-          className="block bg-transparent resize-none min-w-[23rem] min-h-[5rem] border-solid border-b-[1px] border-b-white focus:outline-none focus:border-sky-500 text-white"
+          className="block bg-transparent resize-none min-w-[23rem] min-h-[7.5rem] border-solid border-b-[1px] border-b-white focus:outline-none focus:border-sky-500 text-white"
           placeholder="Bio을 입력해 주세요"
         />
       )}
