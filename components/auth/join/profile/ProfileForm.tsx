@@ -55,7 +55,7 @@ export default function ProfileForm() {
   const updateProfileWithImg = async (imageFile: File[], nickname: string) => {
     const EndPoint: string = await getPresignedUrl();
     await uploadProfileImg(EndPoint, imageFile[0]);
-    const AvatarUrl = getSerialNumFromUrl(EndPoint);
+    const AvatarUrl = 'avatars/' + getSerialNumFromUrl(EndPoint);
     mutateUserProfile.mutate({
       nicknameData: nickname,
       avatarUrlData: AvatarUrl,
@@ -66,9 +66,7 @@ export default function ProfileForm() {
     //아무 파일도 없는 경우 닉네임만 업데이트
     mutateUserProfile.mutate({
       nicknameData: nickname,
-      avatarUrlData: userInfo?.profile.avatarUrl.substring(
-        userInfo?.profile.avatarUrl.indexOf('/') + 1, //avatars/... 에서 / 뒤의 숫자들만 추출
-      ),
+      avatarUrlData: userInfo?.profile.avatarUrl,
     });
   };
 

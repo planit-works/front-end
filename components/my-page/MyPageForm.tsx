@@ -42,7 +42,7 @@ export default function MyProfileForm() {
   });
 
   const { userId } = useGetLoginedUser();
-  const { myProfile } = myProfileInfoStore();
+  const { myProfile, setMyProfile } = myProfileInfoStore();
   const { setFormSlider } = sliderStore();
   const mutateGetProfile = useGetMyProfile();
   const imageFile = watch('imageFile');
@@ -75,14 +75,17 @@ export default function MyProfileForm() {
     bio: string | null | undefined,
   ) => {
     //아무 파일도 없는 경우 닉네임, bio만 업데이트
+    const AvatarUrl = myProfile.profile.avatarUrl;
     mutateUserProfile.mutate({
       nicknameData: nickname,
-      avatarUrlData: myProfile.profile.avatarUrl.substring(
-        myProfile.profile.avatarUrl.indexOf('/') + 1, //avatars/... 에서 / 뒤의 숫자들만 추출
-      ),
-      bioData: bio === '' ? null : bio,
+      avatarUrlData: AvatarUrl,
+      bioData: !bio ? null : bio,
     });
-
+    setMyProfile({
+      bio: !bio ? null : bio,
+      nickname,
+      avatarUrl: AvatarUrl,
+    });
     throw new Error('등록된 파일이 없습니다. 기본 이미지로 등록됩니다');
   };
 
@@ -93,11 +96,16 @@ export default function MyProfileForm() {
   ) => {
     const EndPoint: string = await getPresignedUrl();
     await uploadProfileImg(EndPoint, imageFile[0]);
-    const AvatarUrl = getSerialNumFromUrl(EndPoint);
+    const AvatarUrl = 'avatars/' + getSerialNumFromUrl(EndPoint);
     mutateUserProfile.mutate({
       nicknameData: nickname,
       avatarUrlData: AvatarUrl,
-      bioData: bio === '' ? null : bio,
+      bioData: !bio ? null : bio,
+    });
+    setMyProfile({
+      bio: !bio ? null : bio,
+      nickname,
+      avatarUrl: AvatarUrl,
     });
   };
 
