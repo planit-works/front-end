@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useRef } from 'react';
 import { useController, Control } from 'react-hook-form';
 import { MyPageFormField } from 'types/MyInfo';
 import { BsPencilSquare } from 'react-icons/bs';
@@ -6,6 +6,7 @@ import myPageFormStore from 'store/myPageFormStore';
 import MarkDownPreview from './MarkDownPreview';
 import sliderStore from 'store/sliderStore';
 import myProfileInfoStore from 'store/myProfileInfoStore';
+import useBioValue from 'hooks/useBioValue';
 
 export const InputMyImgFile = ({
   control,
@@ -134,21 +135,22 @@ export const InputMyBio = ({
     control,
     name: 'bio',
   });
+  const { usefulBioVal, setUsefulBioVal } = useBioValue(defaultValue);
   const { tabBio, setTabBio } = myPageFormStore();
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
-  const [textBio, setTextBio] = useState<string>('');
-  const [defaultVal, setDefaultVal] = useState('');
   const { hiddenOfFormSlider, setHidden, setFormSlider } = sliderStore();
   const { myProfile } = myProfileInfoStore();
 
-  useEffect(() => {
-    if (defaultValue) setDefaultVal(defaultValue);
-    else setDefaultVal('');
-  }, [defaultValue]);
-
   const onChangeTab = () => {
     if (textAreaRef.current?.value) {
-      setTextBio(textAreaRef.current.value);
+      setUsefulBioVal(textAreaRef.current.value);
+    } else {
+      //textarea 내용이 없으면 빈 값 저장
+      //markdown렌더 -> textarea로 전환할 때, textAreaRef.current.value는 항상 undefined다.
+      if (!tabBio) {
+        //tabBio를 통해 textarea -> markdown렌더로 전환할 때만 감지하여 빈 값을 저장하도록 한다.
+        setUsefulBioVal('');
+      }
     }
     setTabBio();
   };
@@ -170,12 +172,12 @@ export const InputMyBio = ({
     <div className="group relative">
       {tabBio ? (
         <div className="max-w-[23rem] break-all">
-          <MarkDownPreview textBio={!textBio ? defaultVal : textBio} />
+          <MarkDownPreview textBio={usefulBioVal} />
         </div>
       ) : (
         <textarea
           ref={textAreaRef}
-          defaultValue={!textBio ? defaultVal : textBio} //최초 렌더링 시 textBio는 undefined이므로
+          defaultValue={usefulBioVal}
           onChange={onChangeTextArea}
           spellCheck="false"
           className="block bg-transparent resize-none min-w-[23rem] min-h-[7.5rem] border-solid border-b-[1px] border-b-white focus:outline-none focus:border-sky-500 text-white"
