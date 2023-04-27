@@ -6,11 +6,11 @@ export default function AuthSubmitBtn({
   disable: boolean;
 }) {
   return (
-    <div className="flex">
+    <div className="flex mt-9">
       <button
         disabled={disable}
         type="submit"
-        className="animate-intro relative top-16 ml-auto text-xl text-neutral-300"
+        className="relative ml-auto text-xl text-neutral-300"
       >
         {btnName}
       </button>

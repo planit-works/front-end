@@ -22,7 +22,7 @@ export const InputEmailJoin = ({
     <input
       type="text"
       onChange={field.onChange}
-      className="animate-intro block bg-transparent w-[30rem] h-12 mt-8 border-solid border-b-[1px] border-b-white focus:outline-none focus:border-sky-500 text-white text-2xl"
+      className="block bg-transparent w-[30rem] h-12 mt-8 border-solid border-b-[1px] border-b-white focus:outline-none focus:border-sky-500 text-white text-2xl"
       placeholder="Email을 입력해 주세요"
     />
   );
@@ -50,7 +50,7 @@ export const InputPwdJoin = ({
     <input
       type="password"
       onChange={field.onChange}
-      className="animate-intro block bg-transparent w-[30rem] h-12 mt-8 border-solid border-b-[1px] border-b-white focus:outline-none focus:border-sky-500 text-white text-2xl"
+      className="animate-intro block bg-transparent w-[30rem] h-12 border-solid border-b-[1px] border-b-white focus:outline-none focus:border-sky-500 text-white text-2xl"
       placeholder="Password를 입력해 주세요"
     />
   );
@@ -73,7 +73,7 @@ export const InputPwdCheckJoin = ({
     <input
       type="password"
       onChange={field.onChange}
-      className="animate-intro block bg-transparent w-[30rem] h-12 mt-8 border-solid border-b-[1px] border-b-white focus:outline-none focus:border-sky-500 text-white text-2xl"
+      className="block bg-transparent w-[30rem] h-12 border-solid border-b-[1px] border-b-white focus:outline-none focus:border-sky-500 text-white text-2xl"
       placeholder="Password를 다시 한 번 입력해 주세요"
     />
   );

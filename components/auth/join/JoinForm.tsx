@@ -6,6 +6,7 @@ import AuthSubmitBtn from 'components/auth/AuthSubmitBtn';
 import Router from 'next/router';
 import { InputEmailJoin, InputPwdCheckJoin, InputPwdJoin } from './InputJoin';
 import { useJoinUser } from 'react-query/useJoinUser';
+import AuthBtnTemplate from '../AuthBtnTemplate';
 
 export default function JoinForm() {
   const {
@@ -70,7 +71,7 @@ export default function JoinForm() {
   };
 
   return (
-    <div className=" flex flex-col items-center justify-center w-3/4 relative bottom-[4rem] ">
+    <div className="animate-intro flex flex-col items-center justify-center w-3/4 relative bottom-[4rem] ">
       <form onSubmit={handleSubmit(onValid)}>
         <InputEmailJoin control={control} />
         <EmailErrMsg
@@ -92,6 +93,7 @@ export default function JoinForm() {
 
         <AuthSubmitBtn btnName="Join" disable={false} />
       </form>
+      <AuthBtnTemplate />
     </div>
   );
 }

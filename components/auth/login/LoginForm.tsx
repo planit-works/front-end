@@ -6,6 +6,7 @@ import { useRouter } from 'next/router';
 import AuthSubmitBtn from 'components/auth/AuthSubmitBtn';
 import { useState } from 'react';
 import { InputEmail, InputPwd } from './InputLogin';
+import AuthBtnTemplate from '../AuthBtnTemplate';
 
 export default function LoginForm() {
   const [disableBtn, setDisable] = useState(false);
@@ -44,13 +45,14 @@ export default function LoginForm() {
   };
 
   return (
-    <div>
+    <div className="animate-intro">
       <form onSubmit={handleSubmit(onValid)}>
         <InputEmail control={control} />
         <InputPwd control={control} />
 
         <AuthSubmitBtn btnName="Login" disable={disableBtn} />
       </form>
+      <AuthBtnTemplate />
     </div>
   );
 }
