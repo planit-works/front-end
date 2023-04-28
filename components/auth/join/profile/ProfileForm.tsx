@@ -14,6 +14,7 @@ import AuthSubmitBtn from 'components/auth/AuthSubmitBtn';
 import { getSerialNumFromUrl } from 'utils/getSerialNumFromUrl';
 import { useGetLoginedUser } from 'react-query/useGetLoginedUser';
 import ImageFilled from './../../../ImageFilled';
+import { OnlyLinkTemplate } from 'components/auth/AuthBtnTemplate';
 
 export default function ProfileForm() {
   const [disableBtn, setDisable] = useState(false);
@@ -96,7 +97,7 @@ export default function ProfileForm() {
   };
 
   return (
-    <div className="animate-profileAtter opacity-0">
+    <div className="animate-profileAtter opacity-0 flex items-center justify-center flex-col">
       <form onSubmit={handleSubmit(onValid)}>
         <div className="">
           <ImageFilled
@@ -123,6 +124,7 @@ export default function ProfileForm() {
         />
         <AuthSubmitBtn btnName="Submit" disable={disableBtn} />
       </form>
+      <OnlyLinkTemplate pathname={'/'} linkname={'나중에 편집할게요!'} />
       <SliderUpdateChecker />
     </div>
   );
