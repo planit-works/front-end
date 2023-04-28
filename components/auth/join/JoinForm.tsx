@@ -71,7 +71,7 @@ export default function JoinForm() {
   };
 
   return (
-    <div className="animate-intro flex flex-col items-center justify-center w-3/4 relative bottom-[4rem] ">
+    <div className="animate-intro">
       <form onSubmit={handleSubmit(onValid)}>
         <InputEmailJoin control={control} />
         <EmailErrMsg

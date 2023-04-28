@@ -96,11 +96,13 @@ export default function ProfileForm() {
   };
 
   return (
-    <div className="relative flex flex-col jusify-center items-center animate-profileAtter opacity-0 ">
+    <div className="animate-profileAtter opacity-0">
       <form onSubmit={handleSubmit(onValid)}>
-        <div className="flex flex-row flex-wrap w-[30rem] justify-center items-center overflow-hidden">
+        <div className="">
           <ImageFilled
-            containerClass={'relative w-[30rem] h-[25rem] my-2'}
+            containerClass={
+              'relative w-[30rem] h-[25rem] my-2 md:w-[20rem] md:h-[15rem]'
+            }
             imageClass={'rounded-[8%]'}
             src={profileImg}
             alt={'기본 프로필'}

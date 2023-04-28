@@ -10,7 +10,8 @@ export default function AuthSubmitBtn({
       <button
         disabled={disable}
         type="submit"
-        className="relative ml-auto text-xl text-neutral-300"
+        className="relative ml-auto text-2xl text-neutral-300
+        md:text-xl"
       >
         {btnName}
       </button>
