@@ -10,15 +10,6 @@ export default function SearchInput() {
   const { userProfileDatas, fetchNextPage, hasNextPage, isLoading, refetch } =
     useGetUserProfileList(debounceVal);
 
-  useEffect(() => {
-    if (searchVal === '' || debounceVal === '') {
-      return;
-    } else {
-      refetch();
-    }
-    console.log('hasNextPage', hasNextPage);
-  }, [debounceVal]);
-
   const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchVal(event.target.value);
   };
