@@ -1,6 +1,5 @@
 /** @type {import('tailwindcss').Config} */
 
-
 module.exports = {
   content: [
     './pages/**/*.{js,ts,jsx,tsx}',
@@ -10,7 +9,13 @@ module.exports = {
   ],
   theme: {
     extend: {
+      screens: {
+        lg: { max: '1023px' },
+        // => @media (max-width: 1023px) { ... }
 
+        md: { max: '767px' },
+        // => @media (max-width: 767px) { ... }
+      },
       colors: {
         'col-calendar': 'rgb(14 165 233)',
         'col-calendar': 'rgb(14 165 233)',
