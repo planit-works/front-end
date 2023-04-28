@@ -18,8 +18,9 @@ export default function MainSideBar(props: MainSideBarProps) {
 
   return (
     <div ref={containerRef} className="todo-side-bar animate-slipToLeft">
-      <div className="relative h-full">
+      <div className="flex flex-col relative h-full">
         <CalendarContainer />
+
         <TodoListContainer />
       </div>
       <ChevronRightButton handleButtonClick={handleClickChevronRight} />
