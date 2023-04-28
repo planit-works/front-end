@@ -26,7 +26,6 @@ export const useGetMyProfile = (): UseMutationResult<
 
     onSuccess: (data) => {
       queryClient.removeQueries([QueryKey.getMyProfile]);
-      queryClient.removeQueries([QueryKey.getMyProfile]);
       queryClient.setQueryData([QueryKey.getMyProfile], data);
       setMyProfileAllAtOnce(data);
     },
