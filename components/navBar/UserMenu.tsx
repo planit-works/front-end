@@ -53,7 +53,10 @@ export const UserMenuList = () => {
   }, []);
 
   return (
-    <ul className={`absolute top-[3.8rem] text-xs text-black my-0.5 `}>
+    <ul
+      className={`absolute top-[4.2rem] text-xs text-black my-0.5 
+    md:top-[3.8rem]`}
+    >
       <UserMenuLinked name="My Page" link="/my-page" />
       <UserMenuBtn name="Log Out" execution={onLogOut} />
     </ul>

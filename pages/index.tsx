@@ -16,7 +16,7 @@ export default function Home() {
         className="absolute right-2 top-1/2 text-xl text-gray-200 flex items-center hover:animate-bounceLeft"
         onClick={() => setIsOpenTodo(true)}
       >
-        <BsChevronLeft /> <span>todo</span>
+        <BsChevronLeft /> <span className="md:hidden">todo</span>
       </button>
       {isOpenTodo && (
         <MainSideBar isOpen={isOpenTodo} setIsOpen={setIsOpenTodo} />

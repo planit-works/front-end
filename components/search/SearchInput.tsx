@@ -15,7 +15,7 @@ export default function SearchInput() {
   };
 
   return (
-    <div className="mx-2">
+    <div className="ml-4">
       <form action="">
         <div className="flex justify-center items-center w-[15rem]">
           <input
