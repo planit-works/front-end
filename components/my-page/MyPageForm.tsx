@@ -141,11 +141,13 @@ export default function MyProfileForm() {
   };
 
   return (
-    <div className="flex relative right-64 flex-col justify-center items-center">
+    <div className="">
       <form onSubmit={handleSubmit(onValid)} className="relative">
         <ImageFilled
-          containerClass={'relative w-[25rem] h-[20rem] my-2'}
-          imageClass={' rounded-[8%]'}
+          containerClass={
+            'relative w-[25rem] h-[20rem] my-2 md:w-[20rem] md:h-[15rem]'
+          }
+          imageClass={'rounded-[8%]'}
           src={profileImg}
           alt={'기본 프로필'}
         />
