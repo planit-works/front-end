@@ -54,6 +54,7 @@ export default function MyProfileForm() {
     if (userId) {
       mutateGetProfile.mutate(userId);
       //userId가 들어오면 유저 정보 불러온다. 유저정보는 myProfileInfoStore()에 저장된다.
+      //userId가 들어오면 유저 정보 불러온다. 유저정보는 myProfileInfoStore()에 저장된다.
     }
   }, [userId]);
 
