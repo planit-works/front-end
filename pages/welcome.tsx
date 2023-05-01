@@ -2,9 +2,6 @@ import WelcomeAnswer from 'components/welcome/WelcomeAnswer';
 import WelcomeQuestion from 'components/welcome/WelcomeQuestion';
 import useWelcomeText from 'hooks/useWelcomeText';
 import Head from 'next/head';
-// import getRandomArr from 'utils/getRandomArr';
-// import { InferGetStaticPropsType } from 'next';
-// import { welcomeTextArr } from 'constants/welcomeTextArr';
 
 export default function Welcome() {
   const welcomeText = useWelcomeText();

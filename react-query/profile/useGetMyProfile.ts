@@ -17,7 +17,7 @@ export const useGetMyProfile = (): UseMutationResult<
 > => {
   const queryClient = useQueryClient();
   const { setErrorLogined } = useErrorStore();
-  const { setMyProfile } = myProfileInfoStore();
+  const { setMyProfileAllAtOnce } = myProfileInfoStore();
   const mutateGetProfile = useMutation({
     mutationFn: (id: number) => getProfile(id),
     onError: () => {
@@ -26,10 +26,8 @@ export const useGetMyProfile = (): UseMutationResult<
 
     onSuccess: (data) => {
       queryClient.removeQueries([QueryKey.getMyProfile]);
-      queryClient.removeQueries([QueryKey.getMyProfile]);
       queryClient.setQueryData([QueryKey.getMyProfile], data);
-      setMyProfile(data);
-      setMyProfile(data);
+      setMyProfileAllAtOnce(data);
     },
   });
 

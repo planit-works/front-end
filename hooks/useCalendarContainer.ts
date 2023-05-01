@@ -12,7 +12,7 @@ export default function useCalendarContainer() {
   //   }
   // }, []);
   const handleOpenCalendar = useCallback((e: React.MouseEvent) => {
-    setCalendarVisible(true);
+    setCalendarVisible((visible) => !visible);
   }, []);
   const handleCloseCalendar = useCallback((e: React.MouseEvent) => {
     const target = e.target as Node;

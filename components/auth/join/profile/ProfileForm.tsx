@@ -14,6 +14,7 @@ import AuthSubmitBtn from 'components/auth/AuthSubmitBtn';
 import { getSerialNumFromUrl } from 'utils/getSerialNumFromUrl';
 import { useGetLoginedUser } from 'react-query/useGetLoginedUser';
 import ImageFilled from './../../../ImageFilled';
+import { OnlyLinkTemplate } from 'components/auth/AuthBtnTemplate';
 
 export default function ProfileForm() {
   const [disableBtn, setDisable] = useState(false);
@@ -55,7 +56,7 @@ export default function ProfileForm() {
   const updateProfileWithImg = async (imageFile: File[], nickname: string) => {
     const EndPoint: string = await getPresignedUrl();
     await uploadProfileImg(EndPoint, imageFile[0]);
-    const AvatarUrl = getSerialNumFromUrl(EndPoint);
+    const AvatarUrl = 'avatars/' + getSerialNumFromUrl(EndPoint);
     mutateUserProfile.mutate({
       nicknameData: nickname,
       avatarUrlData: AvatarUrl,
@@ -66,9 +67,7 @@ export default function ProfileForm() {
     //아무 파일도 없는 경우 닉네임만 업데이트
     mutateUserProfile.mutate({
       nicknameData: nickname,
-      avatarUrlData: userInfo?.profile.avatarUrl.substring(
-        userInfo?.profile.avatarUrl.indexOf('/') + 1, //avatars/... 에서 / 뒤의 숫자들만 추출
-      ),
+      avatarUrlData: userInfo?.profile.avatarUrl,
     });
   };
 
@@ -98,11 +97,13 @@ export default function ProfileForm() {
   };
 
   return (
-    <div className="relative flex flex-col jusify-center items-center animate-profileAtter opacity-0 ">
+    <div className="animate-profileAtter opacity-0 flex items-center justify-center flex-col">
       <form onSubmit={handleSubmit(onValid)}>
-        <div className="flex flex-row flex-wrap w-[30rem] justify-center items-center overflow-hidden">
+        <div className="">
           <ImageFilled
-            containerClass={'relative w-[30rem] h-[25rem] my-2'}
+            containerClass={
+              'relative w-[30rem] h-[25rem] my-2 md:w-[20rem] md:h-[15rem]'
+            }
             imageClass={'rounded-[8%]'}
             src={profileImg}
             alt={'기본 프로필'}
@@ -123,6 +124,7 @@ export default function ProfileForm() {
         />
         <AuthSubmitBtn btnName="Submit" disable={disableBtn} />
       </form>
+      <OnlyLinkTemplate pathname={'/'} linkname={'나중에 편집할게요!'} />
       <SliderUpdateChecker />
     </div>
   );

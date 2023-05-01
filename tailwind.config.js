@@ -1,6 +1,5 @@
 /** @type {import('tailwindcss').Config} */
 
-
 module.exports = {
   content: [
     './pages/**/*.{js,ts,jsx,tsx}',
@@ -10,7 +9,13 @@ module.exports = {
   ],
   theme: {
     extend: {
+      screens: {
+        lg: { max: '1023px' },
+        // => @media (max-width: 1023px) { ... }
 
+        md: { max: '767px' },
+        // => @media (max-width: 767px) { ... }
+      },
       colors: {
         'col-calendar': 'rgb(14 165 233)',
         'col-calendar': 'rgb(14 165 233)',
@@ -139,9 +144,9 @@ module.exports = {
         bounceLeft: 'bounceLeft 1.2s infinite',
         intro: 'opacityUp 1.2s ease-in',
         introAfter: 'opacityUp 1.2s ease-in 0.8s forwards',
-        profile: 'opacityDown 2s ease-in-out forwards',
-        profileSecond: 'opacityDown 2s 2s ease-in-out forwards',
-        profileAtter: 'opacityUp 3s 3s ease-in-out forwards',
+        profile: 'opacityDown 1.8s ease-in-out forwards',
+        profileSecond: 'opacityDown 1.5s 1.5s ease-in-out forwards',
+        profileAtter: 'opacityUp 2.5s 2.25s ease-in-out forwards',
         calendarAppear: 'calendarAppear 700ms ease-in-out both',
         calendarDisappear: 'calendarDisappear 700ms ease-in-out both',
         sliderUp: 'sliderUp 500ms ease-in-out forwards',

@@ -6,6 +6,7 @@ import { UserBio, UserNickName } from './InputUserPage';
 import FollowList, { FollowingBtn } from './UserFollow';
 import { useGetUserProfile } from 'react-query/profile/useGetUserProfile';
 import followingStore from 'store/followingStore';
+import ImageFilled from 'components/ImageFilled';
 
 export default function UserProfileForm({ id }: { id: number }) {
   const queryClient = useQueryClient();
@@ -30,12 +31,15 @@ export default function UserProfileForm({ id }: { id: number }) {
   ])?.followingCount as number;
 
   return (
-    <div className="flex relative right-64 flex-col justify-center items-center">
+    <div className="">
       <div className="relative">
-        <img
+        <ImageFilled
+          containerClass={
+            'relative w-[25rem] h-[20rem] my-2 md:w-[20rem] md:h-[15rem]'
+          }
+          imageClass={'rounded-[8%]'}
           src={process.env.NEXT_PUBLIC_IMG_ORIGIN + queryClientAvatarUrl}
-          alt="기본 프로필"
-          className="w-[25rem] h-[20rem] my-2 rounded-[8%]"
+          alt={'기본 프로필'}
         />
         <FollowingBtn id={id} isFollowing={isFollowing} />
         <FollowList follow={queryClientFollowing} follower={follower} />

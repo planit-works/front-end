@@ -10,21 +10,12 @@ export default function SearchInput() {
   const { userProfileDatas, fetchNextPage, hasNextPage, isLoading, refetch } =
     useGetUserProfileList(debounceVal);
 
-  useEffect(() => {
-    if (searchVal === '' || debounceVal === '') {
-      return;
-    } else {
-      refetch();
-    }
-    console.log('hasNextPage', hasNextPage);
-  }, [debounceVal]);
-
   const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchVal(event.target.value);
   };
 
   return (
-    <div className="mx-2">
+    <div className="ml-4">
       <form action="">
         <div className="flex justify-center items-center w-[15rem]">
           <input

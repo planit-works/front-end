@@ -52,7 +52,7 @@ export default function SearchedListBar({
   }, [inView]);
 
   return (
-    <ul className="absolute top-[1.75rem]  left-[0.5rem]  w-[13rem] max-h-32 overflow-auto">
+    <ul className="absolute top-[1.75rem] left-[1rem]  w-[13rem] max-h-32 overflow-auto">
       {userProfileDatas &&
         userProfileDatas.map((result) => {
           return result.profiles?.map((item, i) => {

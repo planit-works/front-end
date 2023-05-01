@@ -4,7 +4,10 @@ export default function WelcomeQuestion({
   welcomeText: string;
 }) {
   return (
-    <div className="animate-intro relative bottom-[9rem] max-w-[50%] text-white text-5xl">
+    <div
+      className="animate-intro text-center flex mb-40 text-white text-5xl
+    md:text-4xl"
+    >
       {welcomeText}
     </div>
   );

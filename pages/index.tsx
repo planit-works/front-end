@@ -1,10 +1,8 @@
-/* eslint-disable semi */
 import { useState } from 'react';
 import MainSideBar from '../components/home/MainSide/MainSideBar';
 import { BsChevronLeft } from 'react-icons/bs';
 import Clock from '../components/home/Clock';
 import UserNavBar from 'components/navBar/UserNavBar';
-import SearchInput from 'components/search/SearchInput';
 export default function Home() {
   const [isOpenTodo, setIsOpenTodo] = useState<boolean>(false);
 
@@ -18,10 +16,8 @@ export default function Home() {
         className="absolute right-2 top-1/2 text-xl text-gray-200 flex items-center hover:animate-bounceLeft"
         onClick={() => setIsOpenTodo(true)}
       >
-        <BsChevronLeft /> <span>todo</span>
+        <BsChevronLeft /> <span className="md:hidden">todo</span>
       </button>
-
-      {/* <SearchInput /> */}
       {isOpenTodo && (
         <MainSideBar isOpen={isOpenTodo} setIsOpen={setIsOpenTodo} />
       )}
