@@ -44,11 +44,13 @@ export default function SearchedListBar({
   hasNextPage: boolean | undefined;
 }) {
   const { ref: inViewRef, inView } = useInView({ threshold: 1 });
+
   useEffect(() => {
     if (inView) {
       //ref가 달린 div가 화면에 보여지면 fetchNextPage() 실행
       fetchNextPage();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inView]);
 
   return (
