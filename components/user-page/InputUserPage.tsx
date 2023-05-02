@@ -1,6 +1,7 @@
 import { useController, Control } from 'react-hook-form';
 import { MyPageFormField } from 'types/MyInfo';
 import MarkDownPreview from 'components/my-page/MarkDownPreview';
+import useBioValue from 'hooks/useBioValue';
 
 export const InputMyImgFile = ({
   control,
@@ -31,7 +32,8 @@ export const InputMyEmail = ({ defaultValue }: { defaultValue: string }) => {
       disabled
       type="text"
       defaultValue={defaultValue}
-      className="block bg-transparent w-[25rem] h-8 mt-6 border-solid border-b-[1px] border-b-white focus:outline-none focus:border-sky-500 text-white text-2xl"
+      className="block bg-transparent w-[25rem] h-8 mt-6 border-solid border-b-[1px] border-b-white focus:outline-none focus:border-sky-500 text-white text-2xl
+      md:w-[20rem] md:text-xl"
       placeholder="Email을 입력해 주세요"
     />
   );
@@ -39,16 +41,25 @@ export const InputMyEmail = ({ defaultValue }: { defaultValue: string }) => {
 
 export const UserNickName = ({ defaultValue }: { defaultValue: string }) => {
   return (
-    <span className="block mt-[3rem] bg-transparent w-[25rem] h-8 mt-6 border-solid border-b-white focus:outline-none focus:border-sky-500 text-white text-2xl">
+    <span
+      className="block mt-[3rem] bg-transparent w-[25rem] h-8 mt-6 border-solid border-b-white focus:outline-none focus:border-sky-500 text-white text-2xl
+    md:w-[20rem] md:text-xl"
+    >
       {defaultValue}
     </span>
   );
 };
 
-export const UserBio = ({ defaultValue }: { defaultValue: string }) => {
+export const UserBio = ({
+  defaultValue,
+}: {
+  defaultValue: string | null | undefined;
+}) => {
+  const { usefulBioVal } = useBioValue(defaultValue);
+
   return (
-    <div className="mt-[4rem]">
-      <MarkDownPreview child={defaultValue} />
+    <div className="mt-[1rem]">
+      <MarkDownPreview textBio={usefulBioVal} />
     </div>
   );
 };

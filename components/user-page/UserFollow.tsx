@@ -10,7 +10,7 @@ type IsFollwoing = {
 
 export const Following = ({ follow }: { follow: number | null }) => {
   return (
-    <p className="text-white text-2xl">
+    <p className="text-white text-2xl md:text-xl">
       팔로우: <button type="button">{follow}</button>
     </p>
   );
@@ -18,7 +18,7 @@ export const Following = ({ follow }: { follow: number | null }) => {
 
 export const Follower = ({ follower }: { follower: number | null }) => {
   return (
-    <p className="text-white text-2xl">
+    <p className="text-white text-2xl md:text-xl">
       팔로워: <button type="button">{follower}</button>
     </p>
   );
@@ -28,15 +28,15 @@ export const FollowingBtn = ({ id, isFollowing }: IsFollwoing) => {
   const followingUser = useFollowingUser();
   const unFollowUser = useUnFollowUser();
   const { disableBtn, setDisabledBtn } = useDisabledBtn(false);
-  const handleFollow = (id: number) => {
+  const handleFollow = async (id: number) => {
     setDisabledBtn(true);
-    followingUser.mutate(id);
+    await followingUser.mutateAsync(id);
     setDisabledBtn(false);
   };
 
-  const handleUnFollow = (id: number) => {
+  const handleUnFollow = async (id: number) => {
     setDisabledBtn(true);
-    unFollowUser.mutate(id);
+    await unFollowUser.mutateAsync(id);
     setDisabledBtn(false);
   };
 
@@ -48,18 +48,22 @@ export const FollowingBtn = ({ id, isFollowing }: IsFollwoing) => {
           className="absolute top-[-2rem] right-[1rem]"
           onClick={() => handleUnFollow(id)}
         >
-          <AiFillHeart className="text-2xl text-white" />
+          <AiFillHeart
+            className="text-3xl text-white 
+          md:text-xl"
+          />
         </button>
       ) : (
-        isFollowing !== null && (
-          <button
-            disabled={disableBtn}
-            className="absolute top-[-2rem] right-[1rem]"
-            onClick={() => handleFollow(id)}
-          >
-            <AiOutlineHeart className="text-2xl text-white" />
-          </button>
-        )
+        <button
+          disabled={disableBtn}
+          className="absolute top-[-2rem] right-[1rem]"
+          onClick={() => handleFollow(id)}
+        >
+          <AiOutlineHeart
+            className="text-3xl text-white
+            md:text-xl"
+          />
+        </button>
       )}
     </div>
   );

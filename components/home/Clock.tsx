@@ -25,12 +25,17 @@ export default function Clock() {
   return (
     <div className="group flex items-center justify-center">
       <button
-        className="invisible group-hover:visible group-hover:animate-appearToLeft w-8 text-white text-lg"
+        className="invisible group-hover:visible group-hover:animate-appearToLeft w-8 text-white text-lg
+        md:text-base md:w-6"
         onClick={() => changeMode()}
       >
         <BsStopwatch />
       </button>
-      <div className="text-white font-medium flex flex-col items-center w-96">
+      <div
+        className="text-white font-medium flex flex-col items-center w-[27rem]
+        md:w-[20rem]
+      "
+      >
         {mode === 'stopwatch' && <Stopwatch />}
         {mode === 'clock' && <CurrentTimeIndicator />}
         {mode === 'timer' && <Timer />}

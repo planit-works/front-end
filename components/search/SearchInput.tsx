@@ -1,5 +1,5 @@
 import { AiOutlineSearch } from 'react-icons/ai';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import useDebounce from '../../hooks/useDebounce';
 import SearchedListBar from './SearchedList';
 import { useGetUserProfileList } from 'react-query/profile/useGetUserProfileList';
@@ -7,24 +7,15 @@ import { useGetUserProfileList } from 'react-query/profile/useGetUserProfileList
 export default function SearchInput() {
   const [searchVal, setSearchVal] = useState('');
   const debounceVal = useDebounce(searchVal);
-  const { userProfileDatas, fetchNextPage, hasNextPage, isLoading, refetch } =
+  const { userProfileDatas, fetchNextPage, hasNextPage } =
     useGetUserProfileList(debounceVal);
-
-  useEffect(() => {
-    if (searchVal === '' || debounceVal === '') {
-      return;
-    } else {
-      refetch();
-    }
-    console.log('hasNextPage', hasNextPage);
-  }, [debounceVal]);
 
   const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchVal(event.target.value);
   };
 
   return (
-    <div className="mx-2">
+    <div className="ml-4">
       <form action="">
         <div className="flex justify-center items-center w-[15rem]">
           <input

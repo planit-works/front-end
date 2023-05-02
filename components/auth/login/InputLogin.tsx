@@ -15,7 +15,8 @@ export const InputEmail = ({
     <input
       type="text"
       onChange={field.onChange}
-      className="animate-intro block bg-transparent w-[30rem] h-12 mt-8 border-solid border-b-[1px] border-b-white focus:outline-none focus:border-sky-500 text-white text-2xl"
+      className="block bg-transparent w-[30rem] h-12 mt-8 border-solid border-b-[1px] border-b-white focus:outline-none focus:border-sky-500 text-white text-3xl
+      md:w-[20rem] md:text-2xl"
       placeholder="Email을 입력해 주세요"
     />
   );
@@ -31,7 +32,8 @@ export const InputPwd = ({ control }: { control: Control<LoginFormField> }) => {
     <input
       type="password"
       onChange={field.onChange}
-      className="animate-intro block bg-transparent w-[30rem] h-12 mt-8 border-solid border-b-[1px] border-b-white focus:outline-none focus:border-sky-500 text-white text-2xl"
+      className=" block bg-transparent w-[30rem] h-12 mt-8 border-solid border-b-[1px] border-b-white focus:outline-none focus:border-sky-500 text-white text-3xl
+      md:w-[20rem] md:text-2xl"
       placeholder="PassWord를 입력해 주세요"
     />
   );

@@ -50,10 +50,14 @@ export const UserMenuList = () => {
         alert('로그아웃에 실패하였습니다. 잠시 후 다시 시도해 주십시오');
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
-    <ul className={`absolute top-[3.8rem] text-xs text-black my-0.5 `}>
+    <ul
+      className={`absolute top-[4.2rem] text-xs text-black my-0.5 
+    md:top-[3.8rem]`}
+    >
       <UserMenuLinked name="My Page" link="/my-page" />
       <UserMenuBtn name="Log Out" execution={onLogOut} />
     </ul>

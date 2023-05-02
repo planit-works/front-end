@@ -36,7 +36,7 @@ export default function Calendar({
 } */
   return (
     <div
-      className="absolute left-0 top-10  w-full bg-col-calendar rounded
+      className="mt-2 w-full bg-col-calendar rounded
       before:border-transparent before:border-l-[10px] before:border-l-transparent
       before:border-r-[10px] before:border-r-transparent
       before:border-b-[10px] before:border-b-col-calendar

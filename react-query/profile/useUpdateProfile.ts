@@ -26,7 +26,7 @@ export const useUpdateProfile = (): UseMutationResult<
   const { setDisabledAll } = useDisabledStore();
   const mutateUserProfile = useMutation({
     mutationFn: ({ nicknameData, avatarUrlData, bioData }: PatchUserInfo) =>
-      updateUserProfile(nicknameData, 'avatars/' + avatarUrlData, bioData),
+      updateUserProfile(nicknameData, avatarUrlData, bioData),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [QueryKey.getLoginedUser] });
       setUpdateCheckerSlider(true); //업데이트 하고 슬라이더 애니메이션 켜준다
