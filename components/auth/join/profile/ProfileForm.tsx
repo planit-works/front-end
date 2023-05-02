@@ -8,7 +8,7 @@ import {
   InputNickName,
 } from 'components/auth/join/profile/InputProfile';
 import { useUpdateProfile } from '../../../../react-query/profile/useUpdateProfile';
-import SliderUpdateChecker from 'components/SliderUpdateChecker';
+import SliderUpdateChecker from 'components/checker/SliderUpdateChecker';
 import useProfileImg from 'hooks/useProfileImg';
 import AuthSubmitBtn from 'components/auth/AuthSubmitBtn';
 import { getSerialNumFromUrl } from 'utils/getSerialNumFromUrl';

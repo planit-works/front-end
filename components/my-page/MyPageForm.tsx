@@ -15,12 +15,13 @@ import { useUpdateProfile } from 'react-query/profile/useUpdateProfile';
 import { getPresignedUrl, uploadProfileImg } from 'api/aws/Api';
 import useProfileImg from 'hooks/useProfileImg';
 import { NickNameErrMsg, ProfileImgErrMsg } from 'components/auth/FormErrMsg';
-import SliderChecker from 'components/SliderFormChecker';
-import SliderUpdateChecker from 'components/SliderUpdateChecker';
+import SliderChecker from 'components/checker/SliderFormChecker';
+import SliderUpdateChecker from 'components/checker/SliderUpdateChecker';
 import myProfileInfoStore from 'store/myProfileInfoStore';
 import FollowList from 'components/user-page/UserFollow';
 import { getSerialNumFromUrl } from 'utils/getSerialNumFromUrl';
 import ImageFilled from './../ImageFilled';
+import LoadingSpinner from 'components/checker/LoadingSpinner';
 
 export default function MyProfileForm() {
   const {
@@ -48,6 +49,7 @@ export default function MyProfileForm() {
     mutate: mutateGetProfile,
     data: myProfileData,
     isSuccess,
+    isLoading,
   } = useGetMyProfile();
   const imageFile = watch('imageFile');
 
@@ -60,6 +62,7 @@ export default function MyProfileForm() {
       //userId가 들어오면 유저 정보 불러온다. 유저정보는 myProfileInfoStore()에 저장된다.
       //userId가 들어오면 유저 정보 불러온다. 유저정보는 myProfileInfoStore()에 저장된다.
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userId]);
 
   const { profileImg } = useProfileImg(imageFile, myProfile?.profile.avatarUrl);
@@ -145,6 +148,10 @@ export default function MyProfileForm() {
       }
     }
   };
+  if (isLoading) {
+    return <LoadingSpinner />;
+  }
+
   if (isSuccess) {
     return (
       <div className="">

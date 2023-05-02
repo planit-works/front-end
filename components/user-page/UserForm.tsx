@@ -1,25 +1,28 @@
 import { useEffect } from 'react';
-import { useQueryClient } from '@tanstack/react-query';
-import QueryKey from 'react-query/react-key';
-import { MyProfileInfo } from 'types/MyInfo';
 import { UserBio, UserNickName } from './InputUserPage';
 import FollowList, { FollowingBtn } from './UserFollow';
 import { useGetUserProfile } from 'react-query/profile/useGetUserProfile';
 import followingStore from 'store/followingStore';
 import ImageFilled from 'components/ImageFilled';
+import LoadingSpinner from 'components/checker/LoadingSpinner';
 
 export default function UserProfileForm({ id }: { id: number }) {
-  const queryClient = useQueryClient();
   const {
     data: userProfile,
     mutate: getUserProfileData,
     isSuccess,
+    isLoading,
   } = useGetUserProfile();
   const { isFollowing, follower } = followingStore();
 
   useEffect(() => {
     getUserProfileData(id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
+
+  if (isLoading) {
+    return <LoadingSpinner />;
+  }
 
   if (isSuccess) {
     return (
