@@ -10,42 +10,37 @@ import ImageFilled from 'components/ImageFilled';
 
 export default function UserProfileForm({ id }: { id: number }) {
   const queryClient = useQueryClient();
-  const mutateAsync = useGetUserProfile();
+  const {
+    data: userProfile,
+    mutate: getUserProfileData,
+    isSuccess,
+  } = useGetUserProfile();
   const { isFollowing, follower } = followingStore();
 
   useEffect(() => {
-    mutateAsync(id);
-  }, [id, mutateAsync]);
+    getUserProfileData(id);
+  }, [id]);
 
-  let queryClientNickName = queryClient.getQueryData<MyProfileInfo>([
-    QueryKey.getUserProfile,
-  ])?.profile.nickname as string;
-  const queryClientBio = queryClient.getQueryData<MyProfileInfo>([
-    QueryKey.getUserProfile,
-  ])?.profile.bio as string;
-  let queryClientAvatarUrl = queryClient.getQueryData<MyProfileInfo>([
-    QueryKey.getUserProfile,
-  ])?.profile.avatarUrl as string;
-  let queryClientFollowing = queryClient.getQueryData<MyProfileInfo>([
-    QueryKey.getUserProfile,
-  ])?.followingCount as number;
-
-  return (
-    <div className="">
-      <div className="relative">
-        <ImageFilled
-          containerClass={
-            'relative w-[25rem] h-[20rem] my-2 md:w-[20rem] md:h-[15rem]'
-          }
-          imageClass={'rounded-[8%]'}
-          src={process.env.NEXT_PUBLIC_IMG_ORIGIN + queryClientAvatarUrl}
-          alt={'기본 프로필'}
-        />
-        <FollowingBtn id={id} isFollowing={isFollowing} />
-        <FollowList follow={queryClientFollowing} follower={follower} />
-        <UserNickName defaultValue={queryClientNickName} />
-        <UserBio defaultValue={queryClientBio} />
+  if (isSuccess) {
+    return (
+      <div className="">
+        <div className="relative">
+          <ImageFilled
+            containerClass={
+              'relative w-[25rem] h-[20rem] my-2 md:w-[20rem] md:h-[15rem]'
+            }
+            imageClass={'rounded-[8%]'}
+            src={
+              process.env.NEXT_PUBLIC_IMG_ORIGIN + userProfile.profile.avatarUrl
+            }
+            alt={'기본 프로필'}
+          />
+          <FollowingBtn id={id} isFollowing={isFollowing} />
+          <FollowList follow={userProfile.followingCount} follower={follower} />
+          <UserNickName defaultValue={userProfile.profile.nickname} />
+          <UserBio defaultValue={userProfile.profile.bio} />
+        </div>
       </div>
-    </div>
-  );
+    );
+  }
 }

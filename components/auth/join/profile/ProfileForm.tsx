@@ -46,6 +46,7 @@ export default function ProfileForm() {
         type: `imageFile`,
       });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profileImg]);
 
   const handleError = (error: Error) => {

@@ -44,7 +44,11 @@ export default function MyProfileForm() {
   const { userId } = useGetLoginedUser();
   const { myProfile, setMyProfile } = myProfileInfoStore();
   const { setFormSlider } = sliderStore();
-  const mutateGetProfile = useGetMyProfile();
+  const {
+    mutate: mutateGetProfile,
+    data: myProfileData,
+    isSuccess,
+  } = useGetMyProfile();
   const imageFile = watch('imageFile');
 
   const mutateUserProfile = useUpdateProfile();
@@ -52,7 +56,7 @@ export default function MyProfileForm() {
   useEffect(() => {
     //userId가 들어오면 유저 정보 불러온다. 유저정보는 myProfileInfoStore()에 저장된다.
     if (userId) {
-      mutateGetProfile.mutate(userId);
+      mutateGetProfile(userId);
       //userId가 들어오면 유저 정보 불러온다. 유저정보는 myProfileInfoStore()에 저장된다.
       //userId가 들어오면 유저 정보 불러온다. 유저정보는 myProfileInfoStore()에 저장된다.
     }
@@ -69,6 +73,7 @@ export default function MyProfileForm() {
       email: myProfile?.email,
       bio: myProfile?.profile.bio,
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [myProfile?.profile]);
 
   const updateProfileWithOutImg = async (
@@ -140,41 +145,45 @@ export default function MyProfileForm() {
       }
     }
   };
+  if (isSuccess) {
+    return (
+      <div className="">
+        <form onSubmit={handleSubmit(onValid)} className="relative">
+          <ImageFilled
+            containerClass={
+              'relative w-[25rem] h-[20rem] my-2 md:w-[20rem] md:h-[15rem]'
+            }
+            imageClass={'rounded-[8%]'}
+            src={profileImg}
+            alt={'기본 프로필'}
+          />
+          <InputMyImgFile control={control} />
+          <ProfileImgErrMsg
+            error={errors}
+            checkDirty={getFieldState('imageFile').isDirty}
+          />
+          <FollowList
+            follow={myProfileData.followingCount}
+            follower={myProfileData.followerCount}
+          />
+          <InputMyEmail defaultValue={myProfileData.email} />
+          <InputMyNickName
+            control={control}
+            defaultValue={myProfileData.profile.nickname}
+          />
+          <NickNameErrMsg
+            error={errors}
+            checkDirty={getFieldState('nickname').isDirty}
+          />
+          <InputMyBio
+            control={control}
+            defaultValue={myProfileData.profile.bio}
+          />
 
-  return (
-    <div className="">
-      <form onSubmit={handleSubmit(onValid)} className="relative">
-        <ImageFilled
-          containerClass={
-            'relative w-[25rem] h-[20rem] my-2 md:w-[20rem] md:h-[15rem]'
-          }
-          imageClass={'rounded-[8%]'}
-          src={profileImg}
-          alt={'기본 프로필'}
-        />
-        <InputMyImgFile control={control} />
-        <ProfileImgErrMsg
-          error={errors}
-          checkDirty={getFieldState('imageFile').isDirty}
-        />
-        <FollowList
-          follow={myProfile?.followingCount}
-          follower={myProfile?.followerCount}
-        />
-        <InputMyEmail defaultValue={myProfile?.email} />
-        <InputMyNickName
-          control={control}
-          defaultValue={myProfile?.profile.nickname}
-        />
-        <NickNameErrMsg
-          error={errors}
-          checkDirty={getFieldState('nickname').isDirty}
-        />
-        <InputMyBio control={control} defaultValue={myProfile?.profile.bio} />
-
-        <SliderChecker />
-      </form>
-      <SliderUpdateChecker />
-    </div>
-  );
+          <SliderChecker />
+        </form>
+        <SliderUpdateChecker />
+      </div>
+    );
+  }
 }

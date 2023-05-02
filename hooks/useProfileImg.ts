@@ -22,7 +22,7 @@ export default function useProfileImg(
       avatarUrl &&
         setProfileImg(process.env.NEXT_PUBLIC_IMG_ORIGIN + avatarUrl);
     }
-  }, [imageFile, avatarUrl]);
+  }, [imageFile, avatarUrl, setHidden]);
 
   return { profileImg, setProfileImg };
 }

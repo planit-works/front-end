@@ -28,15 +28,15 @@ export const FollowingBtn = ({ id, isFollowing }: IsFollwoing) => {
   const followingUser = useFollowingUser();
   const unFollowUser = useUnFollowUser();
   const { disableBtn, setDisabledBtn } = useDisabledBtn(false);
-  const handleFollow = (id: number) => {
+  const handleFollow = async (id: number) => {
     setDisabledBtn(true);
-    followingUser.mutate(id);
+    await followingUser.mutateAsync(id);
     setDisabledBtn(false);
   };
 
-  const handleUnFollow = (id: number) => {
+  const handleUnFollow = async (id: number) => {
     setDisabledBtn(true);
-    unFollowUser.mutate(id);
+    await unFollowUser.mutateAsync(id);
     setDisabledBtn(false);
   };
 
@@ -54,18 +54,16 @@ export const FollowingBtn = ({ id, isFollowing }: IsFollwoing) => {
           />
         </button>
       ) : (
-        isFollowing !== null && (
-          <button
-            disabled={disableBtn}
-            className="absolute top-[-2rem] right-[1rem]"
-            onClick={() => handleFollow(id)}
-          >
-            <AiOutlineHeart
-              className="text-3xl text-white
+        <button
+          disabled={disableBtn}
+          className="absolute top-[-2rem] right-[1rem]"
+          onClick={() => handleFollow(id)}
+        >
+          <AiOutlineHeart
+            className="text-3xl text-white
             md:text-xl"
-            />
-          </button>
-        )
+          />
+        </button>
       )}
     </div>
   );

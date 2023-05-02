@@ -1,6 +1,7 @@
 import { useController, Control } from 'react-hook-form';
 import { MyPageFormField } from 'types/MyInfo';
 import MarkDownPreview from 'components/my-page/MarkDownPreview';
+import useBioValue from 'hooks/useBioValue';
 
 export const InputMyImgFile = ({
   control,
@@ -49,10 +50,16 @@ export const UserNickName = ({ defaultValue }: { defaultValue: string }) => {
   );
 };
 
-export const UserBio = ({ defaultValue }: { defaultValue: string }) => {
+export const UserBio = ({
+  defaultValue,
+}: {
+  defaultValue: string | null | undefined;
+}) => {
+  const { usefulBioVal } = useBioValue(defaultValue);
+
   return (
     <div className="mt-[1rem]">
-      <MarkDownPreview textBio={defaultValue} />
+      <MarkDownPreview textBio={usefulBioVal} />
     </div>
   );
 };
