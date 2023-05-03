@@ -3,7 +3,6 @@ import MainSideBar from '../components/home/MainSide/MainSideBar';
 import { BsChevronLeft } from 'react-icons/bs';
 import Clock from '../components/home/Clock';
 import UserNavBar from 'components/navBar/UserNavBar';
-
 export default function Home() {
   const [isOpenTodo, setIsOpenTodo] = useState<boolean>(false);
 

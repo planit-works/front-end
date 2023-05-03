@@ -59,8 +59,6 @@ export default function MyProfileForm() {
     //userId가 들어오면 유저 정보 불러온다. 유저정보는 myProfileInfoStore()에 저장된다.
     if (userId) {
       mutateGetProfile(userId);
-      //userId가 들어오면 유저 정보 불러온다. 유저정보는 myProfileInfoStore()에 저장된다.
-      //userId가 들어오면 유저 정보 불러온다. 유저정보는 myProfileInfoStore()에 저장된다.
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userId]);
