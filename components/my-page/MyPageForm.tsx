@@ -15,12 +15,13 @@ import { useUpdateProfile } from 'react-query/profile/useUpdateProfile';
 import { getPresignedUrl, uploadProfileImg } from 'api/aws/Api';
 import useProfileImg from 'hooks/useProfileImg';
 import { NickNameErrMsg, ProfileImgErrMsg } from 'components/auth/FormErrMsg';
-import SliderChecker from 'components/SliderFormChecker';
-import SliderUpdateChecker from 'components/SliderUpdateChecker';
+import SliderChecker from 'components/checker/SliderFormChecker';
+import SliderUpdateChecker from 'components/checker/SliderUpdateChecker';
 import myProfileInfoStore from 'store/myProfileInfoStore';
 import FollowList from 'components/user-page/UserFollow';
 import { getSerialNumFromUrl } from 'utils/getSerialNumFromUrl';
 import ImageFilled from './../ImageFilled';
+import LoadingSpinner from 'components/checker/LoadingSpinner';
 
 export default function MyProfileForm() {
   const {
@@ -44,7 +45,12 @@ export default function MyProfileForm() {
   const { userId } = useGetLoginedUser();
   const { myProfile, setMyProfile } = myProfileInfoStore();
   const { setFormSlider } = sliderStore();
-  const mutateGetProfile = useGetMyProfile();
+  const {
+    mutate: mutateGetProfile,
+    data: myProfileData,
+    isSuccess,
+    isLoading,
+  } = useGetMyProfile();
   const imageFile = watch('imageFile');
 
   const mutateUserProfile = useUpdateProfile();
@@ -52,10 +58,9 @@ export default function MyProfileForm() {
   useEffect(() => {
     //userId가 들어오면 유저 정보 불러온다. 유저정보는 myProfileInfoStore()에 저장된다.
     if (userId) {
-      mutateGetProfile.mutate(userId);
-      //userId가 들어오면 유저 정보 불러온다. 유저정보는 myProfileInfoStore()에 저장된다.
-      //userId가 들어오면 유저 정보 불러온다. 유저정보는 myProfileInfoStore()에 저장된다.
+      mutateGetProfile(userId);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userId]);
 
   const { profileImg } = useProfileImg(imageFile, myProfile?.profile.avatarUrl);
@@ -69,6 +74,7 @@ export default function MyProfileForm() {
       email: myProfile?.email,
       bio: myProfile?.profile.bio,
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [myProfile?.profile]);
 
   const updateProfileWithOutImg = async (
@@ -140,41 +146,49 @@ export default function MyProfileForm() {
       }
     }
   };
+  if (isLoading) {
+    return <LoadingSpinner />;
+  }
 
-  return (
-    <div className="">
-      <form onSubmit={handleSubmit(onValid)} className="relative">
-        <ImageFilled
-          containerClass={
-            'relative w-[25rem] h-[20rem] my-2 md:w-[20rem] md:h-[15rem]'
-          }
-          imageClass={'rounded-[8%]'}
-          src={profileImg}
-          alt={'기본 프로필'}
-        />
-        <InputMyImgFile control={control} />
-        <ProfileImgErrMsg
-          error={errors}
-          checkDirty={getFieldState('imageFile').isDirty}
-        />
-        <FollowList
-          follow={myProfile?.followingCount}
-          follower={myProfile?.followerCount}
-        />
-        <InputMyEmail defaultValue={myProfile?.email} />
-        <InputMyNickName
-          control={control}
-          defaultValue={myProfile?.profile.nickname}
-        />
-        <NickNameErrMsg
-          error={errors}
-          checkDirty={getFieldState('nickname').isDirty}
-        />
-        <InputMyBio control={control} defaultValue={myProfile?.profile.bio} />
+  if (isSuccess) {
+    return (
+      <div className="">
+        <form onSubmit={handleSubmit(onValid)} className="relative">
+          <ImageFilled
+            containerClass={
+              'relative w-[25rem] h-[20rem] my-2 md:w-[20rem] md:h-[15rem]'
+            }
+            imageClass={'rounded-[8%]'}
+            src={profileImg}
+            alt={'기본 프로필'}
+          />
+          <InputMyImgFile control={control} />
+          <ProfileImgErrMsg
+            error={errors}
+            checkDirty={getFieldState('imageFile').isDirty}
+          />
+          <FollowList
+            follow={myProfileData.followingCount}
+            follower={myProfileData.followerCount}
+          />
+          <InputMyEmail defaultValue={myProfileData.email} />
+          <InputMyNickName
+            control={control}
+            defaultValue={myProfileData.profile.nickname}
+          />
+          <NickNameErrMsg
+            error={errors}
+            checkDirty={getFieldState('nickname').isDirty}
+          />
+          <InputMyBio
+            control={control}
+            defaultValue={myProfileData.profile.bio}
+          />
 
-        <SliderChecker />
-      </form>
-      <SliderUpdateChecker />
-    </div>
-  );
+          <SliderChecker />
+        </form>
+        <SliderUpdateChecker />
+      </div>
+    );
+  }
 }
