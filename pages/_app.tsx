@@ -8,11 +8,9 @@ import {
 } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import Head from 'next/head';
-import { useRouter } from 'next/router';
 
 export default function App({ Component, pageProps }: AppProps) {
   const [queryClient] = useState(() => new QueryClient());
-  const Router = useRouter();
 
   return (
     <QueryClientProvider client={queryClient}>

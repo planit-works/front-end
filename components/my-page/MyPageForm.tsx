@@ -22,7 +22,6 @@ import FollowList from 'components/user-page/UserFollow';
 import { getSerialNumFromUrl } from 'utils/getSerialNumFromUrl';
 import ImageFilled from './../ImageFilled';
 import LoadingSpinner from 'components/checker/LoadingSpinner';
-import FailedRendering from 'components/failed-page/FailedRendering';
 
 export default function MyProfileForm() {
   const {
