@@ -5,7 +5,6 @@ import { useGetUserProfile } from 'react-query/profile/useGetUserProfile';
 import followingStore from 'store/followingStore';
 import ImageFilled from 'components/ImageFilled';
 import LoadingSpinner from 'components/checker/LoadingSpinner';
-import FailedRendering from 'components/failed-page/FailedRendering';
 
 export default function UserProfileForm({ id }: { id: number }) {
   const {
@@ -47,6 +46,6 @@ export default function UserProfileForm({ id }: { id: number }) {
       </div>
     );
   } else {
-    return <FailedRendering />;
+    return null;
   }
 }

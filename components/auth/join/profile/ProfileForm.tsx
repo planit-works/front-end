@@ -25,6 +25,7 @@ export default function ProfileForm() {
     watch,
     setError,
     control,
+    reset,
     formState: { errors },
   } = useForm<ProfileFormField>({
     mode: 'onChange',
@@ -48,6 +49,12 @@ export default function ProfileForm() {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profileImg]);
+
+  useEffect(() => {
+    reset({
+      nickname: userInfo?.profile.nickname,
+    });
+  }, [userInfo]);
 
   const handleError = (error: Error) => {
     setDisable(false);
@@ -125,7 +132,7 @@ export default function ProfileForm() {
         />
         <AuthSubmitBtn btnName="Submit" disable={disableBtn} />
       </form>
-      <OnlyLinkTemplate pathname={'/'} linkname={'나중에 편집할게요!'} />
+      <OnlyLinkTemplate pathname={'/'} linkname={'나중에 다시 편집할게요!'} />
       <SliderUpdateChecker />
     </div>
   );

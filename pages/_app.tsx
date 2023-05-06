@@ -29,6 +29,12 @@ export default function App({ Component, pageProps }: AppProps) {
         <Component {...pageProps} />
       </Hydrate>
       <ReactQueryDevtools />
+
+      <img
+        src="/planit-small.png"
+        alt="planit"
+        className="absolute w-20 left-6 bottom-6 opacity-70"
+      />
     </QueryClientProvider>
   );
 }

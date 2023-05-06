@@ -9,7 +9,6 @@ import {
 } from './InputMyPage';
 import { MyPageFormField } from 'types/MyInfo';
 import { useGetMyProfile } from 'react-query/profile/useGetMyProfile';
-
 import sliderStore from 'store/sliderStore';
 import { useUpdateProfile } from 'react-query/profile/useUpdateProfile';
 import { getPresignedUrl, uploadProfileImg } from 'api/aws/Api';
@@ -22,7 +21,6 @@ import FollowList from 'components/user-page/UserFollow';
 import { getSerialNumFromUrl } from 'utils/getSerialNumFromUrl';
 import ImageFilled from './../ImageFilled';
 import LoadingSpinner from 'components/checker/LoadingSpinner';
-import FailedRendering from 'components/failed-page/FailedRendering';
 
 export default function MyProfileForm() {
   const {
@@ -192,6 +190,6 @@ export default function MyProfileForm() {
       </div>
     );
   } else {
-    return <FailedRendering />;
+    return null;
   }
 }
