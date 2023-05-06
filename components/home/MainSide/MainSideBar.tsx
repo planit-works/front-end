@@ -13,7 +13,7 @@ export default function MainSideBar(props: MainSideBarProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const handleClickChevronRight = useCallback(() => {
     containerRef.current?.classList.add('animate-slipToRight');
-    setTimeout(() => setIsOpen(false), 500);
+    setTimeout(() => setIsOpen(false), 400);
   }, [setIsOpen]);
 
   return (
