@@ -53,8 +53,6 @@ export default function MyProfileForm() {
     //userId가 들어오면 유저 정보 불러온다. 유저정보는 myProfileInfoStore()에 저장된다.
     if (userId) {
       mutateGetProfile.mutate(userId);
-      //userId가 들어오면 유저 정보 불러온다. 유저정보는 myProfileInfoStore()에 저장된다.
-      //userId가 들어오면 유저 정보 불러온다. 유저정보는 myProfileInfoStore()에 저장된다.
     }
   }, [userId]);
 
@@ -173,8 +171,8 @@ export default function MyProfileForm() {
         <InputMyBio control={control} defaultValue={myProfile?.profile.bio} />
 
         <SliderChecker />
+        <SliderUpdateChecker />
       </form>
-      <SliderUpdateChecker />
     </div>
   );
 }
