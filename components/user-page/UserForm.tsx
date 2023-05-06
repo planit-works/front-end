@@ -47,6 +47,6 @@ export default function UserProfileForm({ id }: { id: number }) {
       </div>
     );
   } else {
-    return <FailedRendering />;
+    return null;
   }
 }

@@ -29,7 +29,7 @@ export default function TodoItem({ todo }: TodoItemProps) {
         defaultChecked={todo.done}
         onChange={handleUpdate(todo.id, { ...todo, done: !todo.done })}
       />
-      <p className="ml-1">
+      <p className="ml-1 break-keep">
         {isUpdating ? (
           <input
             defaultValue={todo.title}

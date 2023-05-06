@@ -192,6 +192,6 @@ export default function MyProfileForm() {
       </div>
     );
   } else {
-    return <FailedRendering />;
+    return null;
   }
 }

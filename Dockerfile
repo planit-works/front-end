@@ -23,9 +23,11 @@ RUN yarn build
 CMD [ "yarn", "start" ]
 
 #docker login
-#docker build -t kimhyunyul/planit:0.3 .    .은 현재 디렉토리의 도커파일로
-#docker push kimhyunyul/planit:0.2
+#docker build -t kimhyunyul/planit:0.4 .    .은 현재 디렉토리의 도커파일로
+#docker push kimhyunyul/planit:0.4
 #ssh -i side-project.pem ubuntu@3.34.12.188
 #docker login
-#docker pull kimhyunyul/planit:0.2
-#docker run -d -p 3000:3000 --name planit-front  kimhyunyul/planit:0.2
+#다른 사람이 도커 로그인 되어있을 경우 docker logout 후 내 계정으로 로그인
+#docker pull kimhyunyul/planit:0.4
+#docker ps -a 로 돌아가고 있는 컨테이너가 예전 버전 이미지면 지우고 새로운 이미지 docker run
+#docker run -d -p 3000:3000 --name planit-front  kimhyunyul/planit:0.4

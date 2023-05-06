@@ -8,9 +8,11 @@ import {
 } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import Head from 'next/head';
+import { useRouter } from 'next/router';
 
 export default function App({ Component, pageProps }: AppProps) {
   const [queryClient] = useState(() => new QueryClient());
+  const Router = useRouter();
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -29,6 +31,12 @@ export default function App({ Component, pageProps }: AppProps) {
         <Component {...pageProps} />
       </Hydrate>
       <ReactQueryDevtools />
+
+      <img
+        src="/planit-small.png"
+        alt="planit"
+        className="absolute w-20 left-6 bottom-6 opacity-70"
+      />
     </QueryClientProvider>
   );
 }
