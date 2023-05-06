@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { useController, Control } from 'react-hook-form';
 import { MyPageFormField } from 'types/MyInfo';
 import { BsPencilSquare } from 'react-icons/bs';
@@ -19,6 +19,7 @@ export const InputMyImgFile = ({
   });
 
   const { hiddenOfFormSlider, setHidden, setFormSlider } = sliderStore();
+  const [imageFileName, setImageFileName] = useState('기존 프로필 이미지');
 
   const checkInputWithImgFile = (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -34,17 +35,37 @@ export const InputMyImgFile = ({
     field.onChange(event.target.files);
     checkInputWithImgFile(event);
     hiddenOfFormSlider && setHidden(false);
+    if (event.target.files?.length) {
+      setImageFileName(event.target.files?.[0].name);
+    } else {
+      setImageFileName('기존 프로필 이미지');
+    }
   };
 
   return (
-    <input
-      type="file"
-      spellCheck="false"
-      accept="image/*"
-      className="w-[25rem]
-      md:w-[20rem] md:text-sm"
-      onChange={onChangeFile}
-    />
+    <div
+      className="w-[25rem] rounded-lg border-[1.5px] border-solid border-gray-200 bg-transparent flex items-center
+      md:w-[20rem]"
+    >
+      <input
+        id="imageFile"
+        type="file"
+        spellCheck="false"
+        accept="image/*"
+        className="hidden"
+        onChange={onChangeFile}
+      />
+      <label
+        htmlFor="imageFile"
+        className="cursor-pointer text-sm rounded-md p-1 bg-gray-200 min-w-[5rem]
+         "
+      >
+        이미지 등록
+      </label>
+      <span className="inline-block text-white mx-2 truncate">
+        {imageFileName}
+      </span>
+    </div>
   );
 };
 
