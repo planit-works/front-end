@@ -9,7 +9,6 @@ import {
 } from './InputMyPage';
 import { MyPageFormField } from 'types/MyInfo';
 import { useGetMyProfile } from 'react-query/profile/useGetMyProfile';
-
 import sliderStore from 'store/sliderStore';
 import { useUpdateProfile } from 'react-query/profile/useUpdateProfile';
 import { getPresignedUrl, uploadProfileImg } from 'api/aws/Api';
