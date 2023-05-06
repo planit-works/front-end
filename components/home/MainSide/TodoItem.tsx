@@ -44,7 +44,7 @@ export default function TodoItem({ todo }: TodoItemProps) {
         )}
       </p>
       {!isUpdating && (
-        <div className="invisible group-hover:visible">
+        <div className="invisible group-hover:visible flex">
           <button onClick={handleUpdateBtnClick}>
             <BsPencilSquare />
           </button>
